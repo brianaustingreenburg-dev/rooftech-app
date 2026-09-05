@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoofTech — Owner Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --accent: #FF6A13;
+  --bg: #0f1012;
+  --surface: #1a1c1f;
+  --surface2: #222427;
+  --border: #2a2d31;
+  --text: #f0f0f0;
+  --muted: #888;
+  --ok: #22c55e;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+  --blue: #3b82f6;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── AUTH ── */
+#auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; width: 100%; max-width: 380px; text-align: center; }
+.auth-logo { font-size: 28px; font-weight: 900; color: var(--accent); letter-spacing: -1px; margin-bottom: 4px; }
+.auth-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+.auth-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--text); margin-bottom: 12px; }
+.auth-input:focus { outline: none; border-color: var(--accent); }
+.auth-btn { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.auth-btn:hover { opacity: .9; }
+.auth-err { font-size: 12px; color: var(--danger); margin-top: 8px; }
+
+/* ── LAYOUT ── */
+#dashboard { display: none; }
+.top-bar { display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+.top-logo { font-size: 18px; font-weight: 900; color: var(--accent); letter-spacing: -0.5px; }
+.top-sub { font-size: 12px; color: var(--muted); }
+.top-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.top-date { font-size: 12px; color: var(--muted); }
+.sign-out { font-size: 12px; color: var(--muted); background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+.sign-out:hover { color: var(--danger); }
+
+.content { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 14px; margin-top: 28px; }
+
+/* ── STAT CARDS ── */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.stat-card.ok::before { background: var(--ok); }
+.stat-card.blue::before { background: var(--blue); }
+.stat-card.warn::before { background: var(--warn); }
+.stat-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+.stat-value { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.stat-value span { font-size: 16px; font-weight: 600; color: var(--muted); }
+.stat-note { font-size: 11px; color: var(--muted); }
+.stat-trend { font-size: 11px; color: var(--ok); font-weight: 600; }
+.stat-trend.down { color: var(--danger); }
+.stat-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 20px; font-weight: 800; color: var(--text); margin-top: 2px; }
+.stat-input:focus { outline: none; border-color: var(--accent); }
+
+/* ── TIER TABLE ── */
+.tier-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+.tier-table th { background: var(--surface2); padding: 10px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: left; }
+.tier-table td { padding: 12px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+.tier-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 14px; color: var(--text); width: 70px; text-align: center; }
+.tier-input:focus { outline: none; border-color: var(--accent); }
+.tier-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+.badge-starter { background: rgba(255,106,19,.15); color: var(--accent); }
+.badge-pro { background: rgba(59,130,246,.15); color: var(--blue); }
+.badge-enterprise { background: rgba(34,197,94,.15); color: var(--ok); }
+
+/* ── REVENUE CHART ── */
+.chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-top: 16px; }
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.chart-bar { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 4px; transition: height .3s; cursor: pointer; position: relative; }
+.chart-bar:hover::after { content: attr(data-val); position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 10px; background: var(--accent); color: #fff; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+.chart-label { font-size: 10px; color: var(--muted); }
+.chart-month-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-size: 11px; color: var(--text); width: 60px; text-align: center; }
+.chart-month-input:focus { outline: none; border-color: var(--accent); }
+
+/* ── REP TRACKER ── */
+.rep-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+.rep-table th { background: var(--surface2); padding: 10px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: left; }
+.rep-table td { padding: 10px 16px; font-size: 13px; border-top: 1px solid var(--border); vertical-align: middle; }
+.rep-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 13px; color: var(--text); width: 100%; }
+.rep-input:focus { outline: none; border-color: var(--accent); }
+.add-rep-btn { margin-top: 10px; background: none; border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); padding: 8px 16px; font-size: 13px; cursor: pointer; width: 100%; }
+.add-rep-btn:hover { border-color: var(--accent); color: var(--accent); }
+.del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.del-btn:hover { color: var(--danger); }
+
+/* ── ACTIVITY ── */
+.activity-list { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.activity-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); flex-shrink: 0; }
+.activity-dot.warn { background: var(--warn); }
+.activity-dot.blue { background: var(--blue); }
+.activity-text { font-size: 13px; flex: 1; }
+.activity-time { font-size: 11px; color: var(--muted); }
+.activity-input-wrap { padding: 12px 16px; display: flex; gap: 8px; border-top: 1px solid var(--border); }
+.activity-add-input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--text); }
+.activity-add-input:focus { outline: none; border-color: var(--accent); }
+.activity-add-btn { background: var(--accent); border: none; border-radius: 8px; color: #fff; padding: 8px 14px; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+/* ── STRIPE LINKS ── */
+.stripe-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.stripe-link { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; font-size: 13px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: border-color .15s; }
+.stripe-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── SAVE INDICATOR ── */
+.save-bar { position: fixed; bottom: 16px; right: 16px; background: var(--ok); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.save-bar.show { opacity: 1; }
+
+@media(max-width:600px) { .stats-grid { grid-template-columns: 1fr 1fr; } .content { padding: 16px; } }
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">RoofTech</div>
+    <div class="auth-sub">Owner Dashboard · LA Studios</div>
+    <input class="auth-input" id="pw-input" type="password" placeholder="Enter dashboard password" />
+    <button class="auth-btn" onclick="checkAuth()">Sign in</button>
+    <div class="auth-err" id="auth-err"></div>
+    <div style="font-size:11px;color:var(--muted);margin-top:16px;">First time? Default password: <strong>laStudios2026</strong></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="top-bar">
+    <div>
+      <div class="top-logo">RoofTech</div>
+      <div class="top-sub">Owner Dashboard · LA Studios</div>
+    </div>
+    <div class="top-right">
+      <div class="top-date" id="top-date"></div>
+      <button class="sign-out" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- KPI CARDS -->
+    <div class="section-label">📊 Key Metrics</div>
+    <div class="stats-grid">
+      <div class="stat-card ok">
+        <div class="stat-label">Monthly Recurring Revenue</div>
+        <div class="stat-value">$<span id="mrr-val">0</span></div>
+        <div class="stat-note">Updates automatically from tier table</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Active Subscribers</div>
+        <div class="stat-value" id="total-subs-val">0</div>
+        <div class="stat-note">Updates from tier table</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Setup Fees This Month</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+          <span style="font-size:16px;color:var(--muted)">$</span>
+          <input class="stat-input" id="setup-fees-input" type="number" placeholder="0" oninput="autoSave()" />
+        </div>
+        <div class="stat-note">Enter manually from Stripe</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-label">Rep Payouts This Month</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+          <span style="font-size:16px;color:var(--muted)">$</span>
+          <input class="stat-input" id="payouts-input" type="number" placeholder="0" oninput="autoSave()" />
+        </div>
+        <div class="stat-note">50% upfront + 25% residual paid</div>
+      </div>
+    </div>
+
+    <!-- TIER BREAKDOWN -->
+    <div class="section-label">💼 Subscribers by Tier</div>
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Price</th>
+          <th>Subscribers</th>
+          <th>MRR</th>
+          <th>Rep Residual (25%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tier-badge badge-starter">Starter</span></td>
+          <td>$29.99/mo</td>
+          <td><input class="tier-input" id="t-starter" type="number" min="0" value="0" oninput="calcMRR()" /></td>
+          <td id="mrr-starter">$0</td>
+          <td id="res-starter">$0</td>
+        </tr>
+        <tr>
+          <td><span class="tier-badge badge-pro">Pro</span></td>
+          <td>$49.99/mo</td>
+          <td><input class="tier-input" id="t-pro" type="number" min="0" value="0" oninput="calcMRR()" /></td>
+          <td id="mrr-pro">$0</td>
+          <td id="res-pro">$0</td>
+        </tr>
+        <tr>
+          <td><span class="tier-badge badge-enterprise">Enterprise</span></td>
+          <td>$299/mo</td>
+          <td><input class="tier-input" id="t-enterprise" type="number" min="0" value="0" oninput="calcMRR()" /></td>
+          <td id="mrr-enterprise">$0</td>
+          <td id="res-enterprise">$0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- REVENUE CHART -->
+    <div class="section-label">📈 Monthly Revenue</div>
+    <div class="chart-wrap">
+      <div style="font-size:13px;color:var(--muted)">Enter monthly revenue totals — chart updates automatically</div>
+      <div class="chart-bars" id="chart-bars"></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;" id="chart-inputs"></div>
+    </div>
+
+    <!-- REP TRACKER -->
+    <div class="section-label">🏆 Rep Performance Tracker</div>
+    <table class="rep-table" id="rep-table">
+      <thead>
+        <tr>
+          <th>Rep Name</th>
+          <th>Closed (mo)</th>
+          <th>Active Accounts</th>
+          <th>MRR Generated</th>
+          <th>Payout Owed</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rep-body"></tbody>
+    </table>
+    <button class="add-rep-btn" onclick="addRep()">+ Add Rep</button>
+
+    <!-- ACTIVITY FEED -->
+    <div class="section-label">🔔 Activity Feed</div>
+    <div class="activity-list">
+      <div id="activity-list"></div>
+      <div class="activity-input-wrap">
+        <input class="activity-add-input" id="activity-input" placeholder="Log an update — new subscriber, rep note, issue…" />
+        <button class="activity-add-btn" onclick="addActivity()">Log</button>
+      </div>
+    </div>
+
+    <!-- STRIPE LINKS -->
+    <div class="section-label">🔗 Quick Links</div>
+    <div class="stripe-links">
+      <a class="stripe-link" href="https://dashboard.stripe.com/subscriptions" target="_blank">📋 All Subscriptions</a>
+      <a class="stripe-link" href="https://dashboard.stripe.com/payments" target="_blank">💳 Payments</a>
+      <a class="stripe-link" href="https://dashboard.stripe.com/customers" target="_blank">👥 Customers</a>
+      <a class="stripe-link" href="https://dashboard.stripe.com/tax" target="_blank">🧾 Tax</a>
+      <a class="stripe-link" href="https://dashboard.stripe.com/balance" target="_blank">💰 Balance</a>
+      <a class="stripe-link" href="https://las-rooftech.app" target="_blank">🚀 Live App</a>
+    </div>
+
+    <div style="height:60px;"></div>
+  </div>
+</div>
+
+<div class="save-bar" id="save-bar">✓ Saved</div>
+
+<script>
+var PASS = 'laStudios2026';
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var data = {};
+var saveTimer;
+
+function load() {
+  try { data = JSON.parse(localStorage.getItem('rt-dashboard') || '{}'); } catch(e) { data = {}; }
+}
+function save() {
+  localStorage.setItem('rt-dashboard', JSON.stringify(data));
+  var bar = document.getElementById('save-bar');
+  bar.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){ bar.classList.remove('show'); }, 1500);
+}
+function autoSave() {
+  data.setupFees = document.getElementById('setup-fees-input').value;
+  data.payouts = document.getElementById('payouts-input').value;
+  data.starterSubs = document.getElementById('t-starter').value;
+  data.proSubs = document.getElementById('t-pro').value;
+  data.entSubs = document.getElementById('t-enterprise').value;
+  save();
+  calcMRR();
+}
+
+function checkAuth() {
+  var pw = document.getElementById('pw-input').value;
+  if(pw === PASS || pw === (data.customPass || '')) {
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    initDashboard();
+  } else {
+    document.getElementById('auth-err').textContent = 'Incorrect password.';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e){ if(e.key==='Enter') checkAuth(); });
+
+function signOut() {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
+
+function calcMRR() {
+  var s = parseInt(document.getElementById('t-starter').value)||0;
+  var p = parseInt(document.getElementById('t-pro').value)||0;
+  var e = parseInt(document.getElementById('t-enterprise').value)||0;
+  var mrrS = s*29.99, mrrP = p*49.99, mrrE = e*299;
+  var total = mrrS+mrrP+mrrE;
+  document.getElementById('mrr-starter').textContent = '$'+mrrS.toFixed(2);
+  document.getElementById('mrr-pro').textContent = '$'+mrrP.toFixed(2);
+  document.getElementById('mrr-enterprise').textContent = '$'+mrrE.toFixed(2);
+  document.getElementById('res-starter').textContent = '$'+(mrrS*.25).toFixed(2);
+  document.getElementById('res-pro').textContent = '$'+(mrrP*.25).toFixed(2);
+  document.getElementById('res-enterprise').textContent = '$'+(mrrE*.25).toFixed(2);
+  document.getElementById('mrr-val').textContent = total.toFixed(2);
+  document.getElementById('total-subs-val').textContent = s+p+e;
+  data.starterSubs = s; data.proSubs = p; data.entSubs = e;
+  save();
+}
+
+// Chart
+function buildChart() {
+  var months = data.chartMonths || MONTHS.slice(0,6).map(function(m){ return {label:m,val:0}; });
+  data.chartMonths = months;
+  var max = Math.max.apply(null, months.map(function(m){ return parseFloat(m.val)||0; }))||1;
+  var bars = document.getElementById('chart-bars');
+  var inputs = document.getElementById('chart-inputs');
+  bars.innerHTML = ''; inputs.innerHTML = '';
+  months.forEach(function(m, i){
+    var h = Math.max(4, Math.round(((parseFloat(m.val)||0)/max)*110));
+    var bw = document.createElement('div');
+    bw.className = 'chart-bar-wrap';
+    bw.innerHTML = '<div class="chart-bar" style="height:'+h+'px" data-val="$'+(parseFloat(m.val)||0).toLocaleString()+'"></div><div class="chart-label">'+m.label+'</div>';
+    bars.appendChild(bw);
+    var inp = document.createElement('input');
+    inp.className = 'chart-month-input';
+    inp.type = 'number';
+    inp.placeholder = m.label;
+    inp.value = m.val||'';
+    inp.addEventListener('input', function(){
+      months[i].val = this.value;
+      data.chartMonths = months;
+      buildChart();
+      save();
+    });
+    inputs.appendChild(inp);
+  });
+}
+
+// Reps
+function buildReps() {
+  var reps = data.reps || [];
+  var tbody = document.getElementById('rep-body');
+  tbody.innerHTML = '';
+  reps.forEach(function(r, i){
+    var mrr = (parseFloat(r.active)||0)*((parseFloat(r.avgPrice)||49.99));
+    var payout = mrr*.25 + (parseFloat(r.closed)||0)*74.5;
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><input class="rep-input" value="'+esc(r.name||'')+'" placeholder="Rep name" oninput="updateRep('+i+',\'name\',this.value)"/></td>'+
+      '<td><input class="rep-input" style="width:60px;text-align:center" type="number" value="'+(r.closed||0)+'" oninput="updateRep('+i+',\'closed\',this.value)"/></td>'+
+      '<td><input class="rep-input" style="width:60px;text-align:center" type="number" value="'+(r.active||0)+'" oninput="updateRep('+i+',\'active\',this.value)"/></td>'+
+      '<td>$'+mrr.toFixed(2)+'</td>'+
+      '<td>$'+payout.toFixed(2)+'</td>'+
+      '<td><button class="del-btn" onclick="delRep('+i+')">×</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+function addRep() { data.reps = data.reps||[]; data.reps.push({name:'',closed:0,active:0}); buildReps(); save(); }
+function delRep(i) { data.reps.splice(i,1); buildReps(); save(); }
+function updateRep(i,k,v) { data.reps[i][k]=v; buildReps(); save(); }
+
+// Activity
+function buildActivity() {
+  var items = data.activity || [];
+  var list = document.getElementById('activity-list');
+  list.innerHTML = '';
+  if(items.length===0){
+    list.innerHTML = '<div style="padding:16px;font-size:13px;color:var(--muted);">No activity yet — log your first update above.</div>';
+    return;
+  }
+  items.slice().reverse().forEach(function(a){
+    var div = document.createElement('div');
+    div.className = 'activity-item';
+    var dot = a.type==='warn'?'warn':a.type==='blue'?'blue':'';
+    div.innerHTML = '<div class="activity-dot '+dot+'"></div><div class="activity-text">'+esc(a.text)+'</div><div class="activity-time">'+a.time+'</div>';
+    list.appendChild(div);
+  });
+}
+function addActivity() {
+  var inp = document.getElementById('activity-input');
+  if(!inp.value.trim()) return;
+  data.activity = data.activity||[];
+  var now = new Date();
+  data.activity.push({ text:inp.value.trim(), time: now.toLocaleDateString()+' '+now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), type:'ok' });
+  inp.value = '';
+  buildActivity();
+  save();
+}
+document.getElementById('activity-input').addEventListener('keydown', function(e){ if(e.key==='Enter') addActivity(); });
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function initDashboard() {
+  load();
+  document.getElementById('top-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  if(data.setupFees) document.getElementById('setup-fees-input').value = data.setupFees;
+  if(data.payouts) document.getElementById('payouts-input').value = data.payouts;
+  if(data.starterSubs) document.getElementById('t-starter').value = data.starterSubs;
+  if(data.proSubs) document.getElementById('t-pro').value = data.proSubs;
+  if(data.entSubs) document.getElementById('t-enterprise').value = data.entSubs;
+  calcMRR();
+  buildChart();
+  buildReps();
+  buildActivity();
+}
+
+// Auto-login if previously authenticated this session
+if(sessionStorage.getItem('rt-auth')==='1') {
+  load();
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  initDashboard();
+}
+document.getElementById('auth-screen').querySelector('.auth-btn').addEventListener('click', function(){
+  sessionStorage.setItem('rt-auth','1');
+});
+</script>
+</body>
+</html>
