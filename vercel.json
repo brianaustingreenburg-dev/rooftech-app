@@ -1,16 +1,9 @@
 {
+  "rewrites": [
+    { "source": "/((?!privacy.html|terms.html|dashboard.html|assets/).*)", "destination": "/index.html" }
+  ],
   "headers": [
-    {
-      "source": "/privacy.html",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "index" }
-      ]
-    },
-    {
-      "source": "/terms.html",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "index" }
-      ]
-    }
+    { "source": "/privacy.html", "headers": [{ "key": "X-Robots-Tag", "value": "index" }] },
+    { "source": "/terms.html", "headers": [{ "key": "X-Robots-Tag", "value": "index" }] }
   ]
 }
