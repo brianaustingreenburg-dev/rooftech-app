@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoofTech — Join Our Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0b; color: #f0f0f0; font-family: 'Inter', -apple-system, sans-serif; }
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: #111113;
+  border-bottom: 1px solid #1f1f23;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: #FF6A13;
+  letter-spacing: -1px;
+}
+
+.top-logo span { color: #f0f0f0; }
+
+.lang-btn {
+  background: #1a1a1e;
+  border: 2px solid #FF6A13;
+  color: #FF6A13;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-btn:hover {
+  background: rgba(255,106,19,0.1);
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 80px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.hero-text { max-width: 500px; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,106,19,0.12);
+  color: #FF6A13;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: #FF6A13;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+.hero-title {
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.hero-title .orange { color: #FF6A13; }
+
+.hero-sub {
+  font-size: 16px;
+  color: #999;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: #FF6A13;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #e55d0a; }
+
+.btn-outline {
+  background: transparent;
+  color: #FF6A13;
+  border: 1.5px solid #FF6A13;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-outline:hover { background: rgba(255,106,19,0.08); }
+
+/* Phone Mockup */
+.phone-mockup {
+  width: 280px;
+  height: 560px;
+  background: #111113;
+  border-radius: 36px;
+  border: 3px solid #2a2a2e;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 40px rgba(255,106,19,0.08);
+  flex-shrink: 0;
+}
+
+.phone-notch {
+  width: 100px;
+  height: 24px;
+  background: #0a0a0b;
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.phone-header {
+  background: #FF6A13;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phone-header-text {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.phone-header-badge {
+  font-size: 9px;
+  background: rgba(255,255,255,0.2);
+  padding: 3px 8px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.phone-body { padding: 12px; }
+
+.phone-btn {
+  background: #FF6A13;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(255,106,19,0.3);
+}
+
+.phone-card {
+  background: #1a1a1e;
+  border: 1px solid #2a2a2e;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.phone-card-title {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.phone-card-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f0f0f0;
+}
+
+.phone-card-value.orange { color: #FF6A13; }
+
+.phone-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 11px;
+  color: #ccc;
+}
+
+.phone-check-dot {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  background: #22c55e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* What We Offer Section */
+.section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2a2a2e, transparent);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #FF6A13;
+  margin-bottom: 24px;
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.offer-card {
+  background: #111113;
+  border: 1px solid #1f1f23;
+  border-radius: 14px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.offer-card:hover { border-color: #FF6A13; }
+
+.offer-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.offer-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.offer-desc {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* Who Section */
+.who-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.who-col h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.who-col h3.orange { color: #FF6A13; }
+
+.who-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.who-check {
+  color: #22c55e;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.who-x {
+  color: #666;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Apply Section */
+.apply-section {
+  text-align: center;
+  padding: 80px 40px;
+  background: #111113;
+  border-top: 1px solid #1f1f23;
+}
+
+.apply-title {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 32px;
+}
+
+.apply-title .orange { color: #FF6A13; }
+
+.apply-channels {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.channel-card {
+  background: #1a1a1e;
+  border: 1px solid #2a2a2e;
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: left;
+  min-width: 240px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s;
+}
+
+.channel-card:hover { border-color: #FF6A13; }
+
+.channel-icon { font-size: 20px; margin-bottom: 8px; }
+
+.channel-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.channel-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #FF6A13;
+}
+
+.share-note {
+  font-size: 13px;
+  color: #666;
+  margin-top: 24px;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px;
+  border-top: 1px solid #1f1f23;
+  font-size: 11px;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .hero-section { padding: 40px 24px; gap: 40px; }
+  .hero-title { font-size: 28px; }
+  .phone-mockup { width: 240px; height: 480px; }
+  .who-grid { grid-template-columns: 1fr; }
+  .section { padding: 60px 24px; }
+  .apply-title { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-logo">Roof<span>Tech</span></div>
+  <button class="lang-btn" id="langToggle" onclick="toggleLang()">ES | Español</button>
+</div>
+
+<!-- HERO -->
+<div class="hero-section">
+  <div class="hero-text">
+    <div class="hero-badge" id="heroBadge"><span class="dot"></span> NOW EXPANDING WORLDWIDE</div>
+    <h1 class="hero-title" id="heroTitle">Build your income.<div style="height:20px"></div><span class="orange">From anywhere.</span></h1>
+    <p class="hero-sub" id="heroSub">While most are logging off, we're expanding our tech footprint. LA Studios builds high-impact custom software and mobile apps — led by our flagship construction tech solution, RoofTech. Join our borderless remote team and earn compounding residual income in USD.</p>
+    <div class="hero-cta-row">
+      <a href="https://lastudios-rooftech.app" class="btn-primary" id="ctaExplore">Explore the App →</a>
+    </div>
+  </div>
+
+  <!-- Phone Mockup -->
+  <div class="phone-mockup">
+    <div class="phone-notch"></div>
+    <div class="phone-header">
+      <div class="phone-header-text">RoofTech</div>
+      <div class="phone-header-badge">● LIVE</div>
+    </div>
+    <div class="phone-body">
+      <div class="phone-btn">START NEW ESTIMATE</div>
+      <div class="phone-card">
+        <div class="phone-card-title">Safety Checklist</div>
+        <div class="phone-check"><span class="phone-check-dot">✓</span> Fall protection verified</div>
+        <div class="phone-check"><span class="phone-check-dot">✓</span> Tie-off points secured</div>
+        <div class="phone-check"><span class="phone-check-dot">✓</span> Weather conditions clear</div>
+        <div class="phone-check"><span class="phone-check-dot">✓</span> Ladder inspected</div>
+        <div class="phone-check"><span class="phone-check-dot">✓</span> PPE confirmed</div>
+      </div>
+      <div class="phone-card">
+        <div class="phone-card-title">Roof Measurement</div>
+        <div class="phone-card-value">24.8 <span style="font-size:12px;color:#888">squares</span></div>
+      </div>
+      <div class="phone-card">
+        <div class="phone-card-title">Materials Estimate</div>
+        <div class="phone-card-value orange">$4,280</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- WHAT WE OFFER -->
+<div class="section">
+  <div class="section-label" id="offerLabel">What We Offer</div>
+  <div class="offer-grid">
+    <div class="offer-card">
+      <div class="offer-icon">💵</div>
+      <div class="offer-title" id="o1t">Competitive USD Pay</div>
+      <div class="offer-desc" id="o1d">50% of every setup fee paid weekly. 25% of every monthly subscription for life. Uncapped earning potential. All payments in US Dollars worldwide.</div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🏠</div>
+      <div class="offer-title" id="o2t">100% Remote Flexibility</div>
+      <div class="offer-desc" id="o2d">Work from anywhere with full systems support. No office. No territory restrictions. No commute. Just your laptop, your schedule, and your hustle.</div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">📱</div>
+      <div class="offer-title" id="o3t">Cutting-Edge Product</div>
+      <div class="offer-desc" id="o3d">Sell a product that demos itself. Satellite roof measurement, OSHA safety compliance, auto materials estimates, crew management — all in one app that works offline.</div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-icon">🎓</div>
+      <div class="offer-title" id="o4t">Complete Onboarding</div>
+      <div class="offer-desc" id="o4d">No prior tech or sales background required. We train you on sales scripts, objection handling, AI prospecting tools, and the entire app from day one. Starter lead list included.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- WHO WE'RE LOOKING FOR -->
+<div class="section">
+  <div class="section-label" id="whoLabel">Who We're Looking For</div>
+  <div class="who-grid">
+    <div class="who-col">
+      <h3 class="orange" id="youNeed">You need</h3>
+      <div class="who-item"><span class="who-check">✓</span> <span id="w1">A laptop and stable internet</span></div>
+      <div class="who-item"><span class="who-check">✓</span> <span id="w2">Basic English proficiency</span></div>
+      <div class="who-item"><span class="who-check">✓</span> <span id="w3">Bilingual English/Spanish</span></div>
+      <div class="who-item"><span class="who-check">✓</span> <span id="w4">Self-discipline to work your own schedule</span></div>
+      <div class="who-item"><span class="who-check">✓</span> <span id="w5">Drive to build something real</span></div>
+    </div>
+    </div>
+    </div>
+  </div>
+  <div style="margin-top:32px;">
+    <p style="font-size:16px;color:#FF6A13;font-weight:700;" id="usdNote">Any country is welcome. Regardless of where you are in the world, you will be paid in USD.</p>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- APPLY -->
+<div class="apply-section">
+  <h2 class="apply-title" id="applyTitle">Ready to<div style="height:16px"></div><span class="orange">build your future?</span></h2>
+  <div class="apply-channels">
+    <a href="mailto:hiring@lastudios-hq.com" class="channel-card">
+      <div class="channel-icon">📩</div>
+      <div class="channel-label">Email</div>
+      <div class="channel-value">hiring@lastudios-hq.com</div>
+    </a>
+    <a href="https://wa.me/14084223505?text=App%20Sales%20%26%20Support" class="channel-card">
+      <div class="channel-icon">📲</div>
+      <div class="channel-label">WhatsApp</div>
+      <div class="channel-value">+1 (408) 422-3505</div>
+    </a>
+    <a href="https://lastudios-rooftech.app" class="channel-card">
+      <div class="channel-icon">🌐</div>
+      <div class="channel-label" id="exploreLabel">Explore Our Work</div>
+      <div class="channel-value">lastudios-rooftech.app</div>
+    </a>
+  </div>
+  <p class="share-note" id="shareNote">Know someone looking for a high-growth remote role? Tag them or share this post.</p>
+</div>
+
+<div class="footer">
+  © 2026 RoofTech · Field Ready Software · lastudios-rooftech.app
+</div>
+
+<script>
+const TR = {
+  en: {
+    toggleBtn: "ES | Español",
+    heroBadge: "NOW EXPANDING WORLDWIDE",
+    heroTitle: "Build your income.<div style='height:20px'></div><span class='orange'>From anywhere.</span>",
+    heroSub: "While most are logging off, we're expanding our tech footprint. LA Studios builds high-impact custom software and mobile apps — led by our flagship construction tech solution, RoofTech. Join our borderless remote team and earn compounding residual income in USD.",
+    ctaExplore: "Explore the App →",
+    ctaApply: "Get Started",
+    offerLabel: "What We Offer",
+    o1t: "Competitive USD Pay", o1d: "50% of every setup fee paid weekly. 25% of every monthly subscription for life. Uncapped earning potential. All payments in US Dollars worldwide.",
+    o2t: "100% Remote Flexibility", o2d: "Work from anywhere with full systems support. No office. No territory restrictions. No commute. Just your laptop, your schedule, and your hustle.",
+    o3t: "Cutting-Edge Product", o3d: "Sell a product that demos itself. Satellite roof measurement, OSHA safety compliance, auto materials estimates, crew management — all in one app that works offline.",
+    o4t: "Complete Onboarding", o4d: "No prior tech or sales background required. We train you on sales scripts, objection handling, AI prospecting tools, and the entire app from day one. Starter lead list included.",
+    whoLabel: "Who We're Looking For",
+    youNeed: "You need", youDontNeed: "You do NOT need",
+    w1: "A laptop and stable internet", w2: "Basic English proficiency", w3: "Bilingual English/Spanish", w4: "Self-discipline to work your own schedule", w5: "Drive to build something real",
+    d1: "Sales experience — we train everything", d2: "A degree", d3: "To leave your house", d4: "To live in the United States",
+    hiringIn: "Based In",
+    regions: "🇲🇽 Mexico · 🇨🇴 Colombia · 🇦🇷 Argentina · 🇵🇭 Philippines",
+    usdNote: "Any country is welcome. Regardless of where you are in the world, you will be paid in USD.",
+    applyTitle: "Ready to<div style='height:16px'></div><span class='orange'>build your future?</span>",
+    exploreLabel: "Explore Our Work",
+    shareNote: "Know someone looking for a high-growth remote role? Tag them or share this post."
+  },
+  es: {
+    toggleBtn: "EN | English",
+    heroBadge: "EXPANDIENDO EN TODO EL MUNDO",
+    heroTitle: "Construye tus ingresos.<div style='height:20px'></div><span class='orange'>Desde cualquier lugar.</span>",
+    heroSub: "Mientras la mayoría cierra su día, nosotros expandimos nuestra presencia tecnológica. LA Studios construye software de alto impacto y apps móviles — liderado por nuestra solución insignia de tecnología para la construcción, RoofTech. Únete a nuestro equipo remoto sin fronteras y gana ingresos residuales compuestos en USD.",
+    ctaExplore: "Explorar la App →",
+    ctaApply: "Comenzar",
+    offerLabel: "Lo Que Ofrecemos",
+    o1t: "Pago Competitivo en USD", o1d: "50% de cada cuota de instalación pagado semanalmente. 25% de cada suscripción mensual de por vida. Potencial de ganancias sin tope. Todos los pagos en dólares americanos.",
+    o2t: "100% Remoto y Flexible", o2d: "Trabaja desde cualquier lugar con soporte completo. Sin oficina. Sin restricciones de territorio. Sin traslados. Solo tu laptop, tu horario y tus ganas.",
+    o3t: "Producto de Vanguardia", o3d: "Vende un producto que se demuestra solo. Medición satelital de techos, cumplimiento de seguridad OSHA, estimados de materiales, gestión de cuadrilla — todo en una app que funciona sin internet.",
+    o4t: "Capacitación Completa", o4d: "No se requiere experiencia previa en tecnología o ventas. Te entrenamos en guiones de venta, manejo de objeciones, herramientas de prospección con IA y toda la app desde el primer día. Lista inicial de prospectos incluida.",
+    whoLabel: "A Quién Buscamos",
+    youNeed: "Necesitas", youDontNeed: "NO necesitas",
+    w1: "Una laptop e internet estable", w2: "Inglés básico", w3: "Bilingüe inglés/español", w4: "Autodisciplina para manejar tu propio horario", w5: "Ganas de construir algo real",
+    d1: "Experiencia en ventas — entrenamos todo", d2: "Un título universitario", d3: "Salir de tu casa", d4: "Vivir en Estados Unidos",
+    hiringIn: "Ubicados En",
+    regions: "🇲🇽 México · 🇨🇴 Colombia · 🇦🇷 Argentina · 🇵🇭 Filipinas",
+    usdNote: "Cualquier país es bienvenido. Sin importar en qué parte del mundo estés, se te pagará en dólares americanos (USD).",
+    applyTitle: "¿Listo para<div style='height:16px'></div><span class='orange'>construir tu futuro?</span>",
+    exploreLabel: "Explora Nuestro Trabajo",
+    shareNote: "¿Conoces a alguien que busque un rol remoto de alto crecimiento? Etiquétalo o comparte este post."
+  }
+};
+
+let currentLang = 'en';
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'es' : 'en';
+  const t = TR[currentLang];
+
+  function set(id, val, html) {
+    var el = document.getElementById(id);
+    if (el) { if (html) el.innerHTML = val; else el.textContent = val; }
+  }
+
+  set('langToggle', t.toggleBtn);
+  set('heroBadge', '<span class="dot"></span> ' + t.heroBadge, true);
+  set('heroTitle', t.heroTitle, true);
+  set('heroSub', t.heroSub);
+  set('ctaExplore', t.ctaExplore);
+  set('offerLabel', t.offerLabel);
+  set('whoLabel', t.whoLabel);
+  set('youNeed', t.youNeed);
+  set('usdNote', t.usdNote);
+  set('applyTitle', t.applyTitle, true);
+  set('exploreLabel', t.exploreLabel);
+  set('shareNote', t.shareNote);
+
+  for (var i = 1; i <= 4; i++) {
+    set('o'+i+'t', t['o'+i+'t']);
+    set('o'+i+'d', t['o'+i+'d']);
+  }
+  for (var i = 1; i <= 5; i++) set('w'+i, t['w'+i]);
+}
+</script>
+
+</body>
+</html>
