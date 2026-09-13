@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#191b1d" />
     <title>RoofTech — Field Estimator</title>
-    <script type="module" crossorigin src="/assets/index-CSZdBk3q.js"></script>
-  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+    <script>
+      // Force unregister all old service workers and clear caches
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let r of registrations) { r.unregister(); }
+        });
+        caches.keys().then(function(names) {
+          for (let name of names) { caches.delete(name); }
+        });
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-CSZdBk3q.js?v=3"></script>
+  <link rel="manifest" href="/manifest.webmanifest"></head>
   <body style="margin:0; background:#191b1d;">
     <div id="root"></div>
   </body>
