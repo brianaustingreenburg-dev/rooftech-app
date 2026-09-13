@@ -3,11 +3,16 @@
   command = ""
 
 [[headers]]
-  for = "/assets/*"
+  for = "/*"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
 [[headers]]
-  for = "/*"
+  for = "/assets/*"
   [headers.values]
     Cache-Control = "no-cache"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
