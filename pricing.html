@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1117" />
+  <title>RoofTech — Why Choose Us</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f1117; color: #f0f0f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 0 0 80px; }
+
+    /* Hero */
+    .hero { background: linear-gradient(160deg, #0f1117 0%, #1a1d24 100%); padding: 48px 20px 40px; text-align: center; border-bottom: 1px solid #2a2f3d; }
+    .logo-block { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; }
+    .logo-icon { width: 52px; height: 52px; background: #FF6A13; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+    .logo-text { text-align: left; }
+    .logo-name { font-size: 26px; font-weight: 900; color: #FF6A13; letter-spacing: -1px; line-height: 1; }
+    .logo-sub { font-size: 11px; color: #888; letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+    .hero-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: #FF6A13; margin-bottom: 14px; opacity: 0.9; }
+    .hero-title { font-size: 28px; font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hero-title span { color: #FF6A13; }
+    .hero-sub { font-size: 14px; color: #888; line-height: 1.6; margin-bottom: 28px; }
+    .hero-price { display: inline-block; background: #FF6A13; color: #fff; border-radius: 12px; padding: 14px 32px; font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .hero-price-note { font-size: 12px; color: #888; }
+
+    /* Sections */
+    .section { padding: 32px 20px 0; }
+    .section-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: #FF6A13; margin-bottom: 16px; opacity: 0.9; }
+    .section-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
+    .section-sub { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 20px; }
+
+    /* Why cards */
+    .why-grid { display: grid; gap: 12px; margin-bottom: 8px; }
+    .why-card { background: #1a1d24; border: 1px solid #2a2f3d; border-radius: 14px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+    .why-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .why-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .why-desc { font-size: 12px; color: #888; line-height: 1.5; }
+    .why-desc span { color: #FF6A13; font-weight: 600; }
+
+    /* Comparison table */
+    .comp-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid #2a2f3d; }
+    .comp-table th { background: #222630; padding: 12px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #888; text-align: left; }
+    .comp-table th:last-child { color: #FF6A13; text-align: center; }
+    .comp-table th:nth-child(2) { text-align: center; }
+    .comp-table td { padding: 12px 14px; font-size: 13px; border-top: 1px solid #2a2f3d; }
+    .comp-table td:nth-child(2) { text-align: center; color: #ef4444; }
+    .comp-table td:last-child { text-align: center; color: #22c55e; font-weight: 700; }
+    .comp-table tr:hover td { background: #1a1d24; }
+
+    /* Pitch quote */
+    .pitch { background: linear-gradient(135deg, #1a1d24, #222630); border: 1px solid #2a2f3d; border-left: 4px solid #FF6A13; border-radius: 14px; padding: 24px 20px; margin: 20px 0; }
+    .pitch-quote { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; color: #f0f0f0; }
+    .pitch-quote span { color: #FF6A13; }
+    .pitch-attr { font-size: 11px; color: #888; }
+
+    /* Pricing cards */
+    .pricing-grid { display: grid; gap: 12px; }
+    .pricing-card { background: #1a1d24; border: 1px solid #2a2f3d; border-radius: 14px; padding: 20px; position: relative; overflow: hidden; }
+    .pricing-card.featured { border-color: #FF6A13; }
+    .pricing-card .accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #FF6A13; }
+    .pricing-flag { font-size: 22px; margin-bottom: 8px; }
+    .pricing-market { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .pricing-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a2f3d; font-size: 13px; }
+    .pricing-row:last-child { border-bottom: none; font-weight: 700; }
+    .pricing-row .val { color: #FF6A13; font-weight: 700; }
+    .pricing-row .val.green { color: #22c55e; }
+
+    /* CTA */
+    .cta { padding: 32px 20px; text-align: center; }
+    .cta-title { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .cta-sub { font-size: 13px; color: #888; margin-bottom: 24px; line-height: 1.6; }
+    .btn { display: block; width: 100%; background: #FF6A13; color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 900; cursor: pointer; text-align: center; text-decoration: none; margin-bottom: 10px; letter-spacing: -0.3px; }
+    .btn-outline { display: block; width: 100%; background: transparent; color: #FF6A13; border: 1px solid #FF6A13; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; margin-bottom: 10px; }
+    .btn-ghost { display: block; width: 100%; background: transparent; color: #888; border: 1px solid #2a2f3d; border-radius: 12px; padding: 12px; font-size: 13px; text-align: center; text-decoration: none; }
+    .contact { font-size: 12px; color: #555; margin-top: 20px; line-height: 1.8; }
+    .contact a { color: #FF6A13; text-decoration: none; }
+    .divider { height: 1px; background: #2a2f3d; margin: 32px 20px 0; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="logo-block">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        <div class="logo-name">RoofTech</div>
+        <div class="logo-sub">by LA Studios · Acapulco, MX 🇲🇽🤝🇺🇸</div>
+      </div>
+    </div>
+    <div class="hero-tag">⚡ Next Generation Field Technology</div>
+    <div class="hero-title">The only roofing app built <span>from the roof up</span></div>
+    <div class="hero-sub">World's first systems architecture blueprint search. Built by a founder. Priced for the crew. Works everywhere — with or without signal.</div>
+    <div class="hero-price">$39.99/mo</div>
+    <div class="hero-price-note">Unlimited users · No contracts · Cancel anytime</div>
+  </div>
+
+  <!-- Why LA Studios -->
+  <div class="section">
+    <div class="section-label">Why LA Studios / RoofTech</div>
+    <div class="section-title">Built different. Priced different.</div>
+    <div class="section-sub">Here's why 100s of contractors are switching to RoofTech.</div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🌍</div>
+        <div>
+          <div class="why-title">World's First Blueprint Search</div>
+          <div class="why-desc">Type the address. The building blueprint pulls automatically from public records. Measurement applied instantly. <span>No other app does this.</span></div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📶</div>
+        <div>
+          <div class="why-title">100% Offline — Everything</div>
+          <div class="why-desc">Safety, measurements, materials, payroll, expenses — <span>all work without internet.</span> Blueprint caches after first load. Go on any roof anywhere.</div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <div>
+          <div class="why-title">$39.99 vs $500/mo</div>
+          <div class="why-desc">ServiceTitan charges $500+/mo. JobNimbus $300+. We charge <span>$39.99 with unlimited users.</span> You're not paying for their San Francisco office.</div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏗️</div>
+        <div>
+          <div class="why-title">Built by a Founder, Not a Committee</div>
+          <div class="why-desc">Lalo Austin worked the trades. Built this for real crews. <span>If something doesn't work, you call him directly.</span> That's the difference.</div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🇲🇽🤝🇺🇸</div>
+        <div>
+          <div class="why-title">Built for US & International</div>
+          <div class="why-desc">Full English and Spanish. US shingles and Mexico materials (Impermeabilizante, Tejas, Concreto). <span>One app. Every market.</span></div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">👥</div>
+        <div>
+          <div class="why-title">Unlimited Users — Always</div>
+          <div class="why-desc">Add your whole crew, your office, your subs. <span>No per-seat fees. Ever.</span> 1 user or 100 — same $39.99/mo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Pitch Quote -->
+  <div class="section">
+    <div class="pitch">
+      <div class="pitch-quote">"You're not paying for a San Francisco office, 100 employees, and a VP of Sales. You're paying for the app your crew <span>actually uses on the roof.</span> That's why it's $39.99."</div>
+      <div class="pitch-attr">— Lalo Austin, Founder · LA Studios · Acapulco, Mexico</div>
+    </div>
+    <div class="pitch" style="margin-top:12px">
+      <div class="pitch-quote">"No estás pagando por una oficina en San Francisco, cien empleados y un director de ventas. Estás pagando por la app que tu cuadrilla <span>realmente usa en el techo.</span> Por eso cuesta $39.99."</div>
+      <div class="pitch-attr">— Lalo Austin, Fundador · LA Studios · Acapulco, México</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Comparison -->
+  <div class="section">
+    <div class="section-label">Competitor Comparison</div>
+    <div class="section-title">See how we stack up</div>
+    <div class="section-sub">Everything competitors charge $250–$10,000/mo for. We include it all at $39.99.</div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Competitors</th>
+          <th>RoofTech ✓</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Blueprint auto-measurement</td><td>❌ None</td><td>✅ World's first</td></tr>
+        <tr><td>Works 100% offline</td><td>❌ Requires internet</td><td>✅ Full offline</td></tr>
+        <tr><td>Monthly price</td><td>$250–$10,000/mo</td><td>$39.99/mo</td></tr>
+        <tr><td>Unlimited users</td><td>❌ Per seat pricing</td><td>✅ Always unlimited</td></tr>
+        <tr><td>English + Spanish</td><td>❌ English only</td><td>✅ Full bilingual</td></tr>
+        <tr><td>US + Mexico materials</td><td>❌ US only</td><td>✅ Both markets</td></tr>
+        <tr><td>Payroll export (Gusto/QB/Deel)</td><td>❌ Extra cost</td><td>✅ Included</td></tr>
+        <tr><td>OSHA safety checklist</td><td>⚠️ Add-on</td><td>✅ Required step</td></tr>
+        <tr><td>GPS crew tracking</td><td>⚠️ Higher tier</td><td>✅ Included</td></tr>
+        <tr><td>No contracts</td><td>❌ Annual required</td><td>✅ Cancel anytime</td></tr>
+        <tr><td>Change orders on-site</td><td>⚠️ Limited</td><td>✅ Included</td></tr>
+        <tr><td>Tax expense export</td><td>❌ Not included</td><td>✅ Included</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Pricing -->
+  <div class="section">
+    <div class="section-label">Pricing / Precios</div>
+    <div class="section-title">One plan. Two markets.</div>
+    <div class="section-sub">Same monthly price worldwide. Setup fee split over 3 months for easy onboarding.</div>
+    <div class="pricing-grid">
+      <div class="pricing-card featured">
+        <div class="accent"></div>
+        <div class="pricing-flag">🇺🇸</div>
+        <div class="pricing-market">United States</div>
+        <div class="pricing-row"><span>Month 1</span><span class="val">$239.99</span></div>
+        <div class="pricing-row"><span>Month 2</span><span class="val">$239.99</span></div>
+        <div class="pricing-row"><span>Month 3</span><span class="val">$238.99</span></div>
+        <div class="pricing-row"><span>Month 4+</span><span class="val green">$39.99/mo forever</span></div>
+        <div class="pricing-row"><span>Total setup</span><span class="val">$599 over 3 months</span></div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-flag">🇲🇽 🇵🇭 🇨🇴 🇧🇷</div>
+        <div class="pricing-market">International / Internacional</div>
+        <div class="pricing-row"><span>Month 1 / Mes 1</span><span class="val">$106.99</span></div>
+        <div class="pricing-row"><span>Month 2 / Mes 2</span><span class="val">$106.99</span></div>
+        <div class="pricing-row"><span>Month 3 / Mes 3</span><span class="val">$104.99</span></div>
+        <div class="pricing-row"><span>Month 4+ / Mes 4+</span><span class="val green">$39.99/mes para siempre</span></div>
+        <div class="pricing-row"><span>Total instalación</span><span class="val">$199 en 3 meses</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="section-label">Ready to start / Listo para empezar</div>
+    <div class="cta-title">Get your crew on RoofTech today</div>
+    <div class="cta-sub">No contracts. No setup headaches. Your crew will be running their first job in minutes.<br>Sin contratos. Sin complicaciones. Tu cuadrilla estará corriendo su primer trabajo en minutos.</div>
+    <a class="btn" href="https://buy.stripe.com/cNi00l3zxaQ4ggG9pv0Jq0b" target="_blank">Subscribe $39.99/mo →</a>
+    <a class="btn-outline" href="https://buy.stripe.com/7sY8wRb1Z3nC7Ka59f0Jq0c" target="_blank">Pay setup fee $199 →</a>
+    <a class="btn-ghost" href="/">← Back to app</a>
+    <div class="contact">
+      Questions? Talk to us directly.<br>
+      <a href="mailto:hiring@lastudios-hq.com">hiring@lastudios-hq.com</a> · <a href="tel:+14084223505">+1 (408) 422-3505</a><br>
+      WhatsApp: <a href="https://wa.me/14084223505">+1 (408) 422-3505</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
