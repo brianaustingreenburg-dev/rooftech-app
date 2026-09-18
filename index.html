@@ -19,6 +19,13 @@ body{background:#0f1117;color:#f5f5f0;font-family:'DM Sans',system-ui,sans-serif
 <body>
 <div id="root"></div>
 <script>
+const {useState, useRef} = React;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = App;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -35,7 +42,6 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-import { useState, useRef } from "react";
 var fmt = function fmt(n) {
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
@@ -996,15 +1002,15 @@ function Home(_ref7) {
 function Medidas(_ref8) {
   var lang = _ref8.lang;
   var t = T[lang];
-  var _useState = useState(null),
+  var _useState = (0, React.useState)(null),
     _useState2 = _slicedToArray(_useState, 2),
     sel = _useState2[0],
     setSel = _useState2[1];
-  var _useState3 = useState({}),
+  var _useState3 = (0, React.useState)({}),
     _useState4 = _slicedToArray(_useState3, 2),
     vals = _useState4[0],
     setVals = _useState4[1];
-  var _useState5 = useState(null),
+  var _useState5 = (0, React.useState)(null),
     _useState6 = _slicedToArray(_useState5, 2),
     res = _useState6[0],
     setRes = _useState6[1];
@@ -1221,11 +1227,11 @@ function Medidas(_ref8) {
 function Seguridad(_ref9) {
   var lang = _ref9.lang;
   var t = T[lang];
-  var _useState7 = useState(SAFETY_PHASES[0]),
+  var _useState7 = (0, React.useState)(SAFETY_PHASES[0]),
     _useState8 = _slicedToArray(_useState7, 2),
     phase = _useState8[0],
     setPhase = _useState8[1];
-  var _useState9 = useState({}),
+  var _useState9 = (0, React.useState)({}),
     _useState0 = _slicedToArray(_useState9, 2),
     checked = _useState0[0],
     setChecked = _useState0[1];
@@ -1376,15 +1382,15 @@ function Seguridad(_ref9) {
 function Cuadrilla(_ref0) {
   var lang = _ref0.lang;
   var t = T[lang];
-  var _useState1 = useState(SEED_CREW),
+  var _useState1 = (0, React.useState)(SEED_CREW),
     _useState10 = _slicedToArray(_useState1, 2),
     crew = _useState10[0],
     setCrew = _useState10[1];
-  var _useState11 = useState(false),
+  var _useState11 = (0, React.useState)(false),
     _useState12 = _slicedToArray(_useState11, 2),
     modal = _useState12[0],
     setModal = _useState12[1];
-  var _useState13 = useState({
+  var _useState13 = (0, React.useState)({
       nombre: '',
       oficio: '',
       tel: '',
@@ -1733,7 +1739,7 @@ function Cuadrilla(_ref0) {
 function Reviews(_ref1) {
   var lang = _ref1.lang;
   var t = T[lang];
-  var _useState15 = useState(SEED_REVIEWS),
+  var _useState15 = (0, React.useState)(SEED_REVIEWS),
     _useState16 = _slicedToArray(_useState15, 1),
     reviews = _useState16[0];
   var avg = (reviews.reduce(function (s, r) {
@@ -2035,7 +2041,7 @@ function Obras(_ref11) {
   var obras = _ref11.obras,
     lang = _ref11.lang;
   var t = T[lang];
-  var _useState17 = useState('all'),
+  var _useState17 = (0, React.useState)('all'),
     _useState18 = _slicedToArray(_useState17, 2),
     f = _useState18[0],
     setF = _useState18[1];
@@ -2176,15 +2182,15 @@ function Quote(_ref14) {
   var lang = _ref14.lang,
     onDone = _ref14.onDone;
   var t = T[lang];
-  var _useState19 = useState(''),
+  var _useState19 = (0, React.useState)(''),
     _useState20 = _slicedToArray(_useState19, 2),
     cliente = _useState20[0],
     setCliente = _useState20[1];
-  var _useState21 = useState(''),
+  var _useState21 = (0, React.useState)(''),
     _useState22 = _slicedToArray(_useState21, 2),
     addr = _useState22[0],
     setAddr = _useState22[1];
-  var _useState23 = useState([{
+  var _useState23 = (0, React.useState)([{
       id: uid(),
       concepto: '',
       cantidad: 1,
@@ -2193,11 +2199,11 @@ function Quote(_ref14) {
     _useState24 = _slicedToArray(_useState23, 2),
     items = _useState24[0],
     setItems = _useState24[1];
-  var _useState25 = useState(40),
+  var _useState25 = (0, React.useState)(40),
     _useState26 = _slicedToArray(_useState25, 2),
     pct = _useState26[0],
     setPct = _useState26[1];
-  var _useState27 = useState(false),
+  var _useState27 = (0, React.useState)(false),
     _useState28 = _slicedToArray(_useState27, 2),
     sent = _useState28[0],
     setSent = _useState28[1];
@@ -2689,16 +2695,16 @@ var GlobalBar = function GlobalBar(_ref17) {
     }, l.toUpperCase());
   })));
 };
-export default function App() {
-  var _useState29 = useState('home'),
+function App() {
+  var _useState29 = (0, React.useState)('home'),
     _useState30 = _slicedToArray(_useState29, 2),
     tab = _useState30[0],
     setTab = _useState30[1];
-  var _useState31 = useState('es'),
+  var _useState31 = (0, React.useState)('es'),
     _useState32 = _slicedToArray(_useState31, 2),
     lang = _useState32[0],
     setLang = _useState32[1];
-  var _useState33 = useState(SEED_OBRAS),
+  var _useState33 = (0, React.useState)(SEED_OBRAS),
     _useState34 = _slicedToArray(_useState33, 2),
     obras = _useState34[0],
     setObras = _useState34[1];
