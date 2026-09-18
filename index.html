@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>RoofTech México</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#E8E0D5;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px 0}
+.app{width:390px;background:#F5F5F0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:780px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.gbar{background:#1A1A2E;display:flex;align-items:center;justify-content:space-between;padding:11px 16px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.gbar-t{color:#fff;font-size:15px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:6px}
+.lt{display:flex;background:rgba(255,255,255,.13);border-radius:20px;padding:2px;gap:2px}
+.lb{background:none;border:none;color:#E8E0D5;font-size:11px;font-weight:700;padding:4px 11px;border-radius:16px;cursor:pointer;transition:all .15s}
+.lb.on{background:#FF6B2B;color:#fff}
+.body{flex:1;overflow-y:auto;padding-bottom:80px}
+.shdr{background:#1A1A2E;padding:13px 16px;flex-shrink:0}
+.card{background:#fff;border:1px solid #E8E0D5;border-radius:12px;padding:12px 14px;margin-bottom:9px}
+.row{display:flex;justify-content:space-between;align-items:center}
+.muted{font-size:11px;color:#888}
+.prog{background:#E8E0D5;height:5px;border-radius:3px;margin-top:5px}
+.pf{height:100%;border-radius:3px}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.input{width:100%;border:1px solid #E8E0D5;border-radius:9px;padding:10px 12px;font-size:14px;outline:none;background:#fff}
+.input:focus{border-color:#FF6B2B}
+.btn-o{background:#FF6B2B;color:#fff;border:none;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;width:100%;margin-top:10px}
+.btn-g{background:#25D366;color:#fff;border:none;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;width:100%;margin-top:10px}
+.btn-d{background:#1A1A2E;color:#fff;border:none;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;width:100%;margin-top:10px}
+.btn-sun{background:#F59E0B;color:#1A1A2E;border:none;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;width:100%;margin-top:10px}
+.tag{background:#F5F5F0;border:1px solid #E8E0D5;border-radius:14px;padding:4px 10px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit}
+.tag.on{background:#1A1A2E;color:#fff;border-color:#1A1A2E}
+.tags{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.tags::-webkit-scrollbar{display:none}
+.totbox{background:#1A1A2E;border-radius:12px;padding:14px 16px;margin-top:10px}
+.fil-r{display:flex;gap:6px;margin-top:10px}
+.fb{flex:1;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:16px;padding:6px 0;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.fb.on{background:#FF6B2B}
+.phtab{flex-shrink:0;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:16px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.phtab.on{background:#FF6B2B}
+.chk{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #E8E0D5;border-radius:11px;padding:11px 13px;margin-bottom:8px;cursor:pointer}
+.chkbox{width:21px;height:21px;border-radius:5px;border:2px solid #E8E0D5;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chkbox.on{background:#22C55E;border-color:#22C55E}
+.av{width:40px;height:40px;border-radius:50%;background:#1A1A2E;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0}
+.meas-g{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.meas-b{background:#fff;border:1px solid #E8E0D5;border-radius:12px;padding:13px 9px;cursor:pointer;text-align:center;font-family:inherit}
+.res-box{background:#1A1A2E;border-radius:12px;padding:14px 16px;margin-top:12px}
+.res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.res-row:last-child{border-bottom:none}
+.modal-wrap{background:rgba(0,0,0,.5);min-height:400px;display:flex;align-items:flex-end}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:22px 18px 32px;width:100%}
+.nav{background:#fff;border-top:1px solid #E8E0D5;flex-shrink:0;position:sticky;bottom:0;z-index:40}
+.nav-r{display:flex}
+.nb{flex:1;background:none;border:none;padding:7px 0 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit}
+.nb i{font-size:17px;color:#bbb}
+.nb span{font-size:8px;color:#bbb}
+.nb.on i,.nb.on span{color:#FF6B2B}
+.nb.on span{font-weight:700}
+.nb.solar i,.nb.solar.on i{color:#F59E0B}
+.nb.solar span,.nb.solar.on span{color:#F59E0B}
+.sol-tab{flex:1;background:rgba(255,255,255,.1);color:#E8E0D5;border:none;border-radius:16px;padding:7px 0;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.sol-tab.on{background:#F59E0B;color:#1A1A2E}
+.product-card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer}
+.product-card.selected{border:2px solid #F59E0B;background:#FFFBEB}
+.roi-box{background:#0D1117;border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:16px;margin-bottom:12px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.roi-item{background:rgba(255,255,255,.06);border-radius:10px;padding:10px 12px}
+.installer-card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:14px;margin-bottom:10px}
+.installer-card.winner{border:2px solid #22C55E;background:#F0FDF4}
+.zone-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #E8E0D5;border-radius:9px;padding:8px 11px;margin-bottom:7px}
+.zdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.bp-canvas-wrap{background:#0D1117;position:relative}
+.tool-row{background:#1A1A2E;padding:8px 12px;display:flex;gap:6px;overflow-x:auto}
+.tool-row::-webkit-scrollbar{display:none}
+.tbtn{background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit}
+.tbtn.on{background:#FF6B2B}
+.tbtn.sun.on{background:#F59E0B;color:#1A1A2E}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #E8E0D5}
+.spec-row:last-child{border-bottom:none}
+.step-num{width:24px;height:24px;border-radius:50%;background:#FF6B2B;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+canvas{display:block;touch-action:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="gbar">
+    <span class="gbar-t" id="GT">RoofTech</span>
+    <div class="lt">
+      <button class="lb on" id="bEs" onclick="sL('es')">ES</button>
+      <button class="lb" id="bEn" onclick="sL('en')">EN</button>
+    </div>
+  </div>
+  <div class="body" id="BODY"></div>
+  <div class="nav" id="NAV"></div>
+</div>
+<script>
+// ─── STATE ────────────────────────────────────────────────────
+let L='es', TAB='home';
+let checked={}, curPhase='antes', medIdx=null, medVals=[], medResult=null;
+let qTags=[], qPct=40, qSent=false, qClient='', qAddr='';
+let obFilter='all', crewList=null, showCrewModal=false;
+// Blueprint state
+let bpView='address', bpAddr='', bpObra='', bpZones=[], bpPts=[], bpTool='draw';
+let bpScale=1, bpGrid=20, bpShowGrid=true, bpShowDim=true, bpSaved=[], bpHover=null;
+const BPW=390, BPH=340;
+// Solar state
+let solView='home', solTab='panel';
+let roofZones=[], roofPts=[], roofHover=null, roofGrid=20, roofScale=1;
+let roofShowGrid=true, roofShowDim=true;
+const RW=390, RH=300;
+let jobSpec={address:'',obra:'',roofM2:0,kWp:0,cfeBill:0};
+let productSel={}, bids=[], winnerIdx=null, showBidModal=false;
+
+// ─── ZONE COLORS ──────────────────────────────────────────────
+const ZC=['#FF6B2B','#1565C0','#22C55E','#9C27B0','#F57C00','#00838F','#AD1457','#5D4037'];
+const SC=['#F59E0B','#EF4444','#22C55E','#3B82F6','#8B5CF6','#EC4899'];
+
+// ─── SEED DATA ────────────────────────────────────────────────
+const OBRAS=[
+  {c:'Familia Rodríguez',t:{es:'Cuarto adicional',en:'Room addition'},a:'Iztapalapa',tot:48500,dep:19400,p:65,s:'active',ph:12,d:'15 ago'},
+  {c:'Sra. López',t:{es:'Obra negra 60m²',en:'Shell construction'},a:'Tlalpan',tot:92000,dep:36800,p:20,s:'active',ph:4,d:'10 sep'},
+  {c:'Sr. Martínez',t:{es:'Remodelación baño',en:'Bathroom remodel'},a:'G.A. Madero',tot:18200,dep:9100,p:100,s:'done',ph:8,d:'02 ago'},
+];
+const REVIEWS=[
+  {n:'Ana García',st:5,t:{es:'Excelente trabajo, entregó a tiempo.',en:'Excellent work, on time.'},d:'12 ago'},
+  {n:'Pedro V.',st:5,t:{es:'Muy profesional, fotos cada semana.',en:'Very professional, weekly photos.'},d:'28 jul'},
+  {n:'Lucía M.',st:4,t:{es:'Buen trabajo, recomendado.',en:'Good work, recommended.'},d:'15 jul'},
+];
+const MI=['🏗️','🧱','⛏️','🪣','🎨','🟦','💧','🪜'];
+const MD=[[6,4,0.12],[2.5,5,1],[30,0.6,0.8],[2.5,20,1.5],[2.5,24,2],[4,3,60],[8,6,3],[2.8,0.9,0.28]];
+const MC=[
+  v=>[['Área',`${(v[0]*v[1]).toFixed(2)} m²`],['Volumen',`${(v[0]*v[1]*v[2]).toFixed(3)} m³`],['Sacos cemento',`${Math.ceil(v[0]*v[1]*v[2]*7)}`],['Arena',`${(v[0]*v[1]*v[2]*0.6).toFixed(2)} m³`]],
+  v=>{const a=v[0]*v[1]-(v[2]*2.1);return[['Área neta',`${a.toFixed(2)} m²`],['Tabiques +5%',`${Math.ceil(a*60*1.05)}`],['Cemento',`${Math.ceil(a*0.3)} sacos`]]},
+  v=>[['Vol. concreto',`${(v[0]*v[1]*v[2]).toFixed(2)} m³`],['Excavación',`${(v[0]*v[1]*(v[2]+0.2)).toFixed(2)} m³`],['Cemento',`${Math.ceil(v[0]*v[1]*v[2]*9)} sacos`]],
+  v=>{const a=v[0]*v[1];const vol=a*(v[2]/100);return[['Área',`${a.toFixed(2)} m²`],['Cemento',`${Math.ceil(vol*8)} sacos`],['Cal',`${Math.ceil(vol*4)} sacos`]]},
+  v=>{const a=v[0]*v[1];return[['Área',`${a.toFixed(2)} m²`],['Litros',`${Math.ceil(a/10*v[2])} L`],['Cubetas 19L',`${Math.ceil(Math.ceil(a/10*v[2])/19)}`]]},
+  v=>{const a=v[0]*v[1];return[['Área',`${a.toFixed(2)} m²`],['Piezas +10%',`${Math.ceil(a/(v[2]/100)**2*1.1)}`],['Adhesivo',`${Math.ceil(a*0.4)} bolsas`]]},
+  v=>{const a=v[0]*v[1];return[['Área',`${a.toFixed(2)} m²`],['Litros',`${Math.ceil(a*0.35*v[2])} L`],['Cubetas',`${Math.ceil(Math.ceil(a*0.35*v[2])/19)}`]]},
+  v=>{const p=Math.round(v[0]/0.18);return[['Pasos',`${p}`],['Contrahuella',`${((v[0]/p)*100).toFixed(1)} cm`],['Longitud',`${(p*v[2]).toFixed(2)} m`]]},
+];
+const MOCK_BIDS=[
+  {name:'SolarTech CDMX',rating:4.9,reviews:127,years:8,price:78500,days:7,warranty:'25a panel/10a inversor',note:'Paneles JA Solar 580W, inversor Growatt 5kW, tramitología CFE incluida.',verified:true,badge:'Verificado'},
+  {name:'Energía Verde MX',rating:4.7,reviews:89,years:5,price:82000,days:10,warranty:'25a panel/10a inversor',note:'Canadian Solar 570W, SMA Sunny Boy, monitoreo 24/7.',verified:true,badge:'Cert. CFE'},
+  {name:'Instalaciones Azteca',rating:4.5,reviews:43,years:3,price:71000,days:12,warranty:'20a panel/5a inversor',note:'Paneles tier-2, Solis 5kW. Excelente relación precio-calidad.',verified:false,badge:''},
+  {name:'LuzSol Iztapalapa',rating:4.8,reviews:61,years:6,price:75500,days:8,warranty:'25a panel/10a inversor',note:'LONGi 570W, Huawei inversor. Instalador local certificado.',verified:true,badge:'Instalador local'},
+];
+const SPRODS={
+  es:{
+    panel:{icon:'☀️',label:'Paneles solares',color:'#F59E0B',items:[
+      {id:'p1',name:'Sistema 3 kWp',desc:'Para recibo $600-$1,200/mes · 8 paneles',price:'45,000–65,000',kWp:3},
+      {id:'p2',name:'Sistema 5 kWp',desc:'Para recibo $1,200-$2,500/mes · 12 paneles',price:'75,000–105,000',kWp:5},
+      {id:'p3',name:'Sistema 8 kWp',desc:'Para recibo $2,500-$5,000/mes · 20 paneles',price:'115,000–145,000',kWp:8},
+      {id:'p4',name:'Sistema 10 kWp',desc:'Para recibo +$5,000/mes · 24 paneles',price:'140,000–175,000',kWp:10},
+    ]},
+    charger:{icon:'🔌',label:'Cargador VE',color:'#3B82F6',items:[
+      {id:'c1',name:'Nivel 1 — 120V',desc:'Carga lenta · 8-12h · Sin instalación especial',price:'3,500–6,000'},
+      {id:'c2',name:'Nivel 2 — 240V 32A',desc:'Carga rápida · 4-6h · Tablero dedicado',price:'12,000–22,000'},
+      {id:'c3',name:'Nivel 2 Premium 48A',desc:'2-4h · Tesla/CCS/NACS compatible',price:'18,000–32,000'},
+    ]},
+    heater:{icon:'🔆',label:'Calentador solar',color:'#EF4444',items:[
+      {id:'h1',name:'Compacto 150L',desc:'2-3 personas · Termosifón',price:'8,000–14,000'},
+      {id:'h2',name:'Compacto 240L',desc:'4-5 personas · Termosifón',price:'12,000–20,000'},
+      {id:'h3',name:'Forzado 300L',desc:'5-8 personas · Bomba + controlador',price:'22,000–38,000'},
+    ]},
+    battery:{icon:'🔋',label:'Batería respaldo',color:'#8B5CF6',items:[
+      {id:'b1',name:'5 kWh',desc:'Iluminación + TV · 6-8h autonomía',price:'35,000–55,000'},
+      {id:'b2',name:'10 kWh',desc:'Nevera + iluminación + bombas',price:'65,000–95,000'},
+      {id:'b3',name:'15 kWh',desc:'Casa autónoma · Independencia CFE',price:'95,000–135,000'},
+    ]},
+    pool:{icon:'🏊',label:'Alberca solar',color:'#22C55E',items:[
+      {id:'pl1',name:'20m² colectores',desc:'Alberca hasta 30,000L · +8-12°C',price:'18,000–28,000'},
+      {id:'pl2',name:'30m² colectores',desc:'Alberca hasta 50,000L · +10-15°C',price:'28,000–42,000'},
+    ]},
+    lights:{icon:'💡',label:'Alumbrado solar',color:'#EC4899',items:[
+      {id:'l1',name:'Luminaria 30W',desc:'Patio/jardín · Sensor movimiento · 12h',price:'2,500–4,500'},
+      {id:'l2',name:'Luminaria 60W',desc:'Cochera/acceso · Control remoto',price:'4,500–8,000'},
+      {id:'l3',name:'Poste solar 100W',desc:'Calle/estacionamiento · 6m poste',price:'12,000–18,000'},
+    ]},
+  },
+  en:{
+    panel:{icon:'☀️',label:'Solar panels',color:'#F59E0B',items:[
+      {id:'p1',name:'3 kWp system',desc:'For $600-$1,200 CFE/mo · 8 panels',price:'45,000–65,000',kWp:3},
+      {id:'p2',name:'5 kWp system',desc:'For $1,200-$2,500 CFE/mo · 12 panels',price:'75,000–105,000',kWp:5},
+      {id:'p3',name:'8 kWp system',desc:'For $2,500-$5,000 CFE/mo · 20 panels',price:'115,000–145,000',kWp:8},
+      {id:'p4',name:'10 kWp system',desc:'For $5,000+ CFE/mo · 24 panels',price:'140,000–175,000',kWp:10},
+    ]},
+    charger:{icon:'🔌',label:'EV charger',color:'#3B82F6',items:[
+      {id:'c1',name:'Level 1 — 120V',desc:'Slow charge · 8-12h · No special install',price:'3,500–6,000'},
+      {id:'c2',name:'Level 2 — 240V 32A',desc:'Fast charge · 4-6h · Dedicated breaker',price:'12,000–22,000'},
+      {id:'c3',name:'Level 2 Premium 48A',desc:'2-4h · Tesla/CCS/NACS compatible',price:'18,000–32,000'},
+    ]},
+    heater:{icon:'🔆',label:'Water heater',color:'#EF4444',items:[
+      {id:'h1',name:'Compact 150L',desc:'2-3 people · Thermosyphon',price:'8,000–14,000'},
+      {id:'h2',name:'Compact 240L',desc:'4-5 people · Thermosyphon',price:'12,000–20,000'},
+      {id:'h3',name:'Forced 300L',desc:'5-8 people · Pump + controller',price:'22,000–38,000'},
+    ]},
+    battery:{icon:'🔋',label:'Backup battery',color:'#8B5CF6',items:[
+      {id:'b1',name:'5 kWh',desc:'Lighting + TV · 6-8h autonomy',price:'35,000–55,000'},
+      {id:'b2',name:'10 kWh',desc:'Fridge + lighting + pumps',price:'65,000–95,000'},
+      {id:'b3',name:'15 kWh',desc:'Off-grid capable · CFE independence',price:'95,000–135,000'},
+    ]},
+    pool:{icon:'🏊',label:'Pool heater',color:'#22C55E',items:[
+      {id:'pl1',name:'20m² collectors',desc:'Pool up to 30,000L · +8-12°C',price:'18,000–28,000'},
+      {id:'pl2',name:'30m² collectors',desc:'Pool up to 50,000L · +10-15°C',price:'28,000–42,000'},
+    ]},
+    lights:{icon:'💡',label:'Solar lighting',color:'#EC4899',items:[
+      {id:'l1',name:'30W lamp',desc:'Patio/garden · Motion sensor · 12h',price:'2,500–4,500'},
+      {id:'l2',name:'60W lamp',desc:'Garage/entrance · Remote control',price:'4,500–8,000'},
+      {id:'l3',name:'100W pole',desc:'Street/parking · 6m pole',price:'12,000–18,000'},
+    ]},
+  }
+};
+
+// ─── TRANSLATIONS ────────────────────────────────────────────
+const TX={
+  es:{
+    nav:['Inicio','Cotizar','Obras','Medidas','Seguridad','Cuadrilla','Reseñas','Planos','Solar'],
+    screens:['RoofTech','Nueva cotización','Mis obras','Medidas','Seguridad','Cuadrilla','Reseñas','Planos','☀️ Solar'],
+    greeting:'Buenos días, Lalo', outstanding:'Por cobrar', activeJobs:'Obras activas',
+    qa:'Acciones rápidas', newQ:'Nueva cotización', newO:'Nuevo plano solar', recent:'Obras recientes',
+    prog:'Avance', photos:'fotos', bActive:'En obra', bDone:'Terminada',
+    qSub:'Hoy · CDMX', cliLbl:'Cliente', addrLbl:'Alcaldía / Dirección',
+    qiLbl:'Partidas rápidas CDMX', concLbl:'Conceptos', totLbl:'Total obra',
+    depLbl:'Anticipo', dep2:'Anticipo a cobrar', sendWA:'Enviar WhatsApp + link de pago',
+    sentT:'¡Enviada!', sentM:'PDF + link SPEI enviados por WhatsApp.', newQBtn:'Nueva cotización',
+    all:'Todas', fAct:'En obra', fDone:'Terminadas',
+    mSub:'Selecciona un tipo de construcción',
+    mTypes:['Losa de concreto','Muro tabique','Cimentación','Aplanado','Pintura','Azulejo / piso','Impermeabilizante','Escalera'],
+    mCalc:'Calcular', mRes:'Resultados', mRecalc:'Recalcular',
+    mF:[['Largo (m)','Ancho (m)','Espesor (m)'],['Alto (m)','Largo (m)','Vanos'],['Largo (ml)','Ancho (m)','Prof. (m)'],['Alto (m)','Perímetro (m)','Espesor (cm)'],['Alto (m)','Perímetro (m)','Manos'],['Largo (m)','Ancho (m)','Pieza (cm)'],['Largo (m)','Ancho (m)','Manos'],['Altura (m)','Ancho (m)','Huella (m)']],
+    sSub:'Checklist de seguridad por fase',
+    phases:['Antes de iniciar','Cimentación','Obra negra','Acabados','Entrega'],
+    pi:[
+      ['Revisar planos y permisos (SEDUVI)','Delimitar y señalizar área de obra','Verificar servicios (agua, luz, gas)','Instalar letrero de obra','Contrato firmado y anticipo recibido','IMSS/SIROC registrado','Botiquín de primeros auxilios','Extintores ABC disponibles','Casetas sanitarias instaladas','Plan de emergencias comunicado'],
+      ['Excavación a plomo y nivel','Señalización de excavación','Taludes estables','Profundidad de desplante verificada','Plantilla de concreto colocada','Acero sin corrosión excesiva','Traslapes mínimos (40 diámetros)','Colado con vibrado','Sin exceso de agua en mezcla','Curado mínimo 7 días'],
+      ['Casco y calzado obligatorio','Andamios con barandales (h>2m)','Redes de seguridad','Herramienta eléctrica con tierra','Muros aplomados y a nivel','Juntas de tabique cuateadas','Instalación eléctrica conduit','Hidráulica probada a presión','Castillos y cadenas a plomo','No sobrecargar losas'],
+      ['Protección ocular para corte','Ventilación al usar solventes','Escalera de mano en buen estado','Pisos terminados protegidos','Azulejos nivelados','Ventanas selladas antes de pintar','Eléctricas probadas','Llaves de paso accesibles','Limpieza diaria de escombro','Garantías entregadas al cliente'],
+      ['Acta de entrega firmada','Planos as-built entregados','Manuales de mantenimiento entregados','Fotos finales para portafolio','Reseña Google solicitada','Factura entregada','Finiquito cobrado','Limpieza general de obra','Materiales sobrantes retirados','Baja de SIROC en IMSS'],
+    ],
+    crew:(n,d)=>`${n} trabajadores · Raya: $${d.toLocaleString('es-MX')}/día`,
+    addW:'Agregar trabajador', wN:'Nombre *', wO:'Oficio *', wT:'Teléfono', wD:'Pago diario (MXN)', save:'Guardar',
+    raya:'Resumen raya semanal', days:d=>`${d} días trabajados`, sA:'Activo', sD:'Disponible',
+    rvSub:'3 reseñas · 4.8 promedio', rvLink:'Pide una reseña — comparte este link',
+    cpLink:'Copiar link', rvWA:'Enviar por WhatsApp al cliente', rvRecent:'Reseñas recientes',
+    bpSub:'Carga el plano base de la obra', bpS1:'Dirección de la obra', bpS2:'Plano base', bpS3:'Traza y mide',
+    bpAPh:'Ej. Calle Morelos 45, Iztapalapa', bpOPh:'Ej. Casa Rodríguez',
+    bpLoad:'Cargar plano', bpBack:'← Nueva dirección', bpSave:'Guardar plano',
+    bpSavedList:'Planos guardados', bpNoSaved:'Sin planos guardados', bpView:'Ver plano',
+    bpDraw:'Trazar', bpMeas:'Medir', bpErase:'Borrar', bpUndo:'Deshacer',
+    bpZL:'Zonas trazadas', bpNZ:'Traza zonas para calcular m²',
+    bpInstr:'Toca para agregar puntos · Primer punto para cerrar',
+    bpTA:'Área total', bpA:'Área', bpP:'Perímetro', bpSc:'m/cuadro', bpGp:'px/cuadro',
+    bpZN:['Sala/Comedor','Cocina','Recámara 1','Recámara 2','Baño','Cuarto servicio','Cochera','Terraza','Sala TV','Estudio','Bodega','Jardín'],
+    bpOL:'Obra', bpDrawing:'Trazando', bpFinish:'Cerrar zona',
+    // Solar
+    solHomeTitle:'Energía solar para tu obra',
+    solHomeSub:'Mide el techo · Elige productos · Instaladores locales ofertan · El mejor precio gana',
+    solStart:'Iniciar proyecto solar', solDemo:'Ver demo con cotizaciones',
+    solHowTitle:'¿Cómo funciona?',
+    solSteps:['Mide el techo con el plano','Elige paneles y productos','Instaladores locales ofertan','Mejor precio gana — contrato firmado'],
+    solMeasSub:'Traza el área disponible para paneles en el techo',
+    solAddrPh:'Ej. Calle Morelos 45, Iztapalapa', solObraPh:'Ej. Casa Rodríguez',
+    solLoadBtn:'Cargar plano solar', solDrawInstr:'Toca para trazar · Primer punto para cerrar zona',
+    solFinish:'Cerrar zona', solZonesLbl:'Zonas de techo', solNoZones:'Traza el área disponible para paneles',
+    solNextSpec:'Continuar → Especificaciones',
+    solSpecSub:'Basadas en tu techo medido',
+    solRoofArea:'Área de techo', solPanelCap:'Capacidad estimada', solMonthProd:'Producción mensual',
+    solYearProd:'Producción anual', solCfeLbl:'Recibo CFE promedio (MXN/mes)', solCfePh:'Ej. 1800',
+    solSavingsLbl:'Ahorro mensual estimado', solRoiLbl:'Recuperación inversión',
+    solIncentivesTitle:'Incentivos disponibles',
+    solIncentives:['Deducción ISR 30% en equipo solar (IPSE)','IVA 0% en paneles fotovoltaicos','Hipoteca Verde Infonavit','Subsidio CDMX para hogares y PyMES'],
+    solNextProds:'Continuar → Elegir productos',
+    solProdsSub:'Selecciona todo lo que quieres incluir en la cotización',
+    solTabLabels:{panel:'Paneles',charger:'Auto EV',heater:'Calentador',battery:'Batería',pool:'Alberca',lights:'Alumbrado'},
+    solSelCount:'productos seleccionados', solPublish:'Publicar y recibir ofertas',
+    solBiddingSub:'Instaladores locales están ofertando tu proyecto',
+    solBidWaiting:'Esperando ofertas...', solBidCount:'ofertas recibidas', solViewBids:'Ver todas las ofertas',
+    solAddBid:'Soy instalador — quiero ofertar',
+    solBidsSub:'Elige la mejor oferta para tu proyecto',
+    solBestPrice:'Mejor precio', solBestRating:'Mejor calificación', solFastest:'Más rápido',
+    solSelectWinner:'Elegir esta oferta',
+    solWinnerT:'¡Oferta aceptada!', solWinnerS:'Contrato generado automáticamente',
+    solContractSub:'Firmado digitalmente · Listo para iniciar',
+    solContractor:'Instalador', solClient:'Cliente', solAddress:'Dirección',
+    solProducts:'Productos', solTotal:'Total', solTimeline:'Tiempo inst.',
+    solWarranty:'Garantía', solPayment:'Esquema de pagos',
+    solPaySched:['50% anticipo al firmar','25% al inicio de instalación','25% al completar y conectar CFE'],
+    solSignBtn:'Firmar contrato · Pagar anticipo SPEI',
+    solSignedMsg:'¡Contrato firmado! El instalador fue notificado por WhatsApp.',
+    solBack:'← Nuevo proyecto',
+    solScale:'m/cuadro', solBidFormT:'Enviar oferta',
+    solBidName:'Tu nombre', solBidCo:'Empresa', solBidPrice:'Precio total (MXN)',
+    solBidDays:'Días de instalación', solBidWar:'Garantía', solBidNote:'Nota técnica', solBidSubmit:'Enviar oferta',
+    solBidReceived:'¡Oferta enviada!',
+    days:'días', years:'años', reviews:'reseñas', kwhM:'kWh/mes', kwhY:'kWh/año',
+    bestBadge:'Mejor oferta',
+  },
+  en:{
+    nav:['Home','Quote','Jobs','Measures','Safety','Crew','Reviews','Blueprints','Solar'],
+    screens:['RoofTech','New quote','My jobs','Measures','Safety','Crew','Reviews','Blueprints','☀️ Solar'],
+    greeting:'Good morning, Lalo', outstanding:'Outstanding', activeJobs:'Active jobs',
+    qa:'Quick actions', newQ:'New quote', newO:'New solar plan', recent:'Recent jobs',
+    prog:'Progress', photos:'photos', bActive:'Active', bDone:'Completed',
+    qSub:'Today · CDMX', cliLbl:'Client', addrLbl:'District / Address',
+    qiLbl:'CDMX quick items', concLbl:'Line items', totLbl:'Total',
+    depLbl:'Deposit', dep2:'Deposit to collect', sendWA:'Send WhatsApp + payment link',
+    sentT:'Sent!', sentM:'PDF + SPEI link sent via WhatsApp.', newQBtn:'New quote',
+    all:'All', fAct:'Active', fDone:'Completed',
+    mSub:'Select a construction type',
+    mTypes:['Concrete slab','Block wall','Foundation','Plaster','Paint','Tile / floor','Waterproofing','Staircase'],
+    mCalc:'Calculate', mRes:'Results', mRecalc:'Recalculate',
+    mF:[['Length (m)','Width (m)','Thickness (m)'],['Height (m)','Length (m)','Openings'],['Length (ml)','Width (m)','Depth (m)'],['Height (m)','Perimeter (m)','Thickness (cm)'],['Height (m)','Perimeter (m)','Coats'],['Length (m)','Width (m)','Tile (cm)'],['Length (m)','Width (m)','Coats'],['Height (m)','Width (m)','Tread (m)']],
+    sSub:'Safety checklist by phase',
+    phases:['Before starting','Foundation','Structure','Finishes','Handover'],
+    pi:[
+      ['Review plans and building permit','Mark and fence work area','Verify utilities (water, power, gas)','Install site sign','Contract signed, deposit received','IMSS/SIROC registered','First aid kit on site','Fire extinguishers available','Sanitary facilities installed','Emergency plan communicated'],
+      ['Excavation plumb and level','Excavation fenced and marked','Stable slopes','Founding depth verified','Concrete blinding placed','Steel without excess rust','Min. rebar laps (40 diameters)','Concrete poured with vibration','No excess water in mix','Concrete cured 7+ days'],
+      ['Hard hat and footwear required','Scaffolding with guardrails (h>2m)','Safety nets at heights','Electric tools grounded','Walls plumb and level','Staggered block joints','Electrical conduit installed','Hydraulics pressure tested','Columns and tie beams plumb','No overloading slabs'],
+      ['Eye protection for cutting','Ventilation when using solvents','Hand ladder in good condition','Finished floors protected','Tiles levelled','Windows sealed before painting','Electrics tested','Water shutoffs accessible','Daily cleanup of rubble','Warranties delivered'],
+      ['Acceptance certificate signed','As-built drawings delivered','Maintenance manuals delivered','Final photos for portfolio','Google review requested','Invoice delivered','Final payment collected','Site cleanup done','Surplus materials removed','IMSS SIROC deregistered'],
+    ],
+    crew:(n,d)=>`${n} workers · Rate: $${d.toLocaleString('en-MX')}/day`,
+    addW:'Add worker', wN:'Name *', wO:'Trade *', wT:'Phone', wD:'Daily rate (MXN)', save:'Save',
+    raya:'Weekly payroll summary', days:d=>`${d} days worked`, sA:'Active', sD:'Available',
+    rvSub:'3 reviews · 4.8 average', rvLink:'Ask for a review — share this link',
+    cpLink:'Copy link', rvWA:'Send via WhatsApp to client', rvRecent:'Recent reviews',
+    bpSub:'Load the base floor plan for the job', bpS1:'Job address', bpS2:'Base plan', bpS3:'Trace and measure',
+    bpAPh:'E.g. 45 Morelos St, Iztapalapa', bpOPh:'E.g. Rodriguez House',
+    bpLoad:'Load blueprint', bpBack:'← New address', bpSave:'Save blueprint',
+    bpSavedList:'Saved blueprints', bpNoSaved:'No blueprints saved', bpView:'View plan',
+    bpDraw:'Trace', bpMeas:'Measure', bpErase:'Delete', bpUndo:'Undo',
+    bpZL:'Traced zones', bpNZ:'Trace zones to calculate m²',
+    bpInstr:'Tap to add points · Tap first point to close',
+    bpTA:'Total area', bpA:'Area', bpP:'Perimeter', bpSc:'m/grid', bpGp:'px/grid',
+    bpZN:['Living/Dining','Kitchen','Bedroom 1','Bedroom 2','Bathroom','Service room','Garage','Terrace','TV room','Study','Storage','Garden'],
+    bpOL:'Job', bpDrawing:'Drawing', bpFinish:'Close zone',
+    // Solar
+    solHomeTitle:'Solar energy for your job',
+    solHomeSub:'Measure the roof · Choose products · Local installers bid · Best price wins',
+    solStart:'Start solar project', solDemo:'See demo with bids',
+    solHowTitle:'How it works',
+    solSteps:['Measure roof with blueprint','Choose panels and products','Local installers bid','Best price wins — contract signed'],
+    solMeasSub:'Trace the available area for solar panels on the roof',
+    solAddrPh:'E.g. 45 Morelos St, Iztapalapa', solObraPh:'E.g. Rodriguez House',
+    solLoadBtn:'Load solar blueprint', solDrawInstr:'Tap to trace · Tap first point to close zone',
+    solFinish:'Close zone', solZonesLbl:'Roof zones', solNoZones:'Trace the available area for panels',
+    solNextSpec:'Continue → Specifications',
+    solSpecSub:'Based on your measured roof',
+    solRoofArea:'Roof area', solPanelCap:'Estimated capacity', solMonthProd:'Monthly output',
+    solYearProd:'Annual output', solCfeLbl:'Average CFE bill (MXN/mo)', solCfePh:'E.g. 1800',
+    solSavingsLbl:'Estimated monthly savings', solRoiLbl:'Payback period',
+    solIncentivesTitle:'Available incentives',
+    solIncentives:['30% ISR tax deduction on solar equipment (IPSE)','0% VAT on photovoltaic panels','Infonavit Green Mortgage','CDMX subsidy for households and SMEs'],
+    solNextProds:'Continue → Choose products',
+    solProdsSub:'Select everything you want included in the quote',
+    solTabLabels:{panel:'Panels',charger:'EV charger',heater:'Water heater',battery:'Battery',pool:'Pool',lights:'Lighting'},
+    solSelCount:'products selected', solPublish:'Publish and receive bids',
+    solBiddingSub:'Local installers are bidding on your project',
+    solBidWaiting:'Waiting for bids...', solBidCount:'bids received', solViewBids:'View all bids',
+    solAddBid:'I\'m an installer — submit bid',
+    solBidsSub:'Choose the best bid for your project',
+    solBestPrice:'Best price', solBestRating:'Best rating', solFastest:'Fastest',
+    solSelectWinner:'Choose this bid',
+    solWinnerT:'Bid accepted!', solWinnerS:'Contract automatically generated',
+    solContractSub:'Digitally signed · Ready to start',
+    solContractor:'Installer', solClient:'Client', solAddress:'Address',
+    solProducts:'Products', solTotal:'Total', solTimeline:'Install time',
+    solWarranty:'Warranty', solPayment:'Payment schedule',
+    solPaySched:['50% deposit on signing','25% at start of installation','25% on completion and CFE connection'],
+    solSignBtn:'Sign contract · Pay deposit via SPEI',
+    solSignedMsg:'Contract signed! Installer notified via WhatsApp.',
+    solBack:'← New project',
+    solScale:'m/grid', solBidFormT:'Submit bid',
+    solBidName:'Your name', solBidCo:'Company', solBidPrice:'Total price (MXN)',
+    solBidDays:'Installation days', solBidWar:'Warranty', solBidNote:'Technical note', solBidSubmit:'Submit bid',
+    solBidReceived:'Bid submitted!',
+    days:'days', years:'years', reviews:'reviews', kwhM:'kWh/mo', kwhY:'kWh/yr',
+    bestBadge:'Best bid',
+  }
+};
+
+const TABS=['home','quote','obras','medidas','safety','crew','reviews','blueprints','solar'];
+const TICONS=['ti-home','ti-file-invoice','ti-building-warehouse','ti-ruler-measure','ti-shield-check','ti-users','ti-star','ti-blueprint','ti-sun'];
+const fmt=n=>'$'+Math.round(n).toLocaleString('es-MX');
+const fN=n=>Math.round(n).toLocaleString('es-MX');
+const CREW_SEED=[
+  {name:'Carlos Mendoza',trade:{es:'Oficial albañil',en:'Mason'},tel:'55 1111 2222',daily:850,status:'activo'},
+  {name:'Miguel A. Ruiz',trade:{es:'Plomero',en:'Plumber'},tel:'55 3333 4444',daily:950,status:'activo'},
+  {name:'Roberto Sánchez',trade:{es:'Electricista',en:'Electrician'},tel:'55 5555 6666',daily:900,status:'disponible'},
+  {name:'José López',trade:{es:'Ayudante',en:'Helper'},tel:'55 7777 8888',daily:550,status:'activo'},
+];
+if(!crewList) crewList=[...CREW_SEED];
+
+function sL(l){L=l;document.getElementById('bEs').classList.toggle('on',l==='es');document.getElementById('bEn').classList.toggle('on',l==='en');render();}
+function goTab(t){TAB=t;if(t==='solar')solView='home';render();}
+function render(){
+  const ti=TABS.indexOf(TAB);
+  const t=TX[L];
+  const titleText=TAB==='solar'?t.screens[8]:(t.screens[ti]||'RoofTech');
+  document.getElementById('GT').innerHTML=TAB==='solar'?`<i class="ti ti-sun" style="color:#F59E0B;font-size:16px"></i> ${t.screens[8]}`:titleText;
+  document.getElementById('NAV').innerHTML=rNav();
+  document.getElementById('BODY').innerHTML=rScreen();
+  if(TAB==='blueprints'&&bpView==='canvas') initBpCanvas();
+  if(TAB==='solar'&&solView==='measure') initSolCanvas();
+  document.getElementById('BODY').scrollTop=0;
+}
+
+function rNav(){
+  const rows=[TABS.slice(0,5),TABS.slice(5)];
+  return rows.map((row,ri)=>`
+  <div class="nav-r" style="${ri===1?'border-top:1px solid #F0EDE8':''}">
+    ${row.map((t,i)=>{const idx=ri*5+i;const isSolar=t==='solar';return`
+    <button class="nb ${TAB===t?'on':''} ${isSolar?'solar':''}" onclick="goTab('${t}')">
+      <i class="ti ${TICONS[idx]}" style="${isSolar?'color:#F59E0B':''}" aria-hidden="true"></i>
+      <span style="${isSolar?'color:#F59E0B':''}">${TX[L].nav[idx]}</span>
+    </button>`;}).join('')}
+  </div>`).join('');
+}
+
+function rScreen(){
+  if(TAB==='home')return rHome();
+  if(TAB==='quote')return rQuote();
+  if(TAB==='obras')return rObras();
+  if(TAB==='medidas')return rMedidas();
+  if(TAB==='safety')return rSafety();
+  if(TAB==='crew')return rCrew();
+  if(TAB==='reviews')return rReviews();
+  if(TAB==='blueprints')return rBlueprint();
+  if(TAB==='solar')return rSolar();
+  return '';
+}
+
+// ─── HOME ────────────────────────────────────────────────────
+function rHome(){
+  const t=TX[L];
+  const active=OBRAS.filter(o=>o.s==='active');
+  const collect=active.reduce((s,o)=>s+(o.tot-o.dep),0);
+  return `
+  <div class="shdr">
+    <p style="color:#E8E0D5;font-size:12px;margin-bottom:11px">${t.greeting}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+      <div style="background:rgba(255,107,43,.15);border:1px solid rgba(255,107,43,.3);border-radius:11px;padding:11px 13px">
+        <p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.outstanding}</p>
+        <p style="color:#FF6B2B;font-size:19px;font-weight:700">${fmt(collect)}</p>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:11px 13px">
+        <p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.activeJobs}</p>
+        <p style="color:#fff;font-size:19px;font-weight:700">${active.length}</p>
+      </div>
+    </div>
+  </div>
+  <div style="padding:12px 14px">
+    <p style="font-size:11px;font-weight:700;color:#2D2D2D;margin-bottom:9px">${t.qa}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px">
+      <button onclick="goTab('quote')" style="background:#FF6B2B;color:#fff;border:none;border-radius:11px;padding:12px 6px;font-size:12px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:inherit">
+        <i class="ti ti-file-invoice" style="font-size:20px"></i>${t.newQ}
+      </button>
+      <button onclick="goTab('solar')" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:11px;padding:12px 6px;font-size:12px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:inherit">
+        <i class="ti ti-sun" style="font-size:20px"></i>${t.nav[8]}
+      </button>
+    </div>
+    <p style="font-size:11px;font-weight:700;color:#2D2D2D;margin-bottom:9px">${t.recent}</p>
+    ${OBRAS.map(o=>`
+    <div class="card">
+      <div class="row" style="margin-bottom:6px">
+        <div><p style="font-weight:700;font-size:13px;color:#1A1A2E">${o.c}</p><p class="muted">${o.t[L]} · ${o.a}</p></div>
+        <span class="badge" style="${o.s==='active'?'background:#FFF3E0;color:#E65100':'background:#E8F5E9;color:#1B5E20'}">${o.s==='active'?t.bActive:t.bDone}</span>
+      </div>
+      <div class="row" style="margin-bottom:4px"><span class="muted">${t.prog} ${o.p}%</span><span style="font-weight:700;font-size:13px">${fmt(o.tot)}</span></div>
+      <div class="prog"><div class="pf" style="width:${o.p}%;background:${o.p===100?'#22C55E':'#FF6B2B'}"></div></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ─── QUOTE ───────────────────────────────────────────────────
+function rQuote(){
+  const t=TX[L];
+  if(qSent)return `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center">
+    <div style="width:58px;height:58px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="ti ti-check" style="font-size:28px;color:#fff"></i></div>
+    <p style="font-size:18px;font-weight:700;color:#1A1A2E;margin-bottom:6px">${t.sentT}</p>
+    <p style="font-size:13px;color:#666;margin-bottom:20px">${t.sentM}</p>
+    <button onclick="qSent=false;qTags=[];render()" style="background:#FF6B2B;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">${t.newQBtn}</button>
+  </div>`;
+  const sub=qTags.reduce((s,i)=>s+i.p,0), ant=Math.round(sub*qPct/100);
+  return `
+  <div class="shdr"><p style="color:#E8E0D5;font-size:12px">${t.qSub}</p></div>
+  <div style="padding:12px 14px 100px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.cliLbl}</label>
+    <input class="input" value="${qClient}" oninput="qClient=this.value" placeholder="${L==='es'?'Nombre del cliente':'Client name'}" style="margin-bottom:11px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.addrLbl}</label>
+    <input class="input" value="${qAddr}" oninput="qAddr=this.value" placeholder="${L==='es'?'Iztapalapa, CDMX':'e.g. Iztapalapa, CDMX'}" style="margin-bottom:11px">
+    <p style="font-size:11px;font-weight:700;color:#2D2D2D;margin-bottom:7px">${t.qiLbl}</p>
+    <div class="tags">${[['Obra negra m²',4800],['Aplanado m²',280],['Azulejo m²',320],['Plomería',3500],['Eléctrico',4200],['Losa m²',1200],['Pintura m²',95],['Tabique m²',340]].map(([n,p])=>`<button class="tag ${qTags.find(i=>i.n===n)?'on':''}" onclick="toggleTag('${n}',${p})">${n}</button>`).join('')}</div>
+    <p style="font-size:11px;font-weight:700;color:#2D2D2D;margin-bottom:7px">${t.concLbl}</p>
+    ${qTags.map(i=>`<div style="background:#fff;border:1px solid #E8E0D5;border-radius:9px;padding:9px 11px;margin-bottom:7px;display:flex;justify-content:space-between"><span style="font-size:13px">${i.n}</span><span style="font-size:13px;font-weight:700;color:#FF6B2B">${fmt(i.p)}</span></div>`).join('')}
+    <div class="totbox">
+      <div class="row" style="margin-bottom:9px"><span style="color:#E8E0D5;font-size:13px">${t.totLbl}</span><span style="color:#fff;font-size:17px;font-weight:700">${fmt(sub)}</span></div>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+        <span style="color:#E8E0D5;font-size:12px;white-space:nowrap">${t.depLbl}</span>
+        <input type="range" min="20" max="60" value="${qPct}" step="1" style="flex:1;accent-color:#FF6B2B" oninput="qPct=+this.value;document.getElementById('qpct').textContent=qPct+'%';document.getElementById('qantv').textContent=fmt(Math.round(${sub}*this.value/100))">
+        <span style="color:#FF6B2B;font-weight:700;font-size:13px;min-width:34px" id="qpct">${qPct}%</span>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:9px;display:flex;justify-content:space-between">
+        <span style="color:#E8E0D5;font-size:12px">${t.dep2}</span>
+        <span style="color:#FF6B2B;font-size:18px;font-weight:700" id="qantv">${fmt(ant)}</span>
+      </div>
+    </div>
+    <button class="btn-g" onclick="qSent=true;render()"><i class="ti ti-brand-whatsapp"></i>${t.sendWA}</button>
+  </div>`;
+}
+
+// ─── OBRAS ───────────────────────────────────────────────────
+function rObras(){
+  const t=TX[L];
+  const shown=obFilter==='all'?OBRAS:OBRAS.filter(o=>obFilter==='active'?o.s==='active':o.s==='done');
+  return `
+  <div class="shdr">
+    <p style="color:#E8E0D5;font-size:12px">${OBRAS.length} ${L==='es'?'obras':'jobs'}</p>
+    <div class="fil-r">
+      <button class="fb ${obFilter==='all'?'on':''}" onclick="obFilter='all';render()">${t.all}</button>
+      <button class="fb ${obFilter==='active'?'on':''}" onclick="obFilter='active';render()">${t.fAct}</button>
+      <button class="fb ${obFilter==='done'?'on':''}" onclick="obFilter='done';render()">${t.fDone}</button>
+    </div>
+  </div>
+  <div style="padding:12px 14px">
+    ${shown.map(o=>`
+    <div class="card">
+      <div class="row" style="margin-bottom:6px">
+        <div><p style="font-weight:700;font-size:13px;color:#1A1A2E">${o.c}</p><p class="muted">${o.t[L]} · ${o.a}</p></div>
+        <div style="text-align:right"><p style="font-weight:700;font-size:13px;margin-bottom:3px">${fmt(o.tot)}</p>
+        <span class="badge" style="${o.s==='active'?'background:#FFF3E0;color:#E65100':'background:#E8F5E9;color:#1B5E20'}">${o.s==='active'?t.bActive:t.bDone}</span></div>
+      </div>
+      <div class="row" style="margin-bottom:4px"><span class="muted">${t.prog} ${o.p}%</span><span class="muted">${o.ph} ${t.photos} · ${o.d}</span></div>
+      <div class="prog"><div class="pf" style="width:${o.p}%;background:${o.p===100?'#22C55E':'#FF6B2B'}"></div></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ─── MEDIDAS ─────────────────────────────────────────────────
+function rMedidas(){
+  const t=TX[L];
+  if(medIdx===null)return `<div class="shdr"><p style="color:#E8E0D5;font-size:12px">${t.mSub}</p></div>
+  <div style="padding:12px 14px"><div class="meas-g">${t.mTypes.map((nm,i)=>`
+    <button class="meas-b" onclick="medIdx=${i};medVals=[...MD[${i}]];medResult=null;render()">
+      <div style="font-size:24px;margin-bottom:5px">${MI[i]}</div>
+      <p style="font-size:12px;font-weight:700;color:#1A1A2E;margin:0;line-height:1.3">${nm}</p>
+    </button>`).join('')}</div></div>`;
+  const idx=medIdx, fields=t.mF[idx];
+  return `
+  <div style="background:#1A1A2E;padding:12px 16px;display:flex;align-items:center;gap:10px">
+    <button onclick="medIdx=null;medResult=null;render()" style="background:none;border:none;color:#E8E0D5;font-size:16px;cursor:pointer;padding:0">←</button>
+    <p style="color:#E8E0D5;font-size:13px;margin:0">${MI[idx]} ${t.mTypes[idx]}</p>
+  </div>
+  <div style="padding:12px 14px">
+    ${fields.map((f,i)=>`<div style="margin-bottom:11px"><label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${f}</label><input type="number" step="any" value="${medVals[i]||MD[idx][i]}" class="input" onchange="medVals[${i}]=parseFloat(this.value)||0"></div>`).join('')}
+    <button class="btn-o" onclick="medResult=MC[medIdx](medVals.map((v,i)=>v||MD[medIdx][i]));render()"><i class="ti ti-calculator"></i>${t.mCalc}</button>
+    ${medResult?`<div class="res-box"><p style="color:#E8E0D5;font-size:11px;font-weight:700;margin-bottom:9px">${t.mRes}</p>${medResult.map(r=>`<div class="res-row"><span style="color:#E8E0D5;font-size:13px">${r[0]}</span><span style="color:#FF6B2B;font-weight:700;font-size:14px">${r[1]}</span></div>`).join('')}</div>
+    <button onclick="medResult=null;render()" style="width:100%;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:12px;padding:12px;font-size:13px;cursor:pointer;margin-top:9px;font-family:inherit">${t.mRecalc}</button>`:''}
+  </div>`;
+}
+
+// ─── SAFETY ──────────────────────────────────────────────────
+function rSafety(){
+  const t=TX[L];
+  const pi=['antes','ciment','onegra','acabados','entrega'].indexOf(curPhase);
+  const items=t.pi[pi]||t.pi[0];
+  const done=items.filter((_,i)=>checked[curPhase+'_'+i]).length;
+  const pct=Math.round(done/items.length*100);
+  const cs=['#1565C0','#4A1B0C','#1B5E20','#880E4F','#1A237E'];
+  const bgs=['#E3F2FD','#FAECE7','#E8F5E9','#FCE4EC','#E8EAF6'];
+  return `
+  <div class="shdr">
+    <p style="color:#E8E0D5;font-size:12px;margin-bottom:10px">${t.sSub}</p>
+    <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:2px">
+      ${['antes','ciment','onegra','acabados','entrega'].map((p,i)=>`<button class="phtab ${curPhase===p?'on':''}" onclick="curPhase='${p}';render()">${t.phases[i]}</button>`).join('')}
+    </div>
+  </div>
+  <div style="padding:12px 14px">
+    <div style="background:${bgs[pi]};border-radius:11px;padding:11px 13px;margin-bottom:12px">
+      <div class="row" style="margin-bottom:6px"><span style="font-size:12px;font-weight:700;color:${cs[pi]}">${t.phases[pi]}</span><span style="font-size:12px;font-weight:700;color:${cs[pi]}">${done}/${items.length}</span></div>
+      <div style="background:rgba(0,0,0,.1);border-radius:3px;height:5px"><div style="width:${pct}%;height:100%;border-radius:3px;background:${cs[pi]};transition:width .2s"></div></div>
+    </div>
+    ${items.map((item,i)=>{const on=!!checked[curPhase+'_'+i];return`<div class="chk" onclick="checked['${curPhase}_${i}']=!checked['${curPhase}_${i}'];render()">
+      <div class="chkbox ${on?'on':''}">${on?'<i class="ti ti-check" style="font-size:12px;color:#fff"></i>':''}</div>
+      <p style="font-size:13px;color:${on?'#888':'#1A1A2E'};text-decoration:${on?'line-through':'none'};margin:0;line-height:1.4">${item}</p>
+    </div>`;}).join('')}
+  </div>`;
+}
+
+// ─── CREW ────────────────────────────────────────────────────
+function rCrew(){
+  const t=TX[L];
+  const active=crewList.filter(c=>c.status==='activo');
+  const daily=active.reduce((s,c)=>s+c.daily,0);
+  return `
+  <div class="shdr"><div class="row">
+    <p style="color:#E8E0D5;font-size:12px">${t.crew(crewList.length,daily)}</p>
+    <button onclick="showCrewModal=true;render()" style="background:#FF6B2B;border:none;border-radius:9px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-plus" style="font-size:18px;color:#fff"></i></button>
+  </div></div>
+  <div style="padding:12px 14px">
+    ${crewList.map((c,idx)=>{const isA=c.status==='activo';return`<div class="card">
+      <div style="display:flex;gap:11px;align-items:flex-start">
+        <div class="av">${c.name.charAt(0)}</div>
+        <div style="flex:1">
+          <div class="row" style="margin-bottom:5px">
+            <div><p style="font-weight:700;font-size:13px;color:#1A1A2E;margin:0 0 2px">${c.name}</p><p style="font-size:11px;color:#888;margin:0">${c.trade[L]||c.trade.es}</p></div>
+            <div style="text-align:right"><p style="color:#FF6B2B;font-weight:700;font-size:13px;margin:0 0 3px">${fmt(c.daily)}/${L==='es'?'día':'day'}</p>
+            <span class="badge" style="${isA?'background:#E8F5E9;color:#1B5E20':'background:#E3F2FD;color:#0D47A1'}">${isA?t.sA:t.sD}</span></div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span style="flex:1;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:7px;padding:7px;font-size:11px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px"><i class="ti ti-phone" style="font-size:13px"></i>${c.tel}</span>
+            <span style="background:#E8F5E9;border:1px solid #C8E6C9;border-radius:7px;padding:7px 10px;font-size:11px;color:#1B5E20;display:flex;align-items:center;gap:4px"><i class="ti ti-brand-whatsapp" style="font-size:13px"></i>WA</span>
+          </div>
+        </div>
+      </div>
+    </div>`;}).join('')}
+    <div style="background:#1A1A2E;border-radius:12px;padding:13px 15px;margin-top:4px">
+      <p style="color:#E8E0D5;font-size:11px;font-weight:700;margin-bottom:9px">${t.raya}</p>
+      ${[5,6,7].map(d=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)"><span style="color:#E8E0D5;font-size:13px">${t.days(d)}</span><span style="color:#FF6B2B;font-weight:700">${fmt(daily*d)}</span></div>`).join('')}
+    </div>
+  </div>
+  ${showCrewModal?`<div class="modal-wrap"><div class="modal">
+    <div class="row" style="margin-bottom:16px"><p style="font-size:16px;font-weight:700;color:#1A1A2E">${t.addW}</p><button onclick="showCrewModal=false;render()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888">✕</button></div>
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.wN}</label><input class="input" id="cm-n" placeholder="${L==='es'?'Nombre completo':'Full name'}" style="margin-bottom:11px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.wO}</label><input class="input" id="cm-o" placeholder="${L==='es'?'Albañil, plomero...':'Mason, plumber...'}" style="margin-bottom:11px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.wD}</label><input class="input" type="number" id="cm-d" placeholder="850" style="margin-bottom:14px">
+    <button class="btn-o" style="margin-top:0" onclick="addCrew()">${t.save}</button>
+  </div></div>`:''}`;
+}
+
+// ─── REVIEWS ─────────────────────────────────────────────────
+function rReviews(){
+  const t=TX[L];
+  return `
+  <div class="shdr">
+    <div style="display:flex;gap:16px;align-items:center">
+      <div style="text-align:center"><p style="color:#FF6B2B;font-size:38px;font-weight:700;margin:0;line-height:1">4.8</p><div style="color:#FFA000;font-size:18px">★★★★★</div><p style="color:#E8E0D5;font-size:11px;margin-top:3px">${t.rvSub}</p></div>
+      <div style="flex:1">${[5,4,3].map(s=>{const c=REVIEWS.filter(r=>r.st===s).length;const p=Math.round(c/REVIEWS.length*100);return`<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span style="color:#E8E0D5;font-size:11px">${s}</span><span style="color:#FFA000;font-size:10px">★</span><div style="flex:1;background:rgba(255,255,255,.15);border-radius:3px;height:5px"><div style="width:${p}%;height:100%;background:#FFA000;border-radius:3px"></div></div><span style="color:#E8E0D5;font-size:11px">${c}</span></div>`;}).join('')}</div>
+    </div>
+  </div>
+  <div style="padding:12px 14px">
+    <div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:12px;padding:13px 14px;margin-bottom:11px">
+      <p style="font-size:12px;font-weight:700;color:#1B5E20;margin-bottom:7px">${t.rvLink}</p>
+      <div style="background:#fff;border-radius:9px;padding:9px 11px;font-size:11px;color:#1B5E20;margin-bottom:9px;word-break:break-all">https://g.page/r/TU-PLACE-ID/review</div>
+      <button style="width:100%;background:#1B5E20;color:#fff;border:none;border-radius:9px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit"><i class="ti ti-copy"></i>${t.cpLink}</button>
+    </div>
+    <button class="btn-g"><i class="ti ti-brand-whatsapp"></i>${t.rvWA}</button>
+    <p style="font-size:11px;font-weight:700;color:#2D2D2D;margin:12px 0 9px">${t.rvRecent}</p>
+    ${REVIEWS.map(r=>`<div class="card"><div class="row" style="margin-bottom:6px"><div style="display:flex;gap:9px;align-items:center"><div class="av" style="width:34px;height:34px;font-size:13px">${r.n.charAt(0)}</div><div><p style="font-weight:700;font-size:13px;color:#1A1A2E;margin:0">${r.n}</p><span style="color:#FFA000;font-size:12px">${'★'.repeat(r.st)}${'☆'.repeat(5-r.st)}</span></div></div><span class="muted">${r.d}</span></div><p style="font-size:13px;color:#444;margin:0;line-height:1.5">${r.t[L]}</p></div>`).join('')}
+  </div>`;
+}
+
+// ─── BLUEPRINT ───────────────────────────────────────────────
+function rBlueprint(){
+  if(bpView==='address')return rBpAddr();
+  if(bpView==='saved')return rBpSaved();
+  return rBpCanvas();
+}
+function rBpAddr(){
+  const t=TX[L];
+  return `
+  <div class="shdr" style="padding-bottom:16px">
+    <p style="color:#E8E0D5;font-size:12px;margin-bottom:12px">${t.bpSub}</p>
+    ${[t.bpS1,t.bpS2,t.bpS3].map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:${i<2?'1px solid rgba(255,255,255,.08)':'none'}"><div class="step-num">${i+1}</div><p style="color:#E8E0D5;font-size:13px;margin:0">${s}</p></div>`).join('')}
+  </div>
+  <div style="padding:14px 16px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:5px">${t.bpOL}</label>
+    <input class="input" id="bpOb" placeholder="${t.bpOPh}" value="${bpObra}" oninput="bpObra=this.value" style="margin-bottom:11px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:5px">${t.bpS1}</label>
+    <input class="input" id="bpAd" placeholder="${t.bpAPh}" value="${bpAddr}" oninput="bpAddr=this.value" style="margin-bottom:14px">
+    <button class="btn-o" style="margin-top:0" onclick="loadBp()"><i class="ti ti-blueprint"></i>${t.bpLoad}</button>
+    ${bpSaved.length>0?`<button onclick="bpView='saved';render()" style="width:100%;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:12px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit"><i class="ti ti-folder-open"></i>${t.bpSavedList} (${bpSaved.length})</button>`:''}
+  </div>`;
+}
+function rBpSaved(){
+  const t=TX[L];
+  return `<div class="shdr"><p style="color:#E8E0D5;font-size:12px">${t.bpSavedList}</p></div>
+  <div style="padding:14px 16px">
+    <button onclick="bpView='address';render()" style="background:none;border:none;color:#FF6B2B;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;display:flex;align-items:center;gap:5px;margin-bottom:14px"><i class="ti ti-arrow-left"></i>${t.bpBack}</button>
+    ${bpSaved.length===0?`<p style="color:#888;text-align:center;padding:32px 0">${t.bpNoSaved}</p>`:
+    bpSaved.map((bp,i)=>`<div class="card"><div class="row" style="margin-bottom:6px"><div><p style="font-weight:700;font-size:14px;color:#1A1A2E;margin:0 0 2px">${bp.obra||bp.addr}</p><p class="muted">${bp.addr}</p></div><span style="color:#FF6B2B;font-weight:700;font-size:13px">${bp.tot.toFixed(1)} m²</span></div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">${bp.zones.map(z=>`<span class="badge" style="background:${z.color}22;color:${z.color}">${z.name}: ${z.area.toFixed(1)}m²</span>`).join('')}</div>
+    <div style="display:flex;gap:7px">
+      <button onclick="bpAddr='${bp.addr}';bpObra='${bp.obra}';bpZones=JSON.parse(JSON.stringify(bpSaved[${i}].zones));bpPts=[];bpView='canvas';render()" style="flex:1;background:#FF6B2B;color:#fff;border:none;border-radius:10px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit"><i class="ti ti-eye"></i>${t.bpView}</button>
+      <button onclick="bpSaved.splice(${i},1);render()" style="background:#FFF5F5;border:1px solid #FFCDD2;border-radius:10px;padding:9px 12px;cursor:pointer;color:#C62828"><i class="ti ti-trash" style="font-size:16px"></i></button>
+    </div></div>`).join('')}
+  </div>`;
+}
+function rBpCanvas(){
+  const t=TX[L], tot=bpZones.reduce((s,z)=>s+z.area,0);
+  const nextColor=ZC[bpZones.length%ZC.length], nextName=t.bpZN[bpZones.length]||`Zona ${bpZones.length+1}`;
+  return `
+  <div style="background:#1A1A2E;padding:10px 16px">
+    <div class="row" style="margin-bottom:6px">
+      <button onclick="bpView='address';render()" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i>${t.bpBack}</button>
+      <button onclick="saveBp()" style="background:#FF6B2B;color:#fff;border:none;border-radius:9px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit"><i class="ti ti-device-floppy"></i>${t.bpSave}</button>
+    </div>
+    <p style="color:#E8E0D5;font-size:11px;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📍 ${bpAddr}</p>
+    ${bpObra?`<p style="color:#FF6B2B;font-size:11px;font-weight:700;margin:0">🏗️ ${bpObra}</p>`:''}
+  </div>
+  <div class="bp-canvas-wrap">
+    <canvas id="bpC" width="${BPW}" height="${BPH}" style="width:100%;display:block;cursor:${bpTool==='erase'?'not-allowed':'crosshair'}"></canvas>
+    <div style="position:absolute;bottom:8px;left:8px;background:rgba(13,17,23,.85);border-radius:7px;padding:5px 9px;font-size:10px;color:#E8E0D5;max-width:70%">${bpPts.length>0?`${bpPts.length} pts`:t.bpInstr}</div>
+    <div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:5px">
+      <button onclick="bpShowGrid=!bpShowGrid;drawBp()" style="width:34px;height:34px;background:${bpShowGrid?'#FF6B2B':'rgba(255,255,255,.15)'};border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center"><i class="ti ti-grid-dots"></i></button>
+      <button onclick="bpShowDim=!bpShowDim;drawBp()" style="width:34px;height:34px;background:${bpShowDim?'#FF6B2B':'rgba(255,255,255,.15)'};border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center"><i class="ti ti-dimensions"></i></button>
+      <button onclick="bpPts=bpPts.slice(0,-1);drawBp()" style="width:34px;height:34px;background:rgba(255,255,255,.15);border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-back-up"></i></button>
+    </div>
+  </div>
+  <div class="tool-row">
+    <button class="tbtn ${bpTool==='draw'?'on':''}" onclick="bpTool='draw';drawBp()"><i class="ti ti-pencil"></i>${t.bpDraw}</button>
+    <button class="tbtn ${bpTool==='measure'?'on':''}" onclick="bpTool='measure';drawBp()"><i class="ti ti-ruler"></i>${t.bpMeas}</button>
+    <button class="tbtn ${bpTool==='erase'?'on':''}" onclick="bpTool='erase';drawBp()"><i class="ti ti-eraser"></i>${t.bpErase}</button>
+    <button onclick="bpZones=[];bpPts=[];drawBp()" style="margin-left:auto;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:8px;padding:6px 10px;cursor:pointer"><i class="ti ti-trash"></i></button>
+  </div>
+  <div style="background:#1A1A2E;padding:6px 12px 10px;display:flex;gap:10px;align-items:center;border-top:1px solid rgba(255,255,255,.06)">
+    <div style="display:flex;align-items:center;gap:7px"><span style="color:#E8E0D5;font-size:11px;white-space:nowrap">${t.bpSc}:</span><input type="number" value="${bpScale}" min="0.1" max="20" step="0.5" onchange="bpScale=parseFloat(this.value)||1;drawBp()" style="width:50px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 7px;color:#fff;font-size:12px;outline:none;font-family:inherit"></div>
+    <div style="display:flex;align-items:center;gap:7px;flex:1"><span style="color:#E8E0D5;font-size:11px;white-space:nowrap">${t.bpGp}:</span><input type="range" min="12" max="40" value="${bpGrid}" step="2" style="flex:1;accent-color:#FF6B2B" onchange="bpGrid=+this.value;drawBp()"><span style="color:#FF6B2B;font-size:11px;font-weight:700;min-width:20px">${bpGrid}</span></div>
+  </div>
+  <div style="padding:12px 16px;background:#F5F5F0">
+    <div class="row" style="margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:#2D2D2D">${t.bpZL}</p>${tot>0?`<span style="font-size:13px;font-weight:700;color:#FF6B2B">${t.bpTA}: ${tot.toFixed(2)} m²</span>`:''}</div>
+    ${bpZones.length===0?`<p style="font-size:12px;color:#888;text-align:center;padding:14px 0">${t.bpNZ}</p>`:
+    bpZones.map((z,i)=>`<div class="zone-chip"><div class="zdot" style="background:${z.color}"></div><div style="flex:1"><p style="font-weight:700;font-size:13px;margin:0 0 1px;color:#1A1A2E">${z.name}</p><p style="font-size:11px;color:#888;margin:0">${t.bpA}: <b>${z.area.toFixed(2)} m²</b> · ${t.bpP}: ${z.perim.toFixed(1)} ml</p></div><button onclick="bpZones.splice(${i},1);drawBp()" style="background:none;border:none;cursor:pointer;color:#bbb;padding:4px">✕</button></div>`).join('')}
+    ${bpPts.length>=3?`<button onclick="closeBpZone()" class="btn-o" style="margin-top:8px"><i class="ti ti-check"></i>${t.bpFinish}: ${nextName}</button>`:`<div style="background:#1A1A2E;border-radius:10px;padding:9px 13px;margin-top:8px;display:flex;align-items:center;gap:10px"><div class="zdot" style="background:${nextColor}"></div><p style="font-size:12px;color:#E8E0D5;margin:0">${t.bpDrawing}: <b style="color:#fff">${nextName}</b></p></div>`}
+  </div>`;
+}
+function loadBp(){const a=document.getElementById('bpAd')?.value||bpAddr;if(!a)return;bpAddr=a;bpObra=document.getElementById('bpOb')?.value||bpObra;bpZones=[];bpPts=[];bpHover=null;bpView='canvas';render();}
+function initBpCanvas(){
+  const c=document.getElementById('bpC');if(!c)return;
+  c.onclick=e=>bpClick(e,c);
+  c.onmousemove=e=>{const r=c.getBoundingClientRect();bpHover=bpSnap({x:(e.clientX-r.left)*(BPW/r.width),y:(e.clientY-r.top)*(BPH/r.height)});drawBp();};
+  c.addEventListener('touchstart',e=>{e.preventDefault();if(e.touches[0])bpClick({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},c);},{passive:false});
+  drawBp();
+}
+function bpSnap(p){const g=bpGrid;return{x:Math.round(p.x/g)*g,y:Math.round(p.y/g)*g};}
+function bpClick(e,c){
+  const r=c.getBoundingClientRect();
+  const p=bpSnap({x:(e.clientX-r.left)*(BPW/r.width),y:(e.clientY-r.top)*(BPH/r.height)});
+  if(bpTool==='erase'){for(let i=bpZones.length-1;i>=0;i--){if(ptIn(p,bpZones[i].points)){bpZones.splice(i,1);drawBp();return;}}return;}
+  if(bpTool!=='draw')return;
+  if(bpPts.length>=3){const fp=bpPts[0];if(dist(p,fp)<18){closeBpZone();return;}}
+  bpPts.push(p);drawBp();
+}
+function ptIn(pt,pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const xi=pts[i].x,yi=pts[i].y,xj=pts[j].x,yj=pts[j].y;if(((yi>pt.y)!==(yj>pt.y))&&(pt.x<(xj-xi)*(pt.y-yi)/(yj-yi)+xi))inside=!inside;}return inside;}
+function dist(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
+function pArea(pts){let a=0;for(let i=0,j=pts.length-1;i<pts.length;j=i++){a+=(pts[j].x+pts[i].x)*(pts[j].y-pts[i].y);}return Math.abs(a/2);}
+function pPerim(pts){let p=0;for(let i=0;i<pts.length;i++){const n=(i+1)%pts.length;p+=dist(pts[i],pts[n]);}return p;}
+function closeBpZone(){if(bpPts.length<3)return;const color=ZC[bpZones.length%ZC.length];const name=TX[L].bpZN[bpZones.length]||`Zona ${bpZones.length+1}`;const mpp=bpScale/bpGrid;bpZones.push({name,color,points:[...bpPts],area:pArea(bpPts)*mpp*mpp,perim:pPerim(bpPts)*mpp});bpPts=[];bpHover=null;render();}
+function saveBp(){const tot=bpZones.reduce((s,z)=>s+z.area,0);bpSaved.unshift({addr:bpAddr,obra:bpObra,zones:[...bpZones.map(z=>({...z,points:[...z.points]}))],tot,date:new Date().toLocaleDateString('es-MX')});alert(`${TX[L].bpSave}: ${bpObra||bpAddr}`);}
+function drawBp(){
+  const c=document.getElementById('bpC');if(!c)return;
+  const ctx=c.getContext('2d'),g=bpGrid,sc=bpScale,mpp=sc/g;
+  ctx.clearRect(0,0,BPW,BPH);ctx.fillStyle='#0D1117';ctx.fillRect(0,0,BPW,BPH);
+  if(bpShowGrid){for(let x=0;x<=BPW;x+=g){ctx.strokeStyle=x%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';ctx.lineWidth=x%(g*5)===0?.7:.3;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,BPH);ctx.stroke();}for(let y=0;y<=BPH;y+=g){ctx.strokeStyle=y%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';ctx.lineWidth=y%(g*5)===0?.7:.3;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(BPW,y);ctx.stroke();}}
+  const cx=BPW/2,cy=BPH/2,u=g;
+  ctx.strokeStyle='rgba(100,160,255,.65)';ctx.lineWidth=2.5;ctx.setLineDash([]);ctx.strokeRect(cx-5*u,cy-3.5*u,10*u,7*u);
+  ctx.strokeStyle='rgba(100,160,255,.35)';ctx.lineWidth=1.5;[[cx,cy-3.5*u,cx,cy+3.5*u],[cx-5*u,cy-.3*u,cx,cy-.3*u],[cx,cy+.8*u,cx+5*u,cy+.8*u],[cx+3*u,cy-3.5*u,cx+3*u,cy+.8*u]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();});
+  ctx.strokeStyle='rgba(100,160,255,.45)';ctx.lineWidth=1;[[cx-3*u,cy-3.5*u,cx-u,cy-3.5*u],[cx+u,cy-3.5*u,cx+2.5*u,cy-3.5*u],[cx+5*u,cy-2*u,cx+5*u,cy],[cx-5*u,cy+u,cx-5*u,cy+2.5*u]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const pp=Math.abs(x2-x1)<.1?[2.5,0]:[0,2.5];ctx.beginPath();ctx.moveTo(x1+pp[0],y1+pp[1]);ctx.lineTo(x2+pp[0],y2+pp[1]);ctx.stroke();});
+  if(bpShowDim){ctx.setLineDash([4,3]);ctx.strokeStyle='rgba(255,107,43,.35)';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(cx-5*u,cy-4.1*u);ctx.lineTo(cx+5*u,cy-4.1*u);ctx.stroke();ctx.beginPath();ctx.moveTo(cx+5.5*u,cy-3.5*u);ctx.lineTo(cx+5.5*u,cy+3.5*u);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='rgba(255,107,43,.8)';ctx.font='bold 10px DM Sans';ctx.textAlign='center';ctx.fillText(`${(10*sc).toFixed(1)}m`,cx,cy-4.1*u-5);ctx.save();ctx.translate(cx+5.5*u+12,cy);ctx.rotate(-Math.PI/2);ctx.fillText(`${(7*sc).toFixed(1)}m`,0,0);ctx.restore();}
+  ctx.fillStyle='rgba(100,160,255,.65)';ctx.font='bold 11px DM Sans';ctx.textAlign='left';ctx.fillText('N',BPW-18,17);ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='9px DM Sans';ctx.fillText((bpAddr.length>46?bpAddr.slice(0,46)+'…':bpAddr),6,13);
+  bpZones.forEach(z=>{if(z.points.length<3)return;ctx.beginPath();z.points.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.closePath();ctx.fillStyle=z.color+'3A';ctx.fill();ctx.strokeStyle=z.color;ctx.lineWidth=2;ctx.setLineDash([]);ctx.stroke();const zx=z.points.reduce((s,p)=>s+p.x,0)/z.points.length,zy=z.points.reduce((s,p)=>s+p.y,0)/z.points.length;ctx.fillStyle=z.color;ctx.font='bold 11px DM Sans';ctx.textAlign='center';ctx.fillText(z.name,zx,zy-5);ctx.font='10px DM Sans';ctx.fillText(`${z.area.toFixed(1)}m²`,zx,zy+9);ctx.textAlign='left';if(bpShowDim){z.points.forEach((p,i)=>{const n=z.points[(i+1)%z.points.length];const mx=(p.x+n.x)/2,my=(p.y+n.y)/2;const dx=n.x-p.x,dy=n.y-p.y;const len=Math.sqrt(dx*dx+dy*dy)*mpp;if(len<0.05)return;ctx.save();ctx.translate(mx,my);ctx.rotate(Math.atan2(dy,dx));ctx.fillStyle='rgba(255,255,255,.75)';ctx.font='8px DM Sans';ctx.textAlign='center';ctx.fillText(`${len.toFixed(1)}m`,0,-4);ctx.restore();});}});
+  if(bpPts.length>0){const color=ZC[bpZones.length%ZC.length];ctx.beginPath();bpPts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));if(bpHover)ctx.lineTo(bpHover.x,bpHover.y);ctx.strokeStyle=color;ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);bpPts.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,i===0?7:4,0,Math.PI*2);ctx.fillStyle=i===0?color:'#fff';ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();if(i===0&&bpPts.length>=3){ctx.beginPath();ctx.arc(p.x,p.y,13,0,Math.PI*2);ctx.strokeStyle=color+'66';ctx.lineWidth=1.5;ctx.stroke();}});}
+}
+
+// ─── SOLAR ───────────────────────────────────────────────────
+function rSolar(){
+  if(solView==='home')return rSolHome();
+  if(solView==='measure')return rSolMeasure();
+  if(solView==='spec')return rSolSpec();
+  if(solView==='products')return rSolProducts();
+  if(solView==='bidding')return rSolBidding();
+  if(solView==='bids')return rSolBids();
+  if(solView==='winner')return rSolWinner();
+  if(solView==='contract')return rSolContract();
+  return rSolHome();
+}
+function goSol(v){solView=v;render();}
+
+function rSolHome(){
+  const t=TX[L];
+  return `
+  <div class="shdr" style="padding-bottom:18px;background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <p style="color:#F59E0B;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:6px">☀️ SOLAR MARKETPLACE</p>
+    <h2 style="color:#fff;font-size:19px;font-weight:700;margin-bottom:6px;line-height:1.25">${t.solHomeTitle}</h2>
+    <p style="color:#E8E0D5;font-size:12px;line-height:1.5">${t.solHomeSub}</p>
+  </div>
+  <div style="padding:14px 16px">
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:14px;padding:14px;margin-bottom:12px">
+      <p style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:10px">${t.solHowTitle}</p>
+      ${t.solSteps.map((s,i)=>`<div style="display:flex;gap:10px;align-items:flex-start;${i<3?'margin-bottom:9px':''}"><div style="width:22px;height:22px;border-radius:50%;background:${['#F59E0B','#3B82F6','#8B5CF6','#22C55E'][i]};color:${i<2?'#fff':'#fff'};font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div><p style="font-size:13px;color:#78350F;margin:2px 0 0;line-height:1.3">${s}</p></div>`).join('')}
+    </div>
+    <div style="background:#0D1117;border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:14px;margin-bottom:12px">
+      <p style="color:#F59E0B;font-size:11px;font-weight:700;margin-bottom:10px">☀️ México — 300+ días de sol / año</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        ${[['$50k–$130k MXN','Sistema residencial / Residential'],['3–5 años / yrs','Recuperación / Payback'],['70%','Ahorro CFE / CFE savings'],['25 años / yrs','Vida útil panel / Lifespan']].map(([v,l])=>`<div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:10px 12px"><p style="color:#F59E0B;font-size:15px;font-weight:700;margin:0 0 2px">${v}</p><p style="color:#E8E0D5;font-size:9px;margin:0;line-height:1.3">${l}</p></div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+      ${Object.entries(SPRODS[L]).map(([k,v])=>`<div class="card" style="text-align:center;padding:10px 6px;margin-bottom:0"><div style="font-size:22px;margin-bottom:4px">${v.icon}</div><p style="font-size:10px;color:#2D2D2D;font-weight:600;line-height:1.2">${v.label}</p></div>`).join('')}
+    </div>
+    <button class="btn-sun" onclick="goSol('measure')"><i class="ti ti-sun"></i>${t.solStart}</button>
+    <button class="btn-d" onclick="demoSolar()"><i class="ti ti-eye"></i>${t.solDemo}</button>
+  </div>`;
+}
+
+function demoSolar(){jobSpec={address:'Calle Morelos 45, Iztapalapa, CDMX',obra:'Casa Rodríguez',roofM2:48.5,kWp:5,cfeBill:1800};productSel={p2:true,c2:true,h2:true};bids=[...MOCK_BIDS];winnerIdx=null;goSol('bids');}
+
+function rSolMeasure(){
+  const t=TX[L];
+  const tot=roofZones.reduce((s,z)=>s+z.area,0);
+  const nextColor=SC[roofZones.length%SC.length];
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('home')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i>${t.solBack}</button>
+    <p style="color:#E8E0D5;font-size:12px">${t.solMeasSub}</p>
+  </div>
+  <div style="padding:12px 16px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.bpOL}</label>
+    <input class="input" id="sOb" placeholder="${t.solObraPh}" value="${jobSpec.obra}" oninput="jobSpec.obra=this.value" style="margin-bottom:10px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.bpS1||t.solAddrPh}</label>
+    <input class="input" id="sAd" placeholder="${t.solAddrPh}" value="${jobSpec.address}" oninput="jobSpec.address=this.value" style="margin-bottom:10px">
+    <button class="btn-sun" style="margin-top:0" onclick="loadSolBp()"><i class="ti ti-blueprint"></i>${t.solLoadBtn}</button>
+  </div>
+  <div id="solCanvasArea" style="display:${jobSpec.address?'block':'none'}">
+    <div class="bp-canvas-wrap">
+      <canvas id="sC" width="${RW}" height="${RH}" style="width:100%;display:block;cursor:crosshair"></canvas>
+      <div style="position:absolute;bottom:8px;left:8px;background:rgba(13,17,23,.85);border-radius:7px;padding:5px 9px;font-size:10px;color:#E8E0D5;max-width:75%">${t.solDrawInstr}</div>
+      <div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:5px">
+        <button onclick="roofShowGrid=!roofShowGrid;drawSol()" style="width:32px;height:32px;background:rgba(255,255,255,.15);border:none;border-radius:7px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-grid-dots" style="font-size:15px"></i></button>
+        <button onclick="roofPts=roofPts.slice(0,-1);drawSol()" style="width:32px;height:32px;background:rgba(255,255,255,.15);border:none;border-radius:7px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-back-up" style="font-size:15px"></i></button>
+      </div>
+    </div>
+    <div style="background:#1A1A2E;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+      <span style="color:#F59E0B;font-size:11px;font-weight:700">☀️ ${L==='es'?'Área solar disponible':'Available solar area'}</span>
+      <div style="display:flex;align-items:center;gap:7px"><span style="color:#E8E0D5;font-size:11px">${t.solScale}:</span><input type="number" value="${roofScale}" min="0.5" max="10" step="0.5" onchange="roofScale=parseFloat(this.value)||1;drawSol()" style="width:46px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:3px 6px;color:#fff;font-size:11px;outline:none;font-family:inherit"></div>
+    </div>
+    <div style="padding:12px 16px;background:#F5F5F0">
+      <div class="row" style="margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:#2D2D2D">${t.solZonesLbl}</p>${tot>0?`<span style="font-size:13px;font-weight:700;color:#F59E0B">${tot.toFixed(1)} m²  ~${(tot*0.18).toFixed(1)} kWp</span>`:''}</div>
+      ${roofZones.length===0?`<p style="font-size:12px;color:#888;text-align:center;padding:12px 0">${t.solNoZones}</p>`:
+      roofZones.map((z,i)=>`<div class="zone-chip"><div class="zdot" style="background:${z.color}"></div><div style="flex:1"><p style="font-weight:700;font-size:13px;color:#1A1A2E;margin:0">${L==='es'?'Zona':'Zone'} ${i+1}</p><p style="font-size:11px;color:#888;margin:0">${z.area.toFixed(1)} m² · ~${(z.area*0.18).toFixed(1)} kWp</p></div><button onclick="roofZones.splice(${i},1);drawSol()" style="background:none;border:none;cursor:pointer;color:#bbb;padding:3px">✕</button></div>`).join('')}
+      ${roofPts.length>=3?`<button onclick="closeSolZone()" class="btn-sun" style="margin-top:8px"><i class="ti ti-check"></i>${t.solFinish}</button>`:''}
+      ${tot>0?`<button onclick="goSolSpec()" style="width:100%;background:#F59E0B;color:#1A1A2E;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:10px;font-family:inherit"><i class="ti ti-arrow-right"></i>${t.solNextSpec}</button>`:''}
+    </div>
+  </div>`;
+}
+
+function loadSolBp(){
+  const a=document.getElementById('sAd')?.value||jobSpec.address;
+  if(!a)return;
+  jobSpec.address=a;jobSpec.obra=document.getElementById('sOb')?.value||jobSpec.obra;
+  roofZones=[];roofPts=[];roofHover=null;
+  document.getElementById('solCanvasArea').style.display='block';
+  initSolCanvas();
+}
+function initSolCanvas(){const c=document.getElementById('sC');if(!c)return;c.onclick=e=>{const r=c.getBoundingClientRect();const p=solSnap({x:(e.clientX-r.left)*(RW/r.width),y:(e.clientY-r.top)*(RH/r.height)});if(roofPts.length>=3&&dist(p,roofPts[0])<18){closeSolZone();return;}roofPts.push(p);drawSol();};c.onmousemove=e=>{const r=c.getBoundingClientRect();roofHover=solSnap({x:(e.clientX-r.left)*(RW/r.width),y:(e.clientY-r.top)*(RH/r.height)});drawSol();};c.addEventListener('touchstart',e=>{e.preventDefault();if(e.touches[0]){const r=c.getBoundingClientRect();const p=solSnap({x:(e.touches[0].clientX-r.left)*(RW/r.width),y:(e.touches[0].clientY-r.top)*(RH/r.height)});if(roofPts.length>=3&&dist(p,roofPts[0])<18){closeSolZone();return;}roofPts.push(p);drawSol();}},{passive:false});drawSol();}
+function solSnap(p){const g=roofGrid;return{x:Math.round(p.x/g)*g,y:Math.round(p.y/g)*g};}
+function closeSolZone(){if(roofPts.length<3)return;const color=SC[roofZones.length%SC.length];const mpp=roofScale/roofGrid;roofZones.push({color,points:[...roofPts],area:pArea(roofPts)*mpp*mpp,perim:pPerim(roofPts)*mpp});roofPts=[];roofHover=null;render();}
+function goSolSpec(){const tot=roofZones.reduce((s,z)=>s+z.area,0);jobSpec.roofM2=tot;jobSpec.kWp=Math.min(10,Math.floor(tot*0.18*10)/10);goSol('spec');}
+function drawSol(){
+  const c=document.getElementById('sC');if(!c)return;
+  const ctx=c.getContext('2d'),g=roofGrid,sc=roofScale,mpp=sc/g;
+  ctx.clearRect(0,0,RW,RH);ctx.fillStyle='#0D1117';ctx.fillRect(0,0,RW,RH);
+  if(roofShowGrid){for(let x=0;x<=RW;x+=g){ctx.strokeStyle=x%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';ctx.lineWidth=x%(g*5)===0?.7:.3;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,RH);ctx.stroke();}for(let y=0;y<=RH;y+=g){ctx.strokeStyle=y%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';ctx.lineWidth=y%(g*5)===0?.7:.3;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(RW,y);ctx.stroke();}}
+  const cx=RW/2,cy=RH/2,u=g;
+  ctx.strokeStyle='rgba(100,160,255,.55)';ctx.lineWidth=2;ctx.setLineDash([]);ctx.strokeRect(cx-5*u,cy-3*u,10*u,6*u);
+  ctx.strokeStyle='rgba(100,160,255,.3)';ctx.lineWidth=1.2;[[cx,cy-3*u,cx,cy+3*u],[cx-5*u,cy-.3*u,cx,cy-.3*u],[cx,cy+.8*u,cx+5*u,cy+.8*u]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();});
+  // South indicator
+  ctx.fillStyle='rgba(245,158,11,.7)';ctx.font='bold 10px DM Sans';ctx.textAlign='center';ctx.fillText(L==='es'?'☀️ Sur (óptimo)':'☀️ South (optimal)',RW/2,RH-8);
+  ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='9px DM Sans';ctx.textAlign='left';ctx.fillText((jobSpec.address.length>44?jobSpec.address.slice(0,44)+'…':jobSpec.address),6,13);
+  ctx.fillText(`${g}px=${sc}m`,6,RH-8);
+  roofZones.forEach((z,i)=>{if(z.points.length<3)return;ctx.beginPath();z.points.forEach((p,j)=>j===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.closePath();ctx.fillStyle=z.color+'3A';ctx.fill();ctx.strokeStyle=z.color;ctx.lineWidth=2;ctx.setLineDash([]);ctx.stroke();
+  // Panel grid
+  const mnX=Math.min(...z.points.map(p=>p.x)),mxX=Math.max(...z.points.map(p=>p.x)),mnY=Math.min(...z.points.map(p=>p.y)),mxY=Math.max(...z.points.map(p=>p.y));
+  ctx.strokeStyle=z.color+'55';ctx.lineWidth=0.5;ctx.setLineDash([2,2]);for(let px=mnX+2;px<mxX-2;px+=g*.9+2){for(let py=mnY+2;py<mxY-2;py+=g*1.7+2){ctx.strokeRect(px,py,g*.9,g*1.7);}}ctx.setLineDash([]);
+  const zx=z.points.reduce((s,p)=>s+p.x,0)/z.points.length,zy=z.points.reduce((s,p)=>s+p.y,0)/z.points.length;
+  ctx.fillStyle=z.color;ctx.font='bold 11px DM Sans';ctx.textAlign='center';ctx.fillText(`${z.area.toFixed(1)}m²`,zx,zy-4);ctx.font='10px DM Sans';ctx.fillText(`~${(z.area*0.18).toFixed(1)} kWp`,zx,zy+10);ctx.textAlign='left';});
+  if(roofPts.length>0){const color=SC[roofZones.length%SC.length];ctx.beginPath();roofPts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));if(roofHover)ctx.lineTo(roofHover.x,roofHover.y);ctx.strokeStyle=color;ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);roofPts.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,i===0?7:4,0,Math.PI*2);ctx.fillStyle=i===0?color:'#fff';ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();if(i===0&&roofPts.length>=3){ctx.beginPath();ctx.arc(p.x,p.y,13,0,Math.PI*2);ctx.strokeStyle=color+'66';ctx.lineWidth=1.5;ctx.stroke();}});}
+}
+
+function rSolSpec(){
+  const t=TX[L];
+  const kWp=jobSpec.kWp||5;
+  const monthKwh=Math.round(kWp*120), yearKwh=monthKwh*12;
+  const cfe=parseInt(jobSpec.cfeBill)||1800;
+  const savings=Math.round(cfe*0.7);
+  const sysLow=Math.round(kWp*15000);
+  const roi=Math.round(sysLow/savings*1.2);
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('measure')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i>${t.solBack}</button>
+    <p style="color:#E8E0D5;font-size:12px">${t.solSpecSub}</p>
+  </div>
+  <div style="padding:14px 16px">
+    <div class="roi-box">
+      <p style="color:#F59E0B;font-size:11px;font-weight:700;margin-bottom:10px">📍 ${jobSpec.address||'Iztapalapa, CDMX'}</p>
+      <div class="roi-grid">
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.solRoofArea}</p><p style="color:#F59E0B;font-size:18px;font-weight:700">${jobSpec.roofM2.toFixed(1)} m²</p></div>
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.solPanelCap}</p><p style="color:#F59E0B;font-size:18px;font-weight:700">${kWp} kWp</p></div>
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.solMonthProd}</p><p style="color:#fff;font-size:15px;font-weight:700">${fN(monthKwh)} ${t.kwhM}</p></div>
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:3px">${t.solYearProd}</p><p style="color:#fff;font-size:15px;font-weight:700">${fN(yearKwh)} ${t.kwhY}</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:6px">${t.solCfeLbl}</label>
+      <input class="input" type="number" id="cfeIn" placeholder="${t.solCfePh}" value="${jobSpec.cfeBill||''}" oninput="jobSpec.cfeBill=+this.value" style="margin-bottom:12px">
+      ${cfe>0?`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #E8E0D5"><span style="font-size:13px;color:#666">${t.solSavingsLbl}</span><span style="font-size:14px;font-weight:700;color:#22C55E">${fmt(savings)}/${L==='es'?'mes':'mo'}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="font-size:13px;color:#666">${t.solRoiLbl}</span><span style="font-size:14px;font-weight:700;color:#F59E0B">${roi} ${t.years}</span></div>`:''}
+    </div>
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:#1A1A2E;margin-bottom:10px">🎁 ${t.solIncentivesTitle}</p>
+      ${t.solIncentives.map(i=>`<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px"><span style="color:#22C55E;font-size:14px;flex-shrink:0">✓</span><p style="font-size:13px;color:#444;margin:0;line-height:1.4">${i}</p></div>`).join('')}
+    </div>
+    <button class="btn-sun" onclick="goSol('products')"><i class="ti ti-arrow-right"></i>${t.solNextProds}</button>
+  </div>`;
+}
+
+function rSolProducts(){
+  const t=TX[L];
+  const prods=SPRODS[L];
+  const tabKeys=['panel','charger','heater','battery','pool','lights'];
+  const cur=prods[solTab];
+  const selCount=Object.values(productSel).filter(Boolean).length;
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('spec')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i>${t.solBack}</button>
+    <p style="color:#E8E0D5;font-size:12px">${t.solProdsSub}</p>
+    <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;margin-top:10px">
+      ${tabKeys.map(k=>`<button class="sol-tab ${solTab===k?'on':''}" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="solTab='${k}';render()">${prods[k].icon} ${t.solTabLabels[k]}</button>`).join('')}
+    </div>
+  </div>
+  <div style="padding:12px 16px">
+    ${cur.items.map(item=>`<div class="product-card ${productSel[item.id]?'selected':''}" onclick="productSel['${item.id}']=!productSel['${item.id}'];render()">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:12px;background:${cur.color}18;border:1px solid ${cur.color}33;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${cur.icon}</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <p style="font-weight:700;font-size:14px;color:#1A1A2E;margin:0">${item.name}</p>
+            ${productSel[item.id]?`<div style="width:20px;height:20px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-check" style="font-size:12px;color:#fff"></i></div>`:`<div style="width:20px;height:20px;border-radius:50%;border:2px solid #E8E0D5;flex-shrink:0"></div>`}
+          </div>
+          <p style="font-size:12px;color:#666;margin:0 0 6px;line-height:1.4">${item.desc}</p>
+          <p style="font-size:12px;font-weight:700;color:${cur.color};margin:0">$${item.price} MXN</p>
+        </div>
+      </div>
+    </div>`).join('')}
+    <div style="background:#F5F5F0;padding:12px 0;position:sticky;bottom:0">
+      ${selCount>0?`<div class="card" style="margin-bottom:10px;background:#FFFBEB;border-color:#FDE68A"><p style="font-size:13px;font-weight:700;color:#92400E;margin:0">${selCount} ${t.solSelCount}</p></div>`:''}
+      <button onclick="${selCount>0?'publishSol()':'alert(\''+(L==='es'?'Selecciona al menos un producto':'Select at least one product')+'\')'}" style="width:100%;background:${selCount>0?'#F59E0B':'#E8E0D5'};color:${selCount>0?'#1A1A2E':'#888'};border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit"><i class="ti ti-send"></i>${t.solPublish}</button>
+    </div>
+  </div>`;
+}
+
+function publishSol(){bids=[];winnerIdx=null;setTimeout(()=>{bids=[MOCK_BIDS[0]];if(solView==='bidding')render();},900);setTimeout(()=>{bids=[MOCK_BIDS[0],MOCK_BIDS[3]];if(solView==='bidding')render();},2000);setTimeout(()=>{bids=[...MOCK_BIDS];if(solView==='bidding')render();},3400);goSol('bidding');}
+
+function rSolBidding(){
+  const t=TX[L];
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('home')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i>${t.solBack}</button>
+    <p style="color:#E8E0D5;font-size:12px">${t.solBiddingSub}</p>
+  </div>
+  <div style="padding:14px 16px">
+    <div style="text-align:center;padding:20px 0 16px">
+      <div style="width:64px;height:64px;border-radius:50%;background:#FFFBEB;border:2px solid #FDE68A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px">☀️</div>
+      <p style="font-size:16px;font-weight:700;color:#1A1A2E;margin-bottom:4px">${L==='es'?'Solicitud publicada':'Request published'}</p>
+      <p style="font-size:13px;color:#666;margin-bottom:16px">${jobSpec.address||'Iztapalapa, CDMX'}</p>
+      ${bids.length===0?`<div style="display:flex;align-items:center;gap:8px;justify-content:center;color:#888"><div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;animation:pulse 1s infinite"></div><p style="font-size:13px">${t.solBidWaiting}</p></div>`:`
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px 16px;margin-bottom:14px">
+        <p style="font-size:22px;font-weight:700;color:#F59E0B;margin-bottom:2px">${bids.length} ${t.solBidCount}</p>
+        <p style="font-size:12px;color:#92400E">${L==='es'?'Precio más bajo':'Lowest bid'}: ${fmt(Math.min(...bids.map(b=>b.price)))}</p>
+      </div>
+      ${bids.slice(0,2).map(b=>`<div class="installer-card" style="text-align:left;margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;align-items:center;gap:8px"><div class="av" style="width:36px;height:36px;font-size:14px">${b.name.charAt(0)}</div><div><p style="font-weight:700;font-size:13px;color:#1A1A2E;margin:0">${b.name}</p><p class="muted">${'★'.repeat(Math.floor(b.rating))} ${b.rating}</p></div></div><p style="font-weight:700;font-size:16px;color:#F59E0B;margin:0">${fmt(b.price)}</p></div></div>`).join('')}`}
+    </div>
+    ${bids.length>0?`<button class="btn-sun" onclick="goSol('bids')"><i class="ti ti-trophy"></i>${t.solViewBids}</button>
+    <button onclick="showBidModal=true;render()" style="width:100%;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit"><i class="ti ti-hammer"></i>${t.solAddBid}</button>`:''}
+  </div>
+  ${showBidModal?`<div style="background:rgba(0,0,0,.5);min-height:400px;display:flex;align-items:flex-end"><div style="background:#fff;border-radius:20px 20px 0 0;padding:22px 18px 36px;width:100%">
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px"><p style="font-size:16px;font-weight:700;color:#1A1A2E">${t.solBidFormT}</p><button onclick="showBidModal=false;render()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888">✕</button></div>
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.solBidName}</label><input class="input" id="bi-n" placeholder="${L==='es'?'Tu nombre':'Your name'}" style="margin-bottom:10px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.solBidCo}</label><input class="input" id="bi-c" placeholder="Solar CDMX SA de CV" style="margin-bottom:10px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.solBidPrice}</label><input class="input" type="number" id="bi-p" placeholder="75000" style="margin-bottom:10px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.solBidDays}</label><input class="input" type="number" id="bi-d" placeholder="7" style="margin-bottom:10px">
+    <label style="font-size:11px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">${t.solBidNote}</label><textarea class="input" id="bi-nt" style="resize:none;height:64px;margin-bottom:14px" placeholder="${L==='es'?'Paneles tier-1, inversor con monitoreo...':'Tier-1 panels, monitoring inverter...'}"></textarea>
+    <button onclick="submitSolBid()" style="width:100%;background:#F59E0B;color:#1A1A2E;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">${t.solBidSubmit}</button>
+  </div></div>`:''}`;
+
+}
+
+function rSolBids(){
+  const t=TX[L];
+  const sorted=[...bids].sort((a,b)=>a.price-b.price);
+  const bP=sorted[0], bR=[...bids].sort((a,b)=>b.rating-a.rating)[0], bF=[...bids].sort((a,b)=>a.days-b.days)[0];
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('bidding')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i></button>
+    <p style="color:#E8E0D5;font-size:12px">${t.solBidsSub}</p>
+    <div style="display:flex;gap:6px;margin-top:10px">
+      <div style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);border-radius:10px;padding:7px 10px;flex:1"><p style="color:#F59E0B;font-size:9px;margin-bottom:2px">${t.solBestPrice}</p><p style="color:#fff;font-size:12px;font-weight:700">${fmt(bP.price)}</p></div>
+      <div style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:7px 10px;flex:1"><p style="color:#22C55E;font-size:9px;margin-bottom:2px">${t.solBestRating}</p><p style="color:#fff;font-size:12px;font-weight:700">★ ${bR.rating}</p></div>
+      <div style="background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:10px;padding:7px 10px;flex:1"><p style="color:#3B82F6;font-size:9px;margin-bottom:2px">${t.solFastest}</p><p style="color:#fff;font-size:12px;font-weight:700">${bF.days} ${t.days}</p></div>
+    </div>
+  </div>
+  <div style="padding:12px 16px">
+    ${sorted.map((b,i)=>`<div class="installer-card ${i===0?'winner':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="av">${b.name.charAt(0)}</div>
+          <div><p style="font-weight:700;font-size:14px;color:#1A1A2E;margin:0 0 2px">${b.name}</p><p style="font-size:11px;color:#888;margin:0">${'★'.repeat(Math.floor(b.rating))} ${b.rating} · ${b.reviews} ${t.reviews} · ${b.years}${L==='es'?' años':' yrs'}</p></div>
+        </div>
+        <div style="text-align:right"><p style="font-weight:700;font-size:18px;color:${i===0?'#22C55E':'#1A1A2E'};margin:0">${fmt(b.price)}</p>${i===0?`<span style="background:#22C55E;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px">★ ${t.bestBadge}</span>`:''}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px">
+        <div style="background:#F5F5F0;border-radius:8px;padding:7px 9px"><p style="font-size:10px;color:#888;margin-bottom:2px">${t.solTimeline}</p><p style="font-size:12px;font-weight:700;color:#1A1A2E">${b.days} ${t.days}</p></div>
+        <div style="background:#F5F5F0;border-radius:8px;padding:7px 9px"><p style="font-size:10px;color:#888;margin-bottom:2px">${t.solWarranty}</p><p style="font-size:12px;font-weight:700;color:#1A1A2E">${b.warranty}</p></div>
+      </div>
+      <p style="font-size:12px;color:#555;margin-bottom:10px;line-height:1.4">${b.note}</p>
+      ${b.badge&&b.verified?`<span class="badge" style="background:#E8F5E9;color:#1B5E20;display:inline-block;margin-bottom:10px">✓ ${b.badge}</span>`:''}
+      <button onclick="solWinner(${bids.indexOf(b)})" style="width:100%;background:${i===0?'#22C55E':'#1A1A2E'};color:#fff;border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit"><i class="ti ti-trophy"></i>${t.solSelectWinner}</button>
+    </div>`).join('')}
+  </div>`;
+}
+
+function solWinner(idx){winnerIdx=idx;goSol('winner');}
+
+function rSolWinner(){
+  const t=TX[L], w=bids[winnerIdx];if(!w)return rSolHome();
+  return `
+  <div style="background:linear-gradient(160deg,#1A1A2E,#0D2137);padding:24px 16px;text-align:center">
+    <div style="width:64px;height:64px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px">🏆</div>
+    <p style="color:#22C55E;font-size:20px;font-weight:700;margin-bottom:4px">${t.solWinnerT}</p>
+    <p style="color:#E8E0D5;font-size:13px">${t.solWinnerS}</p>
+  </div>
+  <div style="padding:14px 16px">
+    <div class="roi-box" style="margin-bottom:14px">
+      <p style="color:#F59E0B;font-size:11px;font-weight:700;margin-bottom:10px">${L==='es'?'INSTALADOR SELECCIONADO':'SELECTED INSTALLER'}</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="av" style="width:44px;height:44px;font-size:18px">${w.name.charAt(0)}</div>
+        <div><p style="color:#fff;font-size:15px;font-weight:700;margin:0">${w.name}</p><p style="color:#E8E0D5;font-size:12px;margin:0">${'★'.repeat(Math.floor(w.rating))} ${w.rating} · ${w.reviews} ${t.reviews}</p></div>
+        <p style="color:#22C55E;font-size:20px;font-weight:700;margin:0 0 0 auto">${fmt(w.price)}</p>
+      </div>
+      <div class="roi-grid">
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:2px">${t.solTimeline}</p><p style="color:#fff;font-size:14px;font-weight:700">${w.days} ${t.days}</p></div>
+        <div class="roi-item"><p style="color:#E8E0D5;font-size:10px;margin-bottom:2px">${t.solWarranty}</p><p style="color:#fff;font-size:13px;font-weight:700">${w.warranty}</p></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <p style="font-size:12px;font-weight:700;color:#1A1A2E;margin-bottom:10px">💰 ${t.solPayment}</p>
+      ${t.solPaySched.map((p,i)=>`<div style="display:flex;gap:9px;align-items:flex-start;${i<2?'margin-bottom:9px':''}"><div style="width:22px;height:22px;border-radius:50%;background:${['#F59E0B','#3B82F6','#22C55E'][i]};color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div><p style="font-size:13px;color:#444;margin:2px 0 0;line-height:1.3">${p} <b>${fmt(w.price*[.5,.25,.25][i])}</b></p></div>`).join('')}
+    </div>
+    <button class="btn-sun" onclick="goSol('contract')"><i class="ti ti-file-certificate"></i>${L==='es'?'Ver contrato':'View contract'}</button>
+    <button onclick="goSol('home')" style="width:100%;background:none;border:1px solid #E8E0D5;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px">${t.solBack}</button>
+  </div>`;
+}
+
+function rSolContract(){
+  const t=TX[L], w=bids[winnerIdx]||MOCK_BIDS[0];
+  const selKeys=Object.keys(productSel).filter(k=>productSel[k]);
+  const allItems=Object.values(SPRODS[L]).flatMap(c=>c.items);
+  const selItems=selKeys.map(id=>allItems.find(i=>i.id===id)).filter(Boolean);
+  return `
+  <div class="shdr" style="background:linear-gradient(160deg,#1A1A2E,#0D2137)">
+    <button onclick="goSol('winner')" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:12px;font-family:inherit;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left"></i></button>
+    <p style="color:#E8E0D5;font-size:12px;margin-top:8px">${t.solContractSub}</p>
+  </div>
+  <div style="padding:14px 16px">
+    <div style="background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:18px;margin-bottom:14px">
+      <div style="text-align:center;border-bottom:1px solid #E8E0D5;padding-bottom:14px;margin-bottom:14px">
+        <p style="font-size:11px;color:#888;margin-bottom:4px">☀️ RoofTech Solar</p>
+        <p style="font-size:17px;font-weight:700;color:#1A1A2E;margin-bottom:2px">${L==='es'?'Contrato de instalación solar':'Solar installation contract'}</p>
+        <p style="font-size:12px;color:#888">${new Date().toLocaleDateString(L==='es'?'es-MX':'en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
+      </div>
+      ${[[t.solContractor,w.name],[t.solClient,jobSpec.obra||'Cliente RoofTech'],[t.solAddress,jobSpec.address||'Iztapalapa, CDMX'],[t.solTimeline,`${w.days} ${t.days}`],[t.solWarranty,w.warranty]].map(([k,v])=>`<div class="spec-row"><span style="font-size:12px;color:#888">${k}</span><span style="font-size:13px;font-weight:600;color:#1A1A2E;text-align:right;max-width:55%">${v}</span></div>`).join('')}
+      ${selItems.length>0?`<div class="spec-row" style="flex-direction:column;align-items:flex-start;gap:6px"><span style="font-size:12px;color:#888">${t.solProducts}</span><div style="display:flex;flex-wrap:wrap;gap:5px">${selItems.map(i=>`<span style="font-size:11px;color:#1A1A2E;background:#F5F5F0;border-radius:6px;padding:3px 8px">${i.name}</span>`).join('')}</div></div>`:''}
+      <div style="border-top:2px solid #1A1A2E;margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:700;color:#1A1A2E">${t.solTotal}</span>
+        <span style="font-size:22px;font-weight:700;color:#F59E0B">${fmt(w.price)}</span>
+      </div>
+    </div>
+    <button class="btn-sun" onclick="alert(TX[L].solSignedMsg);goSol('home')"><i class="ti ti-signature"></i>${t.solSignBtn}</button>
+    <button class="btn-g" style="margin-top:8px"><i class="ti ti-brand-whatsapp"></i>${L==='es'?'Compartir por WhatsApp':'Share via WhatsApp'}</button>
+  </div>`;
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────
+function submitSolBid(){
+  const name=document.getElementById('bi-n')?.value||'Instalador Local';
+  const company=document.getElementById('bi-c')?.value||name;
+  const price=parseInt(document.getElementById('bi-p')?.value)||70000;
+  const days=parseInt(document.getElementById('bi-d')?.value)||10;
+  const note=document.getElementById('bi-nt')?.value||'';
+  bids.push({name:company,rating:4.5,reviews:5,years:2,price,days,warranty:L==='es'?'20 años paneles':'20yr panels',note,verified:false,badge:''});
+  showBidModal=false;
+  alert(TX[L].solBidReceived);
+  render();
+}
+function toggleTag(n,p){const idx=qTags.findIndex(i=>i.n===n);if(idx>=0)qTags.splice(idx,1);else qTags.push({n,p});render();}
+function addCrew(){const name=document.getElementById('cm-n')?.value,trade=document.getElementById('cm-o')?.value;if(!name||!trade)return;crewList.push({name,trade:{es:trade,en:trade},tel:'—',daily:parseInt(document.getElementById('cm-d')?.value)||0,status:'disponible'});showCrewModal=false;render();}
+
+render();
+</script>
+</body>
+</html>
