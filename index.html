@@ -1,509 +1,296 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1A1A2E">
+<meta name="theme-color" content="#0f1117">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>RoofTech — Field Estimator</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:'DM Sans',system-ui,sans-serif}
-body{background:#F5F5F0;min-height:100vh}
-#app{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:#F5F5F0}
-.gbar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#1A1A2E;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:10px 18px}
-.gbar-title{color:#fff;font-size:15px;font-weight:700;margin:0}
-.lang-wrap{display:flex;background:rgba(255,255,255,.12);border-radius:20px;padding:2px;gap:2px}
-.lang-btn{background:none;color:#E8E0D5;border:none;border-radius:16px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+
+/* SPLASH */
+#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+.la-logo{font-size:13px;font-weight:700;color:#FF6B2B;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;opacity:.8}
+.rt-title{font-size:42px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-1px}
+.rt-sub{font-size:13px;color:#94A3B8;margin-bottom:64px;letter-spacing:.5px}
+.tap-btn{background:#FF6B2B;color:#fff;border:none;border-radius:18px;padding:18px 48px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px;box-shadow:0 0 40px rgba(255,107,43,.3)}
+.tap-btn:active{transform:scale(.97)}
+
+/* APP - hidden until splash tapped */
+#app-shell{display:none}
+
+/* HEADER */
+.hdr{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:rgba(15,17,23,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.08)}
+.hdr-logo{font-size:17px;font-weight:800;color:#fff}
+.hdr-sub{font-size:10px;color:#94A3B8;margin-top:1px}
+.lang-pill{display:flex;background:rgba(255,255,255,.08);border-radius:20px;padding:2px;gap:2px}
+.lang-btn{background:none;color:#94A3B8;border:none;border-radius:16px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 .lang-btn.on{background:#FF6B2B;color:#fff}
-.content{padding-top:46px;padding-bottom:76px;min-height:100vh}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #E8E0D5;z-index:50}
-.nav-row{display:flex}
-.nav-btn{flex:1;background:none;border:none;padding:7px 0 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.nav-btn svg{transition:stroke .2s}
-.nav-label{font-size:9px;font-weight:400;color:#aaa;transition:color .2s}
+
+/* CONTENT */
+.screen{display:none;padding-bottom:80px}
+.screen.active{display:block}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0f1117;border-top:1px solid rgba(255,255,255,.08);display:flex;z-index:50;max-width:430px;margin:0 auto}
+.nav-btn{flex:1;background:none;border:none;padding:8px 0 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
+.nav-icon{font-size:20px}
+.nav-label{font-size:9px;color:#94A3B8;font-weight:500}
 .nav-btn.on .nav-label{color:#FF6B2B;font-weight:700}
-/* Cards */
-.card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:13px 15px;margin-bottom:10px}
-.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
-.badge-active{background:#FFF3E0;color:#E65100}
-.badge-done{background:#E8F5E9;color:#1B5E20}
-.prog-wrap{background:#E8E0D5;border-radius:3px;height:5px;overflow:hidden}
-.prog-bar{height:100%;border-radius:3px;transition:width .3s}
-/* Home */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 18px}
-.stat-box{border-radius:12px;padding:12px 14px}
-.stat-box.orange{background:rgba(255,107,43,.15);border:1px solid rgba(255,107,43,.3)}
-.stat-box.dark{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}
-.stat-label{color:#E8E0D5;font-size:11px;margin:0 0 3px}
-.stat-val{font-size:20px;font-weight:700;margin:0}
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 18px}
-.action-btn{border:none;border-radius:12px;padding:13px 8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px}
-.action-btn.orange{background:#FF6B2B;color:#fff}
-.action-btn.dark{background:#1A1A2E;color:#fff}
-/* Safety */
-.phase-tabs{display:flex;gap:6px;overflow-x:auto;padding:0 18px 12px}
-.phase-tab{flex-shrink:0;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer}
-.phase-tab.on{background:#FF6B2B}
-.check-item{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #E8E0D5;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
-.check-box{width:22px;height:22px;border-radius:6px;border:2px solid #E8E0D5;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+
+/* SAFETY */
+.safe-hdr{background:#1a1d27;padding:14px 18px}
+.phase-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.phase-btn{flex-shrink:0;background:rgba(255,255,255,.08);color:#94A3B8;border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.phase-btn.on{background:#FF6B2B;color:#fff}
+.prog-wrap{background:rgba(255,255,255,.1);border-radius:3px;height:4px;margin-top:10px;overflow:hidden}
+.prog-bar{height:100%;background:#FF6B2B;border-radius:3px;transition:width .3s}
+.check-list{padding:14px 18px 0}
+.check-item{display:flex;gap:12px;align-items:flex-start;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .check-box.on{background:#22C55E;border-color:#22C55E}
-.check-text{font-size:13px;color:#1A1A2E;margin:0;line-height:1.4;transition:all .2s}
-.check-text.done{color:#888;text-decoration:line-through}
-/* Quote */
-.input{width:100%;border:1px solid #E8E0D5;border-radius:10px;padding:11px 13px;font-size:14px;outline:none;margin-bottom:12px}
-.tag-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px}
-.tag{flex-shrink:0;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:20px;padding:5px 11px;font-size:11px;cursor:pointer;color:#1A1A2E}
-.tag:hover{background:#FF6B2B;color:#fff;border-color:#FF6B2B}
-.total-box{background:#1A1A2E;border-radius:14px;padding:16px 18px;margin-top:4px}
-.wa-btn{width:100%;background:#25D366;color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:9px}
-/* Medidas */
-.meas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 18px 0}
-.meas-card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:14px 10px;cursor:pointer;text-align:center}
-.meas-icon{font-size:26px;margin-bottom:6px}
-.result-box{background:#1A1A2E;border-radius:14px;padding:16px 18px;margin-top:16px}
-.result-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-.result-row:last-child{border:none}
-/* Crew */
-.crew-card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:13px 15px;margin-bottom:10px}
-.avatar{width:44px;height:44px;border-radius:50%;background:#1A1A2E;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:17px;flex-shrink:0}
-.mini-btn{background:#F5F5F0;border:1px solid #E8E0D5;border-radius:8px;padding:7px 12px;font-size:11px;cursor:pointer;text-decoration:none;color:#1A1A2E;display:flex;align-items:center;gap:4px}
-.mini-btn.wa{background:#E8F5E9;border-color:#C8E6C9;color:#1B5E20}
-.mini-btn.del{background:#FFF5F5;border-color:#FFCDD2;color:#C62828}
-/* Modal */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:flex;align-items:flex-end}
-.modal{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:24px 20px 40px}
-.modal-hdr{display:flex;justify-content:space-between;margin-bottom:18px}
-.modal-title{margin:0;font-size:17px;font-weight:700;color:#1A1A2E}
-.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:#888}
-.save-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px}
-/* Reviews */
-.review-card{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:13px 15px;margin-bottom:10px}
-/* Obras */
-.filter-row{display:flex;gap:7px;padding:16px 18px 0}
-.filter-btn{flex:1;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:20px;padding:7px 0;font-size:11px;font-weight:700;cursor:pointer}
-.filter-btn.on{background:#FF6B2B}
-/* Top dark section */
-.dark-hdr{background:#1A1A2E;padding:16px 18px}
+.check-text{font-size:13px;color:#E8E0D5;margin:0;line-height:1.4}
+.check-text.done{color:#555;text-decoration:line-through}
+
+/* EMERGENCY */
+.emergency-section{background:#1a1d27;margin:14px 18px;border-radius:16px;padding:16px}
+.emergency-label{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.call-911{width:100%;background:#EF4444;color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
+.field-label{font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.field-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;font-family:inherit;margin-bottom:12px}
+
+/* JOB HEADER */
+.job-section{padding:14px 18px 0}
+.job-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;font-family:inherit;margin-bottom:10px}
+.job-label{font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.auto-saved{font-size:10px;color:#94A3B8;margin-bottom:12px}
+
+/* COMPLETE BTN */
+.complete-btn{background:#22C55E;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* TAX SECTION */
+.tax-section{padding:14px 18px}
+.tax-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px}
+.tax-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tax-links{display:flex;flex-direction:column;gap:8px}
+.tax-link{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;text-decoration:none;color:#fff}
+.tax-link-name{font-size:13px;font-weight:600}
+.tax-link-sub{font-size:11px;color:#94A3B8;margin-top:2px}
+.tax-arrow{color:#FF6B2B;font-size:16px}
+
+/* COMPLETE screen */
+.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px;text-align:center}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="gbar">
-    <p class="gbar-title" id="gbar-title">RoofTech</p>
-    <div class="lang-wrap">
-      <button class="lang-btn on" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="la-logo">LA Studios</div>
+  <div class="rt-title">RoofTech</div>
+  <div class="rt-sub">FIELD ESTIMATOR</div>
+  <button class="tap-btn" onclick="startApp()">Tap to Start</button>
+</div>
+
+<!-- APP -->
+<div id="app-shell" style="max-width:430px;margin:0 auto">
+
+  <div class="hdr">
+    <div>
+      <div class="hdr-logo" id="hdr-title">RoofTech</div>
+      <div class="hdr-sub">Auto-saved</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="lang-pill">
+        <button class="lang-btn on" onclick="setLang('es')" id="btn-es">Español</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">m²</button>
+      </div>
+      <button class="complete-btn" onclick="markComplete()">COMPLETE</button>
     </div>
   </div>
-  <div class="content" id="content"></div>
-  <nav class="nav">
-    <div class="nav-row" id="nav-top"></div>
-    <div class="nav-row" id="nav-bot"></div>
-  </nav>
+
+  <!-- SAFETY SCREEN -->
+  <div id="screen-safety" class="screen active">
+    <div class="job-section">
+      <div class="job-label" id="lbl-jobname">JOB NAME</div>
+      <input class="job-input" id="job-name" placeholder="1425 Oak Street — Tear off & replace" oninput="saveJob()">
+      <div class="job-label" id="lbl-siteaddr">SITE ADDRESS</div>
+      <input class="job-input" id="site-addr" placeholder="1425 Oak Street, Austin TX 78701" oninput="saveJob()">
+    </div>
+
+    <div class="emergency-section">
+      <div class="emergency-label">🛡 <span id="lbl-emergency">EMERGENCY</span></div>
+      <button class="call-911" onclick="window.location='tel:911'">🚨 Call 911</button>
+      <div class="field-label" id="lbl-hospital">NEAREST HOSPITAL / URGENT CARE</div>
+      <input class="field-input" id="hospital" placeholder="Hospital name & address">
+      <div class="field-label" id="lbl-incident">INCIDENT LOG</div>
+      <div style="display:flex;gap:8px">
+        <input class="field-input" id="incident" placeholder="Describe incident..." style="margin:0;flex:1">
+        <button onclick="logIncident()" style="background:#FF6B2B;border:none;border-radius:10px;padding:0 14px;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0">+ Log</button>
+      </div>
+      <div id="incident-log" style="margin-top:8px"></div>
+    </div>
+
+    <div class="safe-hdr">
+      <div class="phase-row" id="phase-row"></div>
+      <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px">
+        <span style="font-size:11px;color:#94A3B8" id="phase-label-sm"></span>
+        <span style="font-size:11px;color:#FF6B2B" id="prog-count"></span>
+      </div>
+    </div>
+
+    <div class="check-list" id="check-list"></div>
+
+    <div class="tax-section">
+      <div class="tax-card">
+        <div class="tax-title">💰 <span id="lbl-tax">Tax & Accounting</span></div>
+        <div class="tax-links">
+          <a href="https://gusto.com" target="_blank" class="tax-link">
+            <div><div class="tax-link-name">Gusto</div><div class="tax-link-sub" id="tax-gusto">Payroll & Benefits</div></div>
+            <div class="tax-arrow">→</div>
+          </a>
+          <a href="https://quickbooks.intuit.com" target="_blank" class="tax-link">
+            <div><div class="tax-link-name">QuickBooks</div><div class="tax-link-sub" id="tax-qb">Accounting & Taxes</div></div>
+            <div class="tax-arrow">→</div>
+          </a>
+          <a href="https://www.deel.com" target="_blank" class="tax-link">
+            <div><div class="tax-link-name">Deel</div><div class="tax-link-sub" id="tax-deel">International Payroll</div></div>
+            <div class="tax-arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// ── State ─────────────────────────────────────────────────────
-var L = 'es';
-var TAB = 'home';
-var SAFETY_CHECKED = {};
-var SAFETY_PHASE = 0;
-var MEAS_SEL = null;
-var MEAS_VALS = {};
-var MEAS_RES = null;
-var OBRAS_FILTER = 'all';
-var CREW_MODAL = false;
-var CREW_FORM = {nombre:'',oficio:'',tel:'',diario:''};
+var LANG = 'en';
+var PHASE = 0;
+var CHECKED = {};
+var INCIDENTS = [];
 
-var OBRAS = [
-  {id:'o1',cliente:'Familia Rodríguez',dir:'Iztapalapa, CDMX',tipo:'Cuarto adicional',total:48500,ant:19400,avance:65,estado:'en_obra'},
-  {id:'o2',cliente:'Sr. Martínez',dir:'G.A. Madero, CDMX',tipo:'Remodelación baño',total:18200,ant:9100,avance:100,estado:'terminada'},
-  {id:'o3',cliente:'Sra. López',dir:'Tlalpan, CDMX',tipo:'Obra negra 60m²',total:92000,ant:36800,avance:20,estado:'en_obra'},
-];
-var CREW = [
-  {id:'c1',nombre:'Carlos Mendoza',oficio:'Oficial albañil',tel:'55 1111 2222',diario:850,status:'activo'},
-  {id:'c2',nombre:'Miguel Ángel Ruiz',oficio:'Plomero',tel:'55 3333 4444',diario:950,status:'activo'},
-  {id:'c3',nombre:'Roberto Sánchez',oficio:'Electricista',tel:'55 5555 6666',diario:900,status:'disponible'},
-];
-var REVIEWS = [
-  {id:'r1',autor:'Ana García',stars:5,texto:'Excelente trabajo, entregó a tiempo.',fecha:'12 ago 2026'},
-  {id:'r2',autor:'Pedro Villalobos',stars:5,texto:'Muy profesional, fotos del avance cada semana.',fecha:'28 jul 2026'},
-];
-var QUOTE_ITEMS = [{id:1,concepto:'',cantidad:1,precio:0}];
-var QUOTE_CLIENT = '';
-var QUOTE_ADDR = '';
-var QUOTE_PCT = 40;
-var QUOTE_SENT = false;
-var UID = 1;
-
-// ── Translations ──────────────────────────────────────────────
 var TX = {
-  es:{
-    tabs:['Inicio','Cotizar','Obras','Medidas','Seguridad','Cuadrilla','Reseñas'],
-    ids:['home','quote','obras','medidas','seguridad','cuadrilla','reviews'],
-    screens:{home:'RoofTech',quote:'Nueva cotización',obras:'Mis obras',medidas:'Calculadora de medidas',seguridad:'Lista de seguridad',cuadrilla:'Mi cuadrilla',reviews:'Reseñas Google'},
-    outstanding:'Por cobrar',active:'Obras activas',newQ:'Nueva cotización',newO:'Nueva obra',recent:'Obras recientes',
-    progress:'Avance',allF:'Todas',activeF:'En obra',doneF:'Terminada',
-    phases:['Antes de iniciar','Cimentación','Obra negra','Acabados','Entrega'],
-    safeItems:[
-      ['Revisar planos y permisos (licencia SEDUVI)','Delimitar y señalizar el área de obra','Verificar servicios (agua, luz, gas)','Instalar letrero de obra','Contrato firmado y anticipo recibido','IMSS/SIROC registrado','Botiquín de primeros auxilios','Extintores ABC disponibles','Casetas sanitarias instaladas','Plan de emergencias comunicado'],
-      ['Excavación a plomo y nivel verificada','Señalización de la excavación','Taludes estables','Profundidad de desplante verificada','Plantilla de concreto colocada','Acero sin corrosión excesiva','Traslapes mínimos (40 diámetros)','Colado con vibrado','Sin exceso de agua en mezcla','Curado mínimo 7 días'],
-      ['Casco y calzado de seguridad obligatorio','Andamios con barandales (h>2m)','Redes de seguridad en alturas','Herramienta eléctrica con puesta a tierra','Muros aplomados y a nivel','Juntas de tabique cuateadas','Instalación eléctrica conduit','Instalación hidráulica probada','Castillos y cadenas a plomo','No sobrecargar losas durante colado'],
-      ['Equipo de protección para corte (gafas)','Ventilación al usar solventes','Escalera en buen estado','Protección de pisos terminados','Azulejos nivelados','Sellado de ventanas antes de pintura','Instalaciones eléctricas probadas','Llaves de paso accesibles','Limpieza diaria de residuos','Garantías y manuales al cliente'],
-      ['Acta de entrega firmada','Planos as-built entregados','Manuales de mantenimiento entregados','Fotos finales tomadas','Reseña Google solicitada','Factura entregada','Finiquito cobrado','Limpieza general realizada','Materiales sobrantes retirados','Baja de SIROC en IMSS']
-    ],
-    measTypes:[
-      {id:'losa',label:'Losa de concreto',icon:'🏗️',unit:'m²',fields:[{id:'largo',label:'Largo (m)',def:6},{id:'ancho',label:'Ancho (m)',def:4},{id:'espesor',label:'Espesor (m)',def:0.12}]},
-      {id:'tabique',label:'Muro de tabique',icon:'🧱',unit:'m²',fields:[{id:'alto',label:'Alto (m)',def:2.5},{id:'largo',label:'Largo (m)',def:5},{id:'vanos',label:'Vanos/puertas',def:1}]},
-      {id:'pintura',label:'Pintura interior',icon:'🎨',unit:'m²',fields:[{id:'alto',label:'Alto (m)',def:2.5},{id:'perimetro',label:'Perímetro (m)',def:24},{id:'manos',label:'Manos',def:2}]},
-      {id:'azulejo',label:'Azulejo / piso',icon:'🟦',unit:'m²',fields:[{id:'largo',label:'Largo (m)',def:4},{id:'ancho',label:'Ancho (m)',def:3},{id:'tamano',label:'Tamaño pieza (cm)',def:60}]},
-      {id:'impermeabilizante',label:'Impermeabilización',icon:'💧',unit:'m²',fields:[{id:'largo',label:'Largo (m)',def:8},{id:'ancho',label:'Ancho (m)',def:6},{id:'manos',label:'Manos',def:3}]},
-      {id:'aplanado',label:'Aplanado / repello',icon:'🪣',unit:'m²',fields:[{id:'alto',label:'Alto (m)',def:2.5},{id:'perimetro',label:'Perímetro (m)',def:20},{id:'espesor',label:'Espesor (cm)',def:1.5}]},
-    ],
-    calcLabel:'Calcular materiales',results:'Resultados',recalc:'Recalcular',
-    client:'Cliente',addr:'Alcaldía / Dirección',qItems:'Partidas rápidas CDMX',concepts:'Conceptos',
-    totalObra:'Total obra',anticipo:'Anticipo',toCobrar:'Anticipo a cobrar',addConcept:'+ Agregar concepto',
-    sendWA:'Enviar WhatsApp + link de pago',sentTitle:'¡Cotización enviada!',sentSub:'PDF + link SPEI enviados por WhatsApp.',newQuote:'Nueva cotización',
-    workers:'trabajadores',dailyPay:'Raya diaria',addWorker:'Agregar trabajador',saveWorker:'Guardar trabajador',
-    weekSummary:'Resumen raya semanal',daysWorked:'días trabajados',
-    workerName:'Nombre *',workerRole:'Oficio *',workerTel:'Teléfono',workerPay:'Pago diario (MXN)',
-    avgRating:'reseñas',copyLink:'Copiar link de reseña',sendWAReview:'Enviar link por WhatsApp',recentReviews:'Reseñas recientes',
-    greeting:'Buenos días',
-  },
   en:{
-    tabs:['Home','Quote','Jobs','Measures','Safety','Crew','Reviews'],
-    ids:['home','quote','obras','medidas','seguridad','cuadrilla','reviews'],
-    screens:{home:'RoofTech',quote:'New quote',obras:'My jobs',medidas:'Measurement calculator',seguridad:'Safety checklist',cuadrilla:'My crew',reviews:'Google reviews'},
-    outstanding:'Outstanding',active:'Active jobs',newQ:'New quote',newO:'New job',recent:'Recent jobs',
-    progress:'Progress',allF:'All',activeF:'Active',doneF:'Completed',
-    phases:['Before start','Foundation','Structure','Finishes','Handover'],
-    safeItems:[
-      ['Review plans and building permit','Mark and fence work area','Verify utilities (water, power, gas)','Install site sign','Contract signed, deposit received','IMSS/SIROC registered','First aid kit on site','Fire extinguishers available','Sanitary facilities installed','Emergency plan communicated'],
-      ['Excavation at plumb and level','Excavation signage','Stable slopes','Footing depth verified','Concrete slab placed','Steel without excess corrosion','Minimum rebar overlaps','Concrete poured with vibration','No excess water in mix','Minimum 7-day cure'],
-      ['Hard hat and safety boots required','Scaffolding with railings (h>2m)','Safety nets at heights','Earthed power tools','Walls plumb and level','Staggered brick joints','Conduit electrical installation','Hydraulic installation tested','Columns and beams plumb','Do not overload slabs during pour'],
-      ['Eye protection for cutting','Ventilation when using solvents','Ladder in good condition','Protect finished floors','Level tiles and flooring','Seal windows before painting','Electrical tested','Shut-off valves accessible','Daily debris cleanup','Warranties and manuals to client'],
-      ['Handover certificate signed','As-built plans delivered','Maintenance manuals delivered','Final photos taken','Google review requested','Invoice delivered','Final payment collected','General cleanup done','Leftover materials removed','SIROC deregistered with IMSS']
+    phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
+    items:[
+      ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder placed on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA 10 or 30 cards on site','Safety meeting held with crew'],
+      ['Excavation shored or sloped per OSHA','Utilities located and marked (811 called)','Trench entry/exit ladders in place','Soil stability assessed','Concrete forms inspected','Rebar secured and inspected','No overhead power line conflicts','Equipment operators certified','Ground compaction verified','Foundation drainage planned'],
+      ['Scaffolding inspected and tagged','Fall arrest systems installed (>6 ft)','Electrical lockout/tagout in place','Roofing safety monitor assigned','Hot work permit obtained if needed','Crane/lift pre-use inspection done','Materials secured against wind','Fire extinguisher within 10 ft of hot work','Workers not working alone at height','Housekeeping — debris removed daily'],
+      ['Silica dust controls in place','Respirators available for drywall/insulation','Lead/asbestos assessment done if renovation','Eye wash station available','Electrical panels labeled and secured','GFCI protection on all temporary power','Cuts and abrasions first aid available','No trip hazards in work area','Ladders inspected and rated for load','Adequate lighting in all work areas'],
+      ['Final walkthrough completed','Punch list items resolved','All tools and equipment removed','Debris and waste disposed properly','Site restored to pre-work condition','Client walkthrough and sign-off','Permits closed out with authority','As-built documentation provided','Warranty documents delivered','Safety incident report filed if any']
     ],
-    measTypes:[
-      {id:'losa',label:'Concrete slab',icon:'🏗️',unit:'m²',fields:[{id:'largo',label:'Length (m)',def:6},{id:'ancho',label:'Width (m)',def:4},{id:'espesor',label:'Thickness (m)',def:0.12}]},
-      {id:'tabique',label:'Brick wall',icon:'🧱',unit:'m²',fields:[{id:'alto',label:'Height (m)',def:2.5},{id:'largo',label:'Length (m)',def:5},{id:'vanos',label:'Door openings',def:1}]},
-      {id:'pintura',label:'Interior paint',icon:'🎨',unit:'m²',fields:[{id:'alto',label:'Height (m)',def:2.5},{id:'perimetro',label:'Perimeter (m)',def:24},{id:'manos',label:'Coats',def:2}]},
-      {id:'azulejo',label:'Tile / flooring',icon:'🟦',unit:'m²',fields:[{id:'largo',label:'Length (m)',def:4},{id:'ancho',label:'Width (m)',def:3},{id:'tamano',label:'Tile size (cm)',def:60}]},
-      {id:'impermeabilizante',label:'Waterproofing',icon:'💧',unit:'m²',fields:[{id:'largo',label:'Length (m)',def:8},{id:'ancho',label:'Width (m)',def:6},{id:'manos',label:'Coats',def:3}]},
-      {id:'aplanado',label:'Plastering',icon:'🪣',unit:'m²',fields:[{id:'alto',label:'Height (m)',def:2.5},{id:'perimetro',label:'Perimeter (m)',def:20},{id:'espesor',label:'Thickness (cm)',def:1.5}]},
+    jobName:'JOB NAME',siteAddr:'SITE ADDRESS',emergency:'EMERGENCY',hospital:'NEAREST HOSPITAL / URGENT CARE',incident:'INCIDENT LOG',
+    tax:'Tax & Accounting',gusto:'Payroll & Benefits',qb:'Accounting & Taxes',deel:'International Payroll'
+  },
+  es:{
+    phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
+    items:[
+      ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA 10 o 30 en obra','Reunión de seguridad con la cuadrilla'],
+      ['Excavación apuntalada según norma','Servicios localizados y marcados','Escaleras de entrada/salida en zanjas','Estabilidad del suelo evaluada','Cimbra inspeccionada','Varilla asegurada e inspeccionada','Sin conflictos con líneas eléctricas aéreas','Operadores de equipo certificados','Compactación del terreno verificada','Drenaje de cimentación planeado'],
+      ['Andamios inspeccionados y etiquetados','Sistemas de arresto de caídas instalados (>1.8m)','Bloqueo/etiquetado eléctrico en lugar','Monitor de seguridad en techo asignado','Permiso de trabajo en caliente obtenido','Inspección previa de grúa/elevador','Materiales asegurados contra viento','Extintor a menos de 3m del trabajo en caliente','Trabajadores no laboran solos en altura','Orden — escombro retirado diariamente'],
+      ['Controles de polvo de sílice en lugar','Respiradores disponibles para tabla roca/aislante','Evaluación de plomo/asbesto si es remodelación','Lavaojos disponible','Tableros eléctricos etiquetados y asegurados','Protección GFCI en toda energía temporal','Primeros auxilios para cortes disponibles','Sin obstáculos en área de trabajo','Escaleras inspeccionadas y con capacidad de carga','Iluminación adecuada en todas las áreas'],
+      ['Revisión final completada','Puntos pendientes resueltos','Todas las herramientas y equipos retirados','Residuos y desperdicios eliminados','Sitio restaurado a condición previa','Revisión y firma del cliente','Permisos cerrados con la autoridad','Documentación as-built entregada','Documentos de garantía entregados','Reporte de incidente de seguridad archivado']
     ],
-    calcLabel:'Calculate materials',results:'Results',recalc:'Recalculate',
-    client:'Client',addr:'District / Address',qItems:'CDMX quick items',concepts:'Line items',
-    totalObra:'Total',anticipo:'Deposit',toCobrar:'Deposit to collect',addConcept:'+ Add line item',
-    sendWA:'Send WhatsApp + payment link',sentTitle:'Quote sent!',sentSub:'PDF + SPEI link sent via WhatsApp.',newQuote:'New quote',
-    workers:'workers',dailyPay:'Daily wage',addWorker:'Add worker',saveWorker:'Save worker',
-    weekSummary:'Weekly wage summary',daysWorked:'days worked',
-    workerName:'Name *',workerRole:'Trade *',workerTel:'Phone',workerPay:'Daily pay (MXN)',
-    avgRating:'reviews',copyLink:'Copy review link',sendWAReview:'Send link via WhatsApp',recentReviews:'Recent reviews',
-    greeting:'Good morning',
+    jobName:'NOMBRE DEL TRABAJO',siteAddr:'DIRECCIÓN DEL SITIO',emergency:'EMERGENCIA',hospital:'HOSPITAL / URGENCIAS MÁS CERCANO',incident:'REGISTRO DE INCIDENTES',
+    tax:'Impuestos y Contabilidad',gusto:'Nómina y Beneficios',qb:'Contabilidad e Impuestos',deel:'Nómina Internacional'
   }
 };
 
-// ── Helpers ───────────────────────────────────────────────────
-function fmt(n){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(n);}
-function svgCheck(){return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';}
-function stars(n){return '★'.repeat(n)+'☆'.repeat(5-n);}
-
-function measCalc(id, vals) {
-  if(id==='losa'){const v=vals.largo*vals.ancho*vals.espesor;return[{k:'Área',v:(vals.largo*vals.ancho).toFixed(2)+' m²'},{k:'Volumen',v:v.toFixed(3)+' m³'},{k:'Sacos cemento',v:Math.ceil(v*7)+' sacos'},{k:'Arena',v:(v*0.6).toFixed(2)+' m³'},{k:'Grava',v:(v*0.85).toFixed(2)+' m³'}];}
-  if(id==='tabique'){const net=vals.alto*vals.largo-(vals.vanos*2.1);return[{k:'Área neta',v:net.toFixed(2)+' m²'},{k:'Tabiques',v:Math.ceil(net*60*1.05)+' pzas'},{k:'Cemento',v:Math.ceil(net*0.3)+' sacos'}];}
-  if(id==='pintura'){const a=vals.alto*vals.perimetro;const l=Math.ceil((a/10)*vals.manos);return[{k:'Área',v:a.toFixed(2)+' m²'},{k:'Litros',v:l+' L'},{k:'Cubetas (19L)',v:Math.ceil(l/19)+' cubetas'}];}
-  if(id==='azulejo'){const a=vals.largo*vals.ancho;const p=Math.ceil((a/(vals.tamano/100)**2)*1.1);return[{k:'Área',v:a.toFixed(2)+' m²'},{k:'Piezas',v:p+' pzas'},{k:'Adhesivo',v:Math.ceil(a*0.4)+' bolsas'}];}
-  if(id==='impermeabilizante'){const a=vals.largo*vals.ancho;const l=Math.ceil(a*0.35*vals.manos);return[{k:'Área',v:a.toFixed(2)+' m²'},{k:'Litros',v:l+' L'},{k:'Cubetas (19L)',v:Math.ceil(l/19)+' cubetas'}];}
-  if(id==='aplanado'){const a=vals.alto*vals.perimetro;const v=a*(vals.espesor/100);return[{k:'Área',v:a.toFixed(2)+' m²'},{k:'Cemento',v:Math.ceil(v*8)+' sacos'},{k:'Cal',v:Math.ceil(v*4)+' sacos'}];}
-  return [];
+function startApp(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('app-shell').style.display='block';
+  renderPhases();
+  renderChecklist();
 }
 
-// ── Render ────────────────────────────────────────────────────
-function render(){
-  var t = TX[L];
-  var ti = t.ids.indexOf(TAB);
-  document.getElementById('gbar-title').textContent = t.screens[TAB]||'RoofTech';
-  document.querySelectorAll('.lang-btn').forEach(function(b,i){b.classList.toggle('on',i===(L==='es'?0:1));});
-  renderNav();
-  var c = document.getElementById('content');
-  if(TAB==='home') c.innerHTML = renderHome(t);
-  else if(TAB==='quote') c.innerHTML = renderQuote(t);
-  else if(TAB==='obras') c.innerHTML = renderObras(t);
-  else if(TAB==='medidas') c.innerHTML = renderMedidas(t);
-  else if(TAB==='seguridad') c.innerHTML = renderSafety(t);
-  else if(TAB==='cuadrilla') c.innerHTML = renderCrew(t);
-  else if(TAB==='reviews') c.innerHTML = renderReviews(t);
-  if(CREW_MODAL) c.innerHTML += renderCrewModal(t);
-  bindEvents();
+function setLang(l){
+  LANG=l;
+  document.getElementById('btn-es').className='lang-btn'+(l==='es'?' on':'');
+  document.getElementById('btn-en').className='lang-btn'+(l==='en'?' on':'');
+  var t=TX[l];
+  document.getElementById('lbl-jobname').textContent=t.jobName;
+  document.getElementById('lbl-siteaddr').textContent=t.siteAddr;
+  document.getElementById('lbl-emergency').textContent=t.emergency;
+  document.getElementById('lbl-hospital').textContent=t.hospital;
+  document.getElementById('lbl-incident').textContent=t.incident;
+  document.getElementById('lbl-tax').textContent=t.tax;
+  document.getElementById('tax-gusto').textContent=t.gusto;
+  document.getElementById('tax-qb').textContent=t.qb;
+  document.getElementById('tax-deel').textContent=t.deel;
+  renderPhases();
+  renderChecklist();
 }
 
-function renderNav(){
-  var t = TX[L];
-  var icons = [
-    'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
-    'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
-    'M3 17h18M5 17V10a7 7 0 0114 0v7M9 17v-5a3 3 0 016 0v5',
-    'M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4',
-    'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-    'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
-    'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z'
-  ];
-  function navBtn(i){
-    var on = t.ids[i]===TAB;
-    var col = on ? '#FF6B2B' : '#aaa';
-    return '<button class="nav-btn'+(on?' on':'')+'" onclick="goTab(\''+t.ids[i]+'\')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+icons[i]+'"/></svg><span class="nav-label">'+t.tabs[i]+'</span></button>';
-  }
-  var top='',bot='';
-  for(var i=0;i<4;i++) top+=navBtn(i);
-  for(var i=4;i<7;i++) bot+=navBtn(i);
-  document.getElementById('nav-top').innerHTML=top;
-  document.getElementById('nav-bot').innerHTML=bot;
-}
-
-function renderHome(t){
-  var activas=OBRAS.filter(function(o){return o.estado==='en_obra';});
-  var pc=activas.reduce(function(s,o){return s+(o.total-o.ant);},0);
-  var h='<div style="background:#1A1A2E"><div class="stat-grid" style="background:#1A1A2E">';
-  h+='<div class="stat-box orange"><p class="stat-label">'+t.outstanding+'</p><p class="stat-val" style="color:#FF6B2B">'+fmt(pc)+'</p></div>';
-  h+='<div class="stat-box dark"><p class="stat-label">'+t.active+'</p><p class="stat-val" style="color:#fff">'+activas.length+'</p></div>';
-  h+='</div></div>';
-  h+='<div class="action-grid">';
-  h+='<button class="action-btn orange" onclick="goTab(\'quote\')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>'+t.newQ+'</button>';
-  h+='<button class="action-btn dark" onclick="goTab(\'obras\')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M5 17V10a7 7 0 0114 0v7M9 17v-5a3 3 0 016 0v5"/></svg>'+t.newO+'</button>';
-  h+='</div>';
-  h+='<div style="padding:0 18px"><p style="font-size:12px;font-weight:700;color:#2D2D2D;margin:0 0 10px">'+t.recent+'</p>';
-  OBRAS.forEach(function(o){
-    h+='<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:7px">';
-    h+='<div><p style="font-weight:700;font-size:14px;margin:0 0 2px;color:#1A1A2E">'+o.cliente+'</p><p style="font-size:11px;color:#888;margin:0">'+o.tipo+'</p></div>';
-    h+='<div style="text-align:right"><p style="font-weight:700;font-size:13px;margin:0 0 3px">'+fmt(o.total)+'</p>';
-    h+='<span class="badge '+(o.estado==='en_obra'?'badge-active':'badge-done')+'">'+(o.estado==='en_obra'?(L==='es'?'En obra':'Active'):(L==='es'?'Terminada':'Completed'))+'</span></div></div>';
-    h+='<p style="font-size:11px;color:#888;margin:0 0 4px">'+t.progress+' '+o.avance+'%</p>';
-    h+='<div class="prog-wrap"><div class="prog-bar" style="width:'+o.avance+'%;background:'+(o.avance===100?'#22C55E':'#FF6B2B')+'"></div></div></div>';
-  });
-  h+='</div>';
-  return h;
-}
-
-function renderObras(t){
-  var shown = OBRAS_FILTER==='all'?OBRAS:OBRAS.filter(function(o){return o.estado===OBRAS_FILTER;});
-  var h='<div class="dark-hdr"><div class="filter-row" style="padding:0">';
-  [['all',t.allF],['en_obra',t.activeF],['terminada',t.doneF]].forEach(function(f){
-    h+='<button class="filter-btn'+(OBRAS_FILTER===f[0]?' on':'')+'" onclick="setFilter(\''+f[0]+'\')">'+f[1]+'</button>';
-  });
-  h+='</div></div><div style="padding:14px 18px 0">';
-  shown.forEach(function(o){
-    h+='<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:7px">';
-    h+='<div><p style="font-weight:700;font-size:14px;margin:0 0 2px;color:#1A1A2E">'+o.cliente+'</p><p style="font-size:11px;color:#888;margin:0">'+o.tipo+' · '+o.dir+'</p></div>';
-    h+='<div style="text-align:right"><p style="font-weight:700;font-size:13px;margin:0 0 3px">'+fmt(o.total)+'</p>';
-    h+='<span class="badge '+(o.estado==='en_obra'?'badge-active':'badge-done')+'">'+(o.estado==='en_obra'?t.activeF:t.doneF)+'</span></div></div>';
-    h+='<p style="font-size:11px;color:#888;margin:0 0 4px">'+t.progress+' '+o.avance+'%</p>';
-    h+='<div class="prog-wrap"><div class="prog-bar" style="width:'+o.avance+'%;background:'+(o.avance===100?'#22C55E':'#FF6B2B')+'"></div></div></div>';
-  });
-  h+='</div>';
-  return h;
-}
-
-function renderSafety(t){
-  var ph = TX[L].safeItems[SAFETY_PHASE];
-  var done = ph.filter(function(_,i){return SAFETY_CHECKED[SAFETY_PHASE+'_'+i];}).length;
-  var pct = Math.round(done/ph.length*100);
-  var col = ['#1565C0','#4A1B0C','#1B5E20','#4A0E0E','#1A237E'][SAFETY_PHASE];
-  var bg = ['#E3F2FD','#FAECE7','#E8F5E9','#FCE4EC','#E8EAF6'][SAFETY_PHASE];
-  var h='<div class="dark-hdr"><div class="phase-tabs">';
+function renderPhases(){
+  var t=TX[LANG];
+  var row=document.getElementById('phase-row');
+  row.innerHTML='';
   t.phases.forEach(function(p,i){
-    h+='<button class="phase-tab'+(i===SAFETY_PHASE?' on':'')+'" onclick="setPhase('+i+')">'+p+'</button>';
+    var btn=document.createElement('button');
+    btn.className='phase-btn'+(i===PHASE?' on':'');
+    btn.textContent=p;
+    btn.onclick=function(){PHASE=i;renderPhases();renderChecklist();};
+    row.appendChild(btn);
   });
-  h+='</div></div><div style="padding:14px 18px 0">';
-  h+='<div style="background:'+bg+';border:1px solid '+col+'22;border-radius:14px;padding:12px 14px;margin-bottom:14px">';
-  h+='<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:700;color:'+col+'">'+t.phases[SAFETY_PHASE]+'</span><span style="font-size:13px;font-weight:700;color:'+col+'">'+done+'/'+ph.length+'</span></div>';
-  h+='<div style="background:rgba(0,0,0,.1);border-radius:3px;height:5px"><div style="width:'+pct+'%;height:100%;background:'+col+';border-radius:3px"></div></div></div>';
-  ph.forEach(function(item,i){
-    var on = !!SAFETY_CHECKED[SAFETY_PHASE+'_'+i];
-    h+='<div class="check-item" onclick="toggleCheck('+i+')">';
-    h+='<div class="check-box'+(on?' on':'')+'"">'+(on?svgCheck():'')+'</div>';
-    h+='<p class="check-text'+(on?' done':'')+'" style="margin:0">'+item+'</p></div>';
+  updateProgress();
+}
+
+function renderChecklist(){
+  var t=TX[LANG];
+  var items=t.items[PHASE];
+  var list=document.getElementById('check-list');
+  list.innerHTML='';
+  items.forEach(function(item,i){
+    var k=PHASE+'_'+i;
+    var on=!!CHECKED[k];
+    var div=document.createElement('div');
+    div.className='check-item';
+    div.innerHTML='<div class="check-box'+(on?' on':'')+'">'+(on?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>':'')+'</div>'
+      +'<p class="check-text'+(on?' done':'')+'" style="margin:0">'+item+'</p>';
+    div.onclick=function(){CHECKED[k]=!CHECKED[k];renderChecklist();renderPhases();};
+    list.appendChild(div);
   });
-  h+='</div>';
-  return h;
+  updateProgress();
 }
 
-function renderMedidas(t){
-  if(!MEAS_SEL){
-    var h='<div style="padding:14px 18px 0"><div class="meas-grid">';
-    t.measTypes.forEach(function(m){
-      h+='<div class="meas-card" onclick="selectMeas(\''+m.id+'\')"><div class="meas-icon">'+m.icon+'</div><p style="font-size:12px;font-weight:700;color:#1A1A2E;margin:0;line-height:1.3">'+m.label+'</p><p style="font-size:10px;color:#888;margin:3px 0 0">'+m.unit+'</p></div>';
-    });
-    h+='</div></div>';
-    return h;
-  }
-  var mt = t.measTypes.find(function(m){return m.id===MEAS_SEL;});
-  var h='<div style="background:#1A1A2E;padding:12px 18px 14px;display:flex;align-items:center;gap:12px">';
-  h+='<button onclick="clearMeas()" style="background:none;border:none;color:#E8E0D5;cursor:pointer;font-size:15px;padding:0;line-height:1">←</button>';
-  h+='<p style="color:#E8E0D5;font-size:13px;margin:0">'+mt.icon+' '+mt.label+'</p></div>';
-  h+='<div style="padding:16px 18px 0">';
-  mt.fields.forEach(function(f){
-    h+='<div style="margin-bottom:13px"><label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:5px">'+f.label+'</label>';
-    h+='<input type="number" step="any" class="input" style="margin:0" value="'+(MEAS_VALS[f.id]!==undefined?MEAS_VALS[f.id]:f.def)+'" onchange="updateMeas(\''+f.id+'\',this.value)" oninput="updateMeas(\''+f.id+'\',this.value)"></div>';
-  });
-  h+='<button onclick="doCalc()" style="width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px">'+t.calcLabel+'</button>';
-  if(MEAS_RES){
-    h+='<div class="result-box"><p style="color:#E8E0D5;font-size:12px;font-weight:700;margin:0 0 12px">'+t.results+'</p>';
-    MEAS_RES.forEach(function(r){
-      h+='<div class="result-row"><span style="color:#E8E0D5;font-size:13px">'+r.k+'</span><span style="color:#FF6B2B;font-weight:700;font-size:14px">'+r.v+'</span></div>';
-    });
-    h+='</div>';
-    h+='<button onclick="clearRes()" style="width:100%;background:#F5F5F0;border:1px solid #E8E0D5;border-radius:14px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px">'+t.recalc+'</button>';
-  }
-  h+='</div>';
-  return h;
+function updateProgress(){
+  var t=TX[LANG];
+  var items=t.items[PHASE];
+  var done=items.filter(function(_,i){return CHECKED[PHASE+'_'+i];}).length;
+  var pct=Math.round(done/items.length*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-count').textContent=done+'/'+items.length;
+  document.getElementById('phase-label-sm').textContent=t.phases[PHASE];
 }
 
-function renderQuote(t){
-  if(QUOTE_SENT){
-    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;gap:14px;padding:32px">'
-      +'<div style="width:64px;height:64px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center">'+svgCheck()+'</div>'
-      +'<h2 style="color:#1A1A2E;margin:0">'+t.sentTitle+'</h2>'
-      +'<p style="color:#666;text-align:center;margin:0;font-size:14px">'+t.sentSub+'</p>'
-      +'<button onclick="resetQuote()" style="background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:13px 32px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px">'+t.newQuote+'</button></div>';
-  }
-  var PARTIDAS=[{c:'Obra negra (m²)',p:4800},{c:'Aplanado (m²)',p:280},{c:'Azulejo (m²)',p:320},{c:'Plomería',p:3500},{c:'Eléctrico',p:4200},{c:'Acarreo',p:850},{c:'Tabique (m²)',p:340},{c:'Losa (m²)',p:1200},{c:'Pintura (m²)',p:95},{c:'Impermeabilizante',p:280}];
-  var sub=QUOTE_ITEMS.reduce(function(s,i){return s+i.cantidad*i.precio;},0);
-  var ant=Math.round(sub*QUOTE_PCT/100);
-  var h='<div style="padding-bottom:100px"><div style="padding:16px 18px 0">';
-  h+='<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:5px">'+t.client+'</label>';
-  h+='<input class="input" placeholder="'+t.client+'" value="'+QUOTE_CLIENT+'" oninput="QUOTE_CLIENT=this.value">';
-  h+='<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:5px">'+t.addr+'</label>';
-  h+='<input class="input" placeholder="Iztapalapa, CDMX" value="'+QUOTE_ADDR+'" oninput="QUOTE_ADDR=this.value">';
-  h+='<p style="font-size:12px;font-weight:700;color:#2D2D2D;margin:0 0 8px">'+t.qItems+'</p>';
-  h+='<div class="tag-row">';
-  PARTIDAS.forEach(function(p){h+='<span class="tag" onclick="addPartida(\''+p.c+'\','+p.p+')">'+p.c+'</span>';});
-  h+='</div>';
-  h+='<p style="font-size:12px;font-weight:700;color:#2D2D2D;margin:0 0 8px">'+t.concepts+'</p>';
-  QUOTE_ITEMS.forEach(function(item){
-    h+='<div class="card" style="padding:12px"><input value="'+item.concepto+'" placeholder="Concepto" onchange="updItem('+item.id+',\'concepto\',this.value)" style="width:100%;border:1px solid #E8E0D5;border-radius:8px;padding:8px 10px;font-size:13px;outline:none;margin-bottom:7px;box-sizing:border-box">';
-    h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">';
-    h+='<div><label style="font-size:10px;color:#888;display:block;margin-bottom:3px">Cant.</label><input type="number" value="'+item.cantidad+'" onchange="updItem('+item.id+',\'cantidad\',+this.value)" style="width:100%;border:1px solid #E8E0D5;border-radius:7px;padding:6px 8px;font-size:13px;outline:none;box-sizing:border-box"></div>';
-    h+='<div><label style="font-size:10px;color:#888;display:block;margin-bottom:3px">Precio</label><input type="number" value="'+item.precio+'" onchange="updItem('+item.id+',\'precio\',+this.value)" style="width:100%;border:1px solid #E8E0D5;border-radius:7px;padding:6px 8px;font-size:13px;outline:none;box-sizing:border-box"></div>';
-    h+='<div><label style="font-size:10px;color:#888;display:block;margin-bottom:3px">Sub</label><p style="margin:0;padding:6px 0;font-size:13px;font-weight:700;color:#FF6B2B">'+fmt(item.cantidad*item.precio)+'</p></div>';
-    h+='</div></div>';
-  });
-  h+='<button onclick="addItem()" style="width:100%;background:#F5F5F0;border:1px dashed #E8E0D5;border-radius:12px;padding:11px;font-size:13px;cursor:pointer;color:#666;margin-bottom:16px">'+t.addConcept+'</button>';
-  h+='<div class="total-box">';
-  h+='<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:#E8E0D5;font-size:13px">'+t.totalObra+'</span><span style="color:#fff;font-size:17px;font-weight:700">'+fmt(sub)+'</span></div>';
-  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#E8E0D5;font-size:12px;white-space:nowrap">'+t.anticipo+'</span><input type="range" min="20" max="60" value="'+QUOTE_PCT+'" oninput="QUOTE_PCT=+this.value;rerenderQuoteTotals(this)" style="flex:1;accent-color:#FF6B2B"><span style="color:#FF6B2B;font-weight:700;font-size:13px;min-width:34px" id="pct-lbl">'+QUOTE_PCT+'%</span></div>';
-  h+='<div style="border-top:1px solid rgba(255,255,255,.1);padding-top:10px;display:flex;justify-content:space-between"><span style="color:#E8E0D5;font-size:12px">'+t.toCobrar+'</span><span style="color:#FF6B2B;font-size:19px;font-weight:700" id="ant-lbl">'+fmt(ant)+'</span></div></div>';
-  h+='<button class="wa-btn" onclick="sendQuote()"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>'+t.sendWA+'</button>';
-  h+='</div></div>';
-  return h;
+function saveJob(){
+  // auto-save indicator already shown
 }
 
-function renderCrew(t){
-  var daily=CREW.filter(function(c){return c.status==='activo';}).reduce(function(s,c){return s+c.diario;},0);
-  var h='<div class="dark-hdr"><div style="display:flex;justify-content:space-between;align-items:center">';
-  h+='<p style="color:#E8E0D5;font-size:12px;margin:0">'+CREW.length+' '+t.workers+' · '+t.dailyPay+': '+fmt(daily)+'</p>';
-  h+='<button onclick="openCrewModal()" style="background:#FF6B2B;border:none;border-radius:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg></button></div></div>';
-  h+='<div style="padding:14px 18px 0">';
-  CREW.forEach(function(c){
-    h+='<div class="crew-card"><div style="display:flex;gap:12px;align-items:center">';
-    h+='<div class="avatar">'+c.nombre.charAt(0)+'</div>';
-    h+='<div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">';
-    h+='<div><p style="font-weight:700;font-size:14px;margin:0 0 2px;color:#1A1A2E">'+c.nombre+'</p><p style="font-size:12px;color:#888;margin:0">'+c.oficio+'</p></div>';
-    h+='<div style="text-align:right"><p style="font-weight:700;font-size:13px;color:#FF6B2B;margin:0 0 3px">'+fmt(c.diario)+'/día</p>';
-    h+='<span class="badge '+(c.status==='activo'?'badge-done':'badge-active')+'">'+(c.status==='activo'?(L==='es'?'Activo':'Active'):(L==='es'?'Disponible':'Available'))+'</span></div></div>';
-    h+='<div style="display:flex;gap:8px"><a href="tel:'+c.tel+'" class="mini-btn" style="flex:1;justify-content:center">📞 '+c.tel+'</a>';
-    h+='<a href="https://wa.me/52'+c.tel.replace(/\s/g,'')+'" target="_blank" class="mini-btn wa">💬</a>';
-    h+='<button onclick="removeCrew(\''+c.id+'\')" class="mini-btn del">🗑</button></div></div></div></div>';
-  });
-  h+='<div style="background:#1A1A2E;border-radius:14px;padding:14px 16px;margin-top:4px">';
-  h+='<p style="color:#E8E0D5;font-size:12px;margin:0 0 8px;font-weight:700">'+t.weekSummary+'</p>';
-  [5,6,7].forEach(function(d,i){
-    h+='<div style="display:flex;justify-content:space-between;padding:6px 0;'+(i<2?'border-bottom:1px solid rgba(255,255,255,.1)':'')+'"><span style="color:#E8E0D5;font-size:13px">'+d+' '+t.daysWorked+'</span><span style="color:#FF6B2B;font-weight:700">'+fmt(daily*d)+'</span></div>';
-  });
-  h+='</div></div>';
-  return h;
+function logIncident(){
+  var input=document.getElementById('incident');
+  if(!input.value.trim())return;
+  INCIDENTS.push({text:input.value,time:new Date().toLocaleTimeString()});
+  input.value='';
+  var log=document.getElementById('incident-log');
+  log.innerHTML=INCIDENTS.map(function(inc){
+    return '<div style="background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#E8E0D5"><span style="color:#94A3B8;font-size:10px">'+inc.time+'</span><br>'+inc.text+'</div>';
+  }).join('');
 }
 
-function renderCrewModal(t){
-  return '<div class="modal-bg" onclick="closeModal(event)"><div class="modal"><div class="modal-hdr"><h3 class="modal-title">'+t.addWorker+'</h3><button class="modal-close" onclick="CREW_MODAL=false;render()">✕</button></div>'
-    +'<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">'+t.workerName+'</label><input class="input" id="cf-nombre" placeholder="Nombre completo" value="'+CREW_FORM.nombre+'" oninput="CREW_FORM.nombre=this.value">'
-    +'<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">'+t.workerRole+'</label><input class="input" id="cf-oficio" placeholder="Albañil, plomero..." value="'+CREW_FORM.oficio+'" oninput="CREW_FORM.oficio=this.value">'
-    +'<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">'+t.workerTel+'</label><input class="input" id="cf-tel" placeholder="55 0000 0000" value="'+CREW_FORM.tel+'" oninput="CREW_FORM.tel=this.value">'
-    +'<label style="font-size:12px;font-weight:700;color:#2D2D2D;display:block;margin-bottom:4px">'+t.workerPay+'</label><input class="input" type="number" id="cf-pay" placeholder="850" value="'+CREW_FORM.diario+'" oninput="CREW_FORM.diario=this.value">'
-    +'<button class="save-btn" onclick="saveCrew()">'+t.saveWorker+'</button></div></div>';
+function markComplete(){
+  var name=document.getElementById('job-name').value||'Job';
+  var t=TX[LANG];
+  var total=t.items[PHASE].length;
+  var done=t.items[PHASE].filter(function(_,i){return CHECKED[PHASE+'_'+i];}).length;
+  alert(name+'\n'+done+'/'+total+' items completed');
 }
-
-function renderReviews(t){
-  var avg=(REVIEWS.reduce(function(s,r){return s+r.stars;},0)/REVIEWS.length).toFixed(1);
-  var link='https://g.page/r/YOURID/review';
-  var h='<div class="dark-hdr"><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px">';
-  h+='<div style="display:flex;gap:16px;align-items:center">';
-  h+='<div style="text-align:center"><p style="color:#FF6B2B;font-size:42px;font-weight:700;margin:0;line-height:1">'+avg+'</p><p style="color:#FFA000;font-size:18px;margin:2px 0">'+stars(Math.round(+avg))+'</p><p style="color:#E8E0D5;font-size:11px;margin:2px 0">'+REVIEWS.length+' '+t.avgRating+'</p></div>';
-  h+='</div></div></div>';
-  h+='<div style="padding:14px 18px 0">';
-  h+='<div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:14px;padding:14px 16px;margin-bottom:14px">';
-  h+='<p style="font-size:12px;font-weight:700;color:#1B5E20;margin:0 0 8px">'+t.copyLink+'</p>';
-  h+='<div style="background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:10px"><p style="font-size:11px;color:#1B5E20;margin:0;word-break:break-all">'+link+'</p></div>';
-  h+='<button onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+link+'\')" style="width:100%;background:#1B5E20;color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer">'+t.copyLink+'</button></div>';
-  h+='<button style="width:100%;background:#25D366;color:#fff;border:none;border-radius:14px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px">💬 '+t.sendWAReview+'</button>';
-  h+='<p style="font-size:12px;font-weight:700;color:#2D2D2D;margin:0 0 10px">'+t.recentReviews+'</p>';
-  REVIEWS.forEach(function(r){
-    h+='<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:36px;height:36px;font-size:14px">'+r.autor.charAt(0)+'</div><div><p style="font-weight:700;font-size:13px;margin:0 0 2px;color:#1A1A2E">'+r.autor+'</p><span style="color:#FFA000;font-size:13px">'+stars(r.stars)+'</span></div></div><span style="font-size:11px;color:#888">'+r.fecha+'</span></div><p style="font-size:13px;color:#444;margin:0;line-height:1.5">'+r.texto+'</p></div>';
-  });
-  h+='</div>';
-  return h;
-}
-
-// ── Event handlers ────────────────────────────────────────────
-function bindEvents(){}
-
-function goTab(tab){TAB=tab;render();}
-function setLang(l){L=l;render();}
-function setFilter(f){OBRAS_FILTER=f;render();}
-function setPhase(i){SAFETY_PHASE=i;render();}
-function toggleCheck(i){var k=SAFETY_PHASE+'_'+i;SAFETY_CHECKED[k]=!SAFETY_CHECKED[k];render();}
-function selectMeas(id){
-  MEAS_SEL=id;MEAS_RES=null;
-  var t=TX[L].measTypes.find(function(m){return m.id===id;});
-  MEAS_VALS={};
-  t.fields.forEach(function(f){MEAS_VALS[f.id]=f.def;});
-  render();
-}
-function clearMeas(){MEAS_SEL=null;MEAS_RES=null;render();}
-function updateMeas(id,val){MEAS_VALS[id]=parseFloat(val)||0;}
-function doCalc(){MEAS_RES=measCalc(MEAS_SEL,MEAS_VALS);render();}
-function clearRes(){MEAS_RES=null;render();}
-function addItem(){QUOTE_ITEMS.push({id:++UID,concepto:'',cantidad:1,precio:0});render();}
-function addPartida(c,p){
-  if(!QUOTE_ITEMS.find(function(i){return i.concepto===c;})){
-    var blank=QUOTE_ITEMS.find(function(i){return !i.concepto;});
-    if(blank){blank.concepto=c;blank.precio=p;}
-    else QUOTE_ITEMS.push({id:++UID,concepto:c,cantidad:1,precio:p});
-    render();
-  }
-}
-function updItem(id,field,val){var item=QUOTE_ITEMS.find(function(i){return i.id===id;});if(item){item[field]=val;}render();}
-function sendQuote(){if(!QUOTE_CLIENT)return;QUOTE_SENT=true;render();}
-function resetQuote(){QUOTE_SENT=false;QUOTE_CLIENT='';QUOTE_ADDR='';QUOTE_ITEMS=[{id:++UID,concepto:'',cantidad:1,precio:0}];QUOTE_PCT=40;render();}
-function rerenderQuoteTotals(slider){
-  QUOTE_PCT=+slider.value;
-  var sub=QUOTE_ITEMS.reduce(function(s,i){return s+i.cantidad*i.precio;},0);
-  var lbl=document.getElementById('pct-lbl');if(lbl)lbl.textContent=QUOTE_PCT+'%';
-  var ant=document.getElementById('ant-lbl');if(ant)ant.textContent=fmt(Math.round(sub*QUOTE_PCT/100));
-}
-function openCrewModal(){CREW_MODAL=true;CREW_FORM={nombre:'',oficio:'',tel:'',diario:''};render();}
-function closeModal(e){if(e.target===e.currentTarget){CREW_MODAL=false;render();}}
-function saveCrew(){
-  if(!CREW_FORM.nombre||!CREW_FORM.oficio)return;
-  CREW.push({id:'c'+(++UID),nombre:CREW_FORM.nombre,oficio:CREW_FORM.oficio,tel:CREW_FORM.tel,diario:+CREW_FORM.diario||0,status:'disponible'});
-  CREW_MODAL=false;render();
-}
-function removeCrew(id){CREW=CREW.filter(function(c){return c.id!==id;});render();}
-
-// ── Init ─────────────────────────────────────────────────────
-render();
 </script>
 </body>
 </html>
