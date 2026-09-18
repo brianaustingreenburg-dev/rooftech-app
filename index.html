@@ -19,13 +19,8 @@ body{background:#0f1117;color:#f5f5f0;font-family:'DM Sans',system-ui,sans-serif
 <body>
 <div id="root"></div>
 <script>
-const {useState, useRef} = React;
-"use strict";
+const {useState,useRef,createElement,Fragment}=React;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = App;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -42,6 +37,9 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _React = React,
+  useState = _React.useState,
+  useRef = _React.useRef;
 var fmt = function fmt(n) {
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
@@ -117,7 +115,7 @@ var Ic = function Ic(_ref) {
     size = _ref$size === void 0 ? 22 : _ref$size,
     _ref$col = _ref.col,
     col = _ref$col === void 0 ? 'currentColor' : _ref$col;
-  return /*#__PURE__*/React.createElement("svg", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("svg", {
     width: size,
     height: size,
     viewBox: "0 0 24 24",
@@ -125,10 +123,11 @@ var Ic = function Ic(_ref) {
     stroke: col,
     strokeWidth: 2,
     strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: d
-  }));
+    strokeLinejoin: "round",
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
+      d: d
+    })
+  });
 };
 var ICONS = {
   home: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
@@ -685,56 +684,60 @@ var Hdr = function Hdr(_ref2) {
   var title = _ref2.title,
     sub = _ref2.sub,
     children = _ref2.children;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     style: {
       background: '#1A1A2E',
       padding: '12px 18px 14px',
       flexShrink: 0
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  }, sub && /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      margin: 0
-    }
-  }, sub), children));
+    },
+    children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      },
+      children: [sub && /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+        style: {
+          color: '#E8E0D5',
+          fontSize: 12,
+          margin: 0
+        },
+        children: sub
+      }), children]
+    })
+  });
 };
 var LangToggle = function LangToggle(_ref3) {
   var lang = _ref3.lang,
     setLang = _ref3.setLang;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     style: {
       display: 'flex',
       background: 'rgba(255,255,255,.12)',
       borderRadius: 20,
       padding: 2,
       gap: 2
-    }
-  }, ['es', 'en'].map(function (l) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: l,
-      onClick: function onClick() {
-        return setLang(l);
-      },
-      style: {
-        background: lang === l ? '#FF6B2B' : 'none',
-        color: lang === l ? '#fff' : '#E8E0D5',
-        border: 'none',
-        borderRadius: 16,
-        padding: '3px 10px',
-        fontSize: 11,
-        fontWeight: 700,
-        cursor: 'pointer',
-        fontFamily: 'inherit'
-      }
-    }, l.toUpperCase());
-  }));
+    },
+    children: ['es', 'en'].map(function (l) {
+      return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+        onClick: function onClick() {
+          return setLang(l);
+        },
+        style: {
+          background: lang === l ? '#FF6B2B' : 'none',
+          color: lang === l ? '#fff' : '#E8E0D5',
+          border: 'none',
+          borderRadius: 16,
+          padding: '3px 10px',
+          fontSize: 11,
+          fontWeight: 700,
+          cursor: 'pointer',
+          fontFamily: 'inherit'
+        },
+        children: l.toUpperCase()
+      }, l);
+    })
+  });
 };
 var Badge = function Badge(_ref4) {
   var s = _ref4.s;
@@ -761,7 +764,7 @@ var Badge = function Badge(_ref4) {
     }
   };
   var x = m[s] || m.disponible;
-  return /*#__PURE__*/React.createElement("span", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
     style: {
       background: x.bg,
       color: x.c,
@@ -769,40 +772,43 @@ var Badge = function Badge(_ref4) {
       fontWeight: 700,
       padding: '2px 7px',
       borderRadius: 20
-    }
-  }, x.l);
+    },
+    children: x.l
+  });
 };
 var Prog = function Prog(_ref5) {
   var p = _ref5.p;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     style: {
       background: '#E8E0D5',
       borderRadius: 3,
       height: 5,
       overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: "".concat(p, "%"),
-      height: '100%',
-      background: p === 100 ? '#22C55E' : '#FF6B2B',
-      borderRadius: 3
-    }
-  }));
+    },
+    children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: {
+        width: "".concat(p, "%"),
+        height: '100%',
+        background: p === 100 ? '#22C55E' : '#FF6B2B',
+        borderRadius: 3
+      }
+    })
+  });
 };
 var Card = function Card(_ref6) {
   var children = _ref6.children,
     _ref6$style = _ref6.style,
     style = _ref6$style === void 0 ? {} : _ref6$style;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
     style: _objectSpread({
       background: '#fff',
       border: '1px solid #E8E0D5',
       borderRadius: 14,
       padding: '13px 15px',
       marginBottom: 10
-    }, style)
-  }, children);
+    }, style),
+    children: children
+  });
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -820,180 +826,204 @@ function Home(_ref7) {
   var porCobrar = activas.reduce(function (s, o) {
     return s + (o.total - o.anticipo);
   }, 0);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '16px 18px 16px'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      margin: '0 0 12px'
-    }
-  }, t.greeting, ", Lalo"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: 'rgba(255,107,43,.15)',
-      border: '1px solid rgba(255,107,43,.3)',
-      borderRadius: 12,
-      padding: '12px 14px'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 11,
-      margin: '0 0 3px'
-    }
-  }, t.statCollect), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#FF6B2B',
-      fontSize: 20,
-      fontWeight: 700,
-      margin: 0
-    }
-  }, fmt(porCobrar))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: 'rgba(255,255,255,.08)',
-      border: '1px solid rgba(255,255,255,.1)',
-      borderRadius: 12,
-      padding: '12px 14px'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 11,
-      margin: '0 0 3px'
-    }
-  }, t.statActive), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#fff',
-      fontSize: 20,
-      fontWeight: 700,
-      margin: 0
-    }
-  }, activas.length)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '16px 18px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 10,
-      marginBottom: 18
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return onTab('quote');
     },
-    style: {
-      background: '#FF6B2B',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 12,
-      padding: '13px 8px',
-      fontSize: 12,
-      fontWeight: 700,
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 5,
-      fontFamily: 'inherit'
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.quote,
-    size: 20,
-    col: "#fff"
-  }), t.newQuote), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return onTab('obras');
-    },
-    style: {
-      background: '#1A1A2E',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 12,
-      padding: '13px 8px',
-      fontSize: 12,
-      fontWeight: 700,
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 5,
-      fontFamily: 'inherit'
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.obras,
-    size: 20,
-    col: "#fff"
-  }), t.newObra)), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      margin: '0 0 10px'
-    }
-  }, t.recent), obras.slice(0, 3).map(function (o) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: o.id
-    }, /*#__PURE__*/React.createElement("div", {
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 7
-      }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+        background: '#1A1A2E',
+        padding: '16px 18px 16px'
+      },
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+        style: {
+          color: '#E8E0D5',
+          fontSize: 12,
+          margin: '0 0 12px'
+        },
+        children: [t.greeting, ", Lalo"]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 10
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            background: 'rgba(255,107,43,.15)',
+            border: '1px solid rgba(255,107,43,.3)',
+            borderRadius: 12,
+            padding: '12px 14px'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 11,
+              margin: '0 0 3px'
+            },
+            children: t.statCollect
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              color: '#FF6B2B',
+              fontSize: 20,
+              fontWeight: 700,
+              margin: 0
+            },
+            children: fmt(porCobrar)
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            background: 'rgba(255,255,255,.08)',
+            border: '1px solid rgba(255,255,255,.1)',
+            borderRadius: 12,
+            padding: '12px 14px'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 11,
+              margin: '0 0 3px'
+            },
+            children: t.statActive
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              color: '#fff',
+              fontSize: 20,
+              fontWeight: 700,
+              margin: 0
+            },
+            children: activas.length
+          })]
+        })]
+      })]
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        fontWeight: 700,
-        fontSize: 14,
-        margin: '0 0 2px',
-        color: '#1A1A2E'
-      }
-    }, o.cliente), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 11,
-        color: '#888',
-        margin: 0
-      }
-    }, o.tipo)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: 'right'
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontWeight: 700,
-        fontSize: 13,
-        margin: '0 0 3px'
-      }
-    }, fmt(o.total)), /*#__PURE__*/React.createElement(Badge, {
-      s: o.estado
-    }))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 4
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        color: '#888'
-      }
-    }, t.avance, " ", o.avance, "%")), /*#__PURE__*/React.createElement(Prog, {
-      p: o.avance
-    }));
-  })));
+        padding: '16px 18px 0'
+      },
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 10,
+          marginBottom: 18
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+          onClick: function onClick() {
+            return onTab('quote');
+          },
+          style: {
+            background: '#FF6B2B',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 12,
+            padding: '13px 8px',
+            fontSize: 12,
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 5,
+            fontFamily: 'inherit'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+            d: ICONS.quote,
+            size: 20,
+            col: "#fff"
+          }), t.newQuote]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+          onClick: function onClick() {
+            return onTab('obras');
+          },
+          style: {
+            background: '#1A1A2E',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 12,
+            padding: '13px 8px',
+            fontSize: 12,
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 5,
+            fontFamily: 'inherit'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+            d: ICONS.obras,
+            size: 20,
+            col: "#fff"
+          }), t.newObra]
+        })]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
+          margin: '0 0 10px'
+        },
+        children: t.recent
+      }), obras.slice(0, 3).map(function (o) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)(Card, {
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 7
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  fontWeight: 700,
+                  fontSize: 14,
+                  margin: '0 0 2px',
+                  color: '#1A1A2E'
+                },
+                children: o.cliente
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  fontSize: 11,
+                  color: '#888',
+                  margin: 0
+                },
+                children: o.tipo
+              })]
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              style: {
+                textAlign: 'right'
+              },
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  fontWeight: 700,
+                  fontSize: 13,
+                  margin: '0 0 3px'
+                },
+                children: fmt(o.total)
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Badge, {
+                s: o.estado
+              })]
+            })]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 4
+            },
+            children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+              style: {
+                fontSize: 11,
+                color: '#888'
+              },
+              children: [t.avance, " ", o.avance, "%"]
+            })
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Prog, {
+            p: o.avance
+          })]
+        }, o.id);
+      })]
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1002,15 +1032,15 @@ function Home(_ref7) {
 function Medidas(_ref8) {
   var lang = _ref8.lang;
   var t = T[lang];
-  var _useState = (0, React.useState)(null),
+  var _useState = useState(null),
     _useState2 = _slicedToArray(_useState, 2),
     sel = _useState2[0],
     setSel = _useState2[1];
-  var _useState3 = (0, React.useState)({}),
+  var _useState3 = useState({}),
     _useState4 = _slicedToArray(_useState3, 2),
     vals = _useState4[0],
     setVals = _useState4[1];
-  var _useState5 = (0, React.useState)(null),
+  var _useState5 = useState(null),
     _useState6 = _slicedToArray(_useState5, 2),
     res = _useState6[0],
     setRes = _useState6[1];
@@ -1029,196 +1059,214 @@ function Medidas(_ref8) {
       console.error(e);
     }
   };
-  if (!sel) return /*#__PURE__*/React.createElement("div", {
+  if (!sel) return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement(Hdr, {
-    title: t.measTitle,
-    sub: "Calcula materiales para tu obra"
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '16px 18px 0',
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 10
-    }
-  }, MEAS_TYPES.map(function (m) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: m.id,
-      onClick: function onClick() {
-        return select(m);
-      },
-      style: {
-        background: '#fff',
-        border: '1px solid #E8E0D5',
-        borderRadius: 14,
-        padding: '14px 10px',
-        cursor: 'pointer',
-        textAlign: 'center',
-        fontFamily: 'inherit'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 26,
-        marginBottom: 6
-      }
-    }, m.icon), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: '#1A1A2E',
-        margin: 0,
-        lineHeight: 1.3
-      }
-    }, m.label), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 10,
-        color: '#888',
-        margin: '3px 0 0'
-      }
-    }, m.unit));
-  })));
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '12px 18px 14px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setSel(null);
-      setRes(null);
     },
-    style: {
-      background: 'none',
-      border: 'none',
-      color: '#E8E0D5',
-      cursor: 'pointer',
-      fontSize: 15,
-      padding: 0,
-      fontFamily: 'inherit',
-      lineHeight: 1
-    }
-  }, "\u2190"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 13,
-      margin: 0
-    }
-  }, sel.icon, " ", sel.label)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '16px 18px 0'
-    }
-  }, sel.fields.map(function (f) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: f.id,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Hdr, {
+      title: t.measTitle,
+      sub: "Calcula materiales para tu obra"
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: {
-        marginBottom: 13
-      }
-    }, /*#__PURE__*/React.createElement("label", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: '#2D2D2D',
-        display: 'block',
-        marginBottom: 5
-      }
-    }, f.label), /*#__PURE__*/React.createElement("input", {
-      type: "number",
-      step: "any",
-      value: vals[f.id] || '',
-      onChange: function onChange(e) {
-        return setVals(_objectSpread(_objectSpread({}, vals), {}, _defineProperty({}, f.id, parseFloat(e.target.value) || 0)));
+        padding: '16px 18px 0',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 10
       },
+      children: MEAS_TYPES.map(function (m) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+          onClick: function onClick() {
+            return select(m);
+          },
+          style: {
+            background: '#fff',
+            border: '1px solid #E8E0D5',
+            borderRadius: 14,
+            padding: '14px 10px',
+            cursor: 'pointer',
+            textAlign: 'center',
+            fontFamily: 'inherit'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+            style: {
+              fontSize: 26,
+              marginBottom: 6
+            },
+            children: m.icon
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#1A1A2E',
+              margin: 0,
+              lineHeight: 1.3
+            },
+            children: m.label
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              fontSize: 10,
+              color: '#888',
+              margin: '3px 0 0'
+            },
+            children: m.unit
+          })]
+        }, m.id);
+      })
+    })]
+  });
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: {
+      paddingBottom: 72
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        width: '100%',
-        border: '1px solid #E8E0D5',
-        borderRadius: 10,
-        padding: '11px 13px',
-        fontSize: 15,
-        outline: 'none',
-        fontFamily: 'inherit',
-        boxSizing: 'border-box'
-      }
-    }));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: calc,
-    style: {
-      width: '100%',
-      background: '#FF6B2B',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 14,
-      padding: 14,
-      fontSize: 15,
-      fontWeight: 700,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      marginTop: 4
-    }
-  }, "Calcular materiales"), res && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      borderRadius: 14,
-      padding: '16px 18px'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      fontWeight: 700,
-      margin: '0 0 12px'
-    }
-  }, "Resultados"), res.map(function (r, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
+        background: '#1A1A2E',
+        padding: '12px 18px 14px',
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '8px 0',
-        borderBottom: i < res.length - 1 ? '1px solid rgba(255,255,255,.1)' : 'none'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
+        gap: 12
+      },
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+        onClick: function onClick() {
+          setSel(null);
+          setRes(null);
+        },
+        style: {
+          background: 'none',
+          border: 'none',
+          color: '#E8E0D5',
+          cursor: 'pointer',
+          fontSize: 15,
+          padding: 0,
+          fontFamily: 'inherit',
+          lineHeight: 1
+        },
+        children: "\u2190"
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+        style: {
+          color: '#E8E0D5',
+          fontSize: 13,
+          margin: 0
+        },
+        children: [sel.icon, " ", sel.label]
+      })]
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        color: '#E8E0D5',
-        fontSize: 13
-      }
-    }, r.k), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: '#FF6B2B',
-        fontWeight: 700,
-        fontSize: 14
-      }
-    }, r.v));
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setRes(null);
-    },
-    style: {
-      width: '100%',
-      background: '#F5F5F0',
-      border: '1px solid #E8E0D5',
-      borderRadius: 14,
-      padding: 13,
-      fontSize: 14,
-      fontWeight: 600,
-      cursor: 'pointer',
-      marginTop: 10,
-      fontFamily: 'inherit'
-    }
-  }, "Recalcular"))));
+        padding: '16px 18px 0'
+      },
+      children: [sel.fields.map(function (f) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            marginBottom: 13
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+            style: {
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#2D2D2D',
+              display: 'block',
+              marginBottom: 5
+            },
+            children: f.label
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+            type: "number",
+            step: "any",
+            value: vals[f.id] || '',
+            onChange: function onChange(e) {
+              return setVals(_objectSpread(_objectSpread({}, vals), {}, _defineProperty({}, f.id, parseFloat(e.target.value) || 0)));
+            },
+            style: {
+              width: '100%',
+              border: '1px solid #E8E0D5',
+              borderRadius: 10,
+              padding: '11px 13px',
+              fontSize: 15,
+              outline: 'none',
+              fontFamily: 'inherit',
+              boxSizing: 'border-box'
+            }
+          })]
+        }, f.id);
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+        onClick: calc,
+        style: {
+          width: '100%',
+          background: '#FF6B2B',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 14,
+          padding: 14,
+          fontSize: 15,
+          fontWeight: 700,
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+          marginTop: 4
+        },
+        children: "Calcular materiales"
+      }), res && /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          marginTop: 16
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            background: '#1A1A2E',
+            borderRadius: 14,
+            padding: '16px 18px'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 12,
+              fontWeight: 700,
+              margin: '0 0 12px'
+            },
+            children: "Resultados"
+          }), res.map(function (r, i) {
+            return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              style: {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '8px 0',
+                borderBottom: i < res.length - 1 ? '1px solid rgba(255,255,255,.1)' : 'none'
+              },
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+                style: {
+                  color: '#E8E0D5',
+                  fontSize: 13
+                },
+                children: r.k
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+                style: {
+                  color: '#FF6B2B',
+                  fontWeight: 700,
+                  fontSize: 14
+                },
+                children: r.v
+              })]
+            }, i);
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+          onClick: function onClick() {
+            return setRes(null);
+          },
+          style: {
+            width: '100%',
+            background: '#F5F5F0',
+            border: '1px solid #E8E0D5',
+            borderRadius: 14,
+            padding: 13,
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: 'pointer',
+            marginTop: 10,
+            fontFamily: 'inherit'
+          },
+          children: "Recalcular"
+        })]
+      })]
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1227,11 +1275,11 @@ function Medidas(_ref8) {
 function Seguridad(_ref9) {
   var lang = _ref9.lang;
   var t = T[lang];
-  var _useState7 = (0, React.useState)(SAFETY_PHASES[0]),
+  var _useState7 = useState(SAFETY_PHASES[0]),
     _useState8 = _slicedToArray(_useState7, 2),
     phase = _useState8[0],
     setPhase = _useState8[1];
-  var _useState9 = (0, React.useState)({}),
+  var _useState9 = useState({}),
     _useState0 = _slicedToArray(_useState9, 2),
     checked = _useState0[0],
     setChecked = _useState0[1];
@@ -1249,131 +1297,142 @@ function Seguridad(_ref9) {
   var total = phase.items.length;
   var done = doneCount(phase);
   var pct = Math.round(done / total * 100);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '16px 18px 16px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 6,
-      overflowX: 'auto',
-      paddingBottom: 2
-    }
-  }, SAFETY_PHASES.map(function (ph) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: ph.id,
-      onClick: function onClick() {
-        return setPhase(ph);
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: {
+        background: '#1A1A2E',
+        padding: '16px 18px 16px'
       },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          display: 'flex',
+          gap: 6,
+          overflowX: 'auto',
+          paddingBottom: 2
+        },
+        children: SAFETY_PHASES.map(function (ph) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+            onClick: function onClick() {
+              return setPhase(ph);
+            },
+            style: {
+              flexShrink: 0,
+              background: phase.id === ph.id ? '#FF6B2B' : 'rgba(255,255,255,.1)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 20,
+              padding: '6px 12px',
+              fontSize: 11,
+              fontWeight: 700,
+              cursor: 'pointer',
+              fontFamily: 'inherit'
+            },
+            children: ph.label
+          }, ph.id);
+        })
+      })
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        flexShrink: 0,
-        background: phase.id === ph.id ? '#FF6B2B' : 'rgba(255,255,255,.1)',
-        color: '#fff',
-        border: 'none',
-        borderRadius: 20,
-        padding: '6px 12px',
-        fontSize: 11,
-        fontWeight: 700,
-        cursor: 'pointer',
-        fontFamily: 'inherit'
-      }
-    }, ph.label);
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '14px 18px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: phase.bg,
-      border: "1px solid ".concat(phase.color, "22"),
-      borderRadius: 14,
-      padding: '12px 14px',
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: 6
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: phase.color
-    }
-  }, phase.label), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: phase.color
-    }
-  }, done, "/", total)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: 'rgba(0,0,0,.1)',
-      borderRadius: 3,
-      height: 5
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: "".concat(pct, "%"),
-      height: '100%',
-      background: phase.color,
-      borderRadius: 3,
-      transition: 'width .3s'
-    }
-  }))), phase.items.map(function (item, i) {
-    var k = "".concat(phase.id, "_").concat(i);
-    var on = !!checked[k];
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      onClick: function onClick() {
-        return toggle(phase.id, i);
+        padding: '14px 18px 0'
       },
-      style: {
-        display: 'flex',
-        gap: 12,
-        alignItems: 'flex-start',
-        background: '#fff',
-        border: '1px solid #E8E0D5',
-        borderRadius: 12,
-        padding: '12px 14px',
-        marginBottom: 8,
-        cursor: 'pointer'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 22,
-        height: 22,
-        borderRadius: 6,
-        border: "2px solid ".concat(on ? '#22C55E' : '#E8E0D5'),
-        background: on ? '#22C55E' : 'transparent',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-        transition: 'all .2s'
-      }
-    }, on && /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS.check,
-      size: 13,
-      col: "#fff"
-    })), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 13,
-        color: on ? '#888' : '#1A1A2E',
-        textDecoration: on ? 'line-through' : 'none',
-        margin: 0,
-        lineHeight: 1.4
-      }
-    }, item));
-  })));
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: phase.bg,
+          border: "1px solid ".concat(phase.color, "22"),
+          borderRadius: 14,
+          padding: '12px 14px',
+          marginBottom: 14
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 6
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              fontSize: 13,
+              fontWeight: 700,
+              color: phase.color
+            },
+            children: phase.label
+          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+            style: {
+              fontSize: 13,
+              fontWeight: 700,
+              color: phase.color
+            },
+            children: [done, "/", total]
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+          style: {
+            background: 'rgba(0,0,0,.1)',
+            borderRadius: 3,
+            height: 5
+          },
+          children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+            style: {
+              width: "".concat(pct, "%"),
+              height: '100%',
+              background: phase.color,
+              borderRadius: 3,
+              transition: 'width .3s'
+            }
+          })
+        })]
+      }), phase.items.map(function (item, i) {
+        var k = "".concat(phase.id, "_").concat(i);
+        var on = !!checked[k];
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          onClick: function onClick() {
+            return toggle(phase.id, i);
+          },
+          style: {
+            display: 'flex',
+            gap: 12,
+            alignItems: 'flex-start',
+            background: '#fff',
+            border: '1px solid #E8E0D5',
+            borderRadius: 12,
+            padding: '12px 14px',
+            marginBottom: 8,
+            cursor: 'pointer'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+            style: {
+              width: 22,
+              height: 22,
+              borderRadius: 6,
+              border: "2px solid ".concat(on ? '#22C55E' : '#E8E0D5'),
+              background: on ? '#22C55E' : 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              transition: 'all .2s'
+            },
+            children: on && /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+              d: ICONS.check,
+              size: 13,
+              col: "#fff"
+            })
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              fontSize: 13,
+              color: on ? '#888' : '#1A1A2E',
+              textDecoration: on ? 'line-through' : 'none',
+              margin: 0,
+              lineHeight: 1.4
+            },
+            children: item
+          })]
+        }, i);
+      })]
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1382,15 +1441,15 @@ function Seguridad(_ref9) {
 function Cuadrilla(_ref0) {
   var lang = _ref0.lang;
   var t = T[lang];
-  var _useState1 = (0, React.useState)(SEED_CREW),
+  var _useState1 = useState(SEED_CREW),
     _useState10 = _slicedToArray(_useState1, 2),
     crew = _useState10[0],
     setCrew = _useState10[1];
-  var _useState11 = (0, React.useState)(false),
+  var _useState11 = useState(false),
     _useState12 = _slicedToArray(_useState11, 2),
     modal = _useState12[0],
     setModal = _useState12[1];
-  var _useState13 = (0, React.useState)({
+  var _useState13 = useState({
       nombre: '',
       oficio: '',
       tel: '',
@@ -1425,312 +1484,343 @@ function Cuadrilla(_ref0) {
   }).reduce(function (s, c) {
     return s + c.diario;
   }, 0);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '16px 18px 16px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      margin: 0
-    }
-  }, crew.length, " trabajadores \xB7 Raya diaria: ", fmt(totalDiario)), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setModal(true);
     },
-    style: {
-      background: '#FF6B2B',
-      border: 'none',
-      borderRadius: 10,
-      width: 34,
-      height: 34,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.plus,
-    size: 17,
-    col: "#fff"
-  })))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '14px 18px 0'
-    }
-  }, crew.map(function (c) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: c.id
-    }, /*#__PURE__*/React.createElement("div", {
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: {
-        display: 'flex',
-        gap: 12,
-        alignItems: 'center'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 44,
-        height: 44,
-        borderRadius: '50%',
         background: '#1A1A2E',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#fff',
-        fontWeight: 700,
-        fontSize: 17,
-        flexShrink: 0
-      }
-    }, c.nombre.charAt(0)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start'
-      }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontWeight: 700,
-        fontSize: 14,
-        margin: '0 0 2px',
-        color: '#1A1A2E'
-      }
-    }, c.nombre), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 12,
-        color: '#888',
-        margin: '0 0 4px'
-      }
-    }, c.oficio)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: 'right'
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontWeight: 700,
-        fontSize: 13,
-        color: '#FF6B2B',
-        margin: '0 0 3px'
-      }
-    }, fmt(c.diario), "/d\xEDa"), /*#__PURE__*/React.createElement(Badge, {
-      s: c.status
-    }))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        gap: 8
-      }
-    }, /*#__PURE__*/React.createElement("a", {
-      href: "tel:".concat(c.tel),
-      style: {
-        flex: 1,
-        background: '#F5F5F0',
-        border: '1px solid #E8E0D5',
-        borderRadius: 8,
-        padding: '7px 0',
-        fontSize: 11,
-        cursor: 'pointer',
-        textAlign: 'center',
-        textDecoration: 'none',
-        color: '#1A1A2E',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 5
-      }
-    }, /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS.phone,
-      size: 13,
-      col: "#1A1A2E"
-    }), " ", c.tel), /*#__PURE__*/React.createElement("a", {
-      href: "https://wa.me/52".concat(c.tel.replace(/\s/g, '')),
-      target: "_blank",
-      rel: "noreferrer",
-      style: {
-        background: '#E8F5E9',
-        border: '1px solid #C8E6C9',
-        borderRadius: 8,
-        padding: '7px 12px',
-        fontSize: 11,
-        cursor: 'pointer',
-        textDecoration: 'none',
-        color: '#1B5E20',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 4
-      }
-    }, /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS.wa,
-      size: 13,
-      col: "#1B5E20"
-    }), " WA"), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return remove(c.id);
+        padding: '16px 18px 16px'
       },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+          style: {
+            color: '#E8E0D5',
+            fontSize: 12,
+            margin: 0
+          },
+          children: [crew.length, " trabajadores \xB7 Raya diaria: ", fmt(totalDiario)]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+          onClick: function onClick() {
+            return setModal(true);
+          },
+          style: {
+            background: '#FF6B2B',
+            border: 'none',
+            borderRadius: 10,
+            width: 34,
+            height: 34,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer'
+          },
+          children: /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+            d: ICONS.plus,
+            size: 17,
+            col: "#fff"
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        background: '#FFF5F5',
-        border: '1px solid #FFCDD2',
-        borderRadius: 8,
-        padding: '7px 10px',
-        cursor: 'pointer'
-      }
-    }, /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS.trash,
-      size: 13,
-      col: "#C62828"
-    }))))));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      borderRadius: 14,
-      padding: '14px 16px',
-      marginTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      margin: '0 0 8px',
-      fontWeight: 700
-    }
-  }, "Resumen raya semanal"), [5, 6, 7].map(function (d) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: d,
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '6px 0',
-        borderBottom: d < 7 ? '1px solid rgba(255,255,255,.1)' : 'none'
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: '#E8E0D5',
-        fontSize: 13
-      }
-    }, d, " d\xEDas trabajados"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: '#FF6B2B',
-        fontWeight: 700
-      }
-    }, fmt(totalDiario * d)));
-  }))), modal && /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'fixed',
-      inset: 0,
-      background: 'rgba(0,0,0,.6)',
-      zIndex: 100,
-      display: 'flex',
-      alignItems: 'flex-end'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#fff',
-      width: '100%',
-      borderRadius: '20px 20px 0 0',
-      padding: '24px 20px 40px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: 18
-    }
-  }, /*#__PURE__*/React.createElement("h3", {
-    style: {
-      margin: 0,
-      fontSize: 17,
-      fontWeight: 700,
-      color: '#1A1A2E'
-    }
-  }, "Agregar trabajador"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setModal(false);
-    },
-    style: {
-      background: 'none',
-      border: 'none',
-      fontSize: 20,
-      cursor: 'pointer',
-      color: '#888'
-    }
-  }, "\u2715")), [{
-    k: 'nombre',
-    l: 'Nombre *',
-    ph: 'Nombre completo'
-  }, {
-    k: 'oficio',
-    l: 'Oficio *',
-    ph: 'Albañil, plomero...'
-  }, {
-    k: 'tel',
-    l: 'Teléfono',
-    ph: '55 0000 0000'
-  }, {
-    k: 'diario',
-    l: 'Pago diario (MXN)',
-    ph: '850',
-    t: 'number'
-  }].map(function (f) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: f.k,
-      style: {
-        marginBottom: 12
-      }
-    }, /*#__PURE__*/React.createElement("label", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: '#2D2D2D',
-        display: 'block',
-        marginBottom: 4
-      }
-    }, f.l), /*#__PURE__*/React.createElement("input", {
-      type: f.t || 'text',
-      placeholder: f.ph,
-      value: form[f.k],
-      onChange: function onChange(e) {
-        return setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, f.k, e.target.value)));
+        padding: '14px 18px 0'
       },
+      children: [crew.map(function (c) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsx)(Card, {
+          children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              gap: 12,
+              alignItems: 'center'
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+              style: {
+                width: 44,
+                height: 44,
+                borderRadius: '50%',
+                background: '#1A1A2E',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 17,
+                flexShrink: 0
+              },
+              children: c.nombre.charAt(0)
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              style: {
+                flex: 1
+              },
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                style: {
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start'
+                },
+                children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                  children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                    style: {
+                      fontWeight: 700,
+                      fontSize: 14,
+                      margin: '0 0 2px',
+                      color: '#1A1A2E'
+                    },
+                    children: c.nombre
+                  }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                    style: {
+                      fontSize: 12,
+                      color: '#888',
+                      margin: '0 0 4px'
+                    },
+                    children: c.oficio
+                  })]
+                }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                  style: {
+                    textAlign: 'right'
+                  },
+                  children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+                    style: {
+                      fontWeight: 700,
+                      fontSize: 13,
+                      color: '#FF6B2B',
+                      margin: '0 0 3px'
+                    },
+                    children: [fmt(c.diario), "/d\xEDa"]
+                  }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Badge, {
+                    s: c.status
+                  })]
+                })]
+              }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                style: {
+                  display: 'flex',
+                  gap: 8
+                },
+                children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("a", {
+                  href: "tel:".concat(c.tel),
+                  style: {
+                    flex: 1,
+                    background: '#F5F5F0',
+                    border: '1px solid #E8E0D5',
+                    borderRadius: 8,
+                    padding: '7px 0',
+                    fontSize: 11,
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    color: '#1A1A2E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 5
+                  },
+                  children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+                    d: ICONS.phone,
+                    size: 13,
+                    col: "#1A1A2E"
+                  }), " ", c.tel]
+                }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("a", {
+                  href: "https://wa.me/52".concat(c.tel.replace(/\s/g, '')),
+                  target: "_blank",
+                  rel: "noreferrer",
+                  style: {
+                    background: '#E8F5E9',
+                    border: '1px solid #C8E6C9',
+                    borderRadius: 8,
+                    padding: '7px 12px',
+                    fontSize: 11,
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#1B5E20',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4
+                  },
+                  children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+                    d: ICONS.wa,
+                    size: 13,
+                    col: "#1B5E20"
+                  }), " WA"]
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+                  onClick: function onClick() {
+                    return remove(c.id);
+                  },
+                  style: {
+                    background: '#FFF5F5',
+                    border: '1px solid #FFCDD2',
+                    borderRadius: 8,
+                    padding: '7px 10px',
+                    cursor: 'pointer'
+                  },
+                  children: /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+                    d: ICONS.trash,
+                    size: 13,
+                    col: "#C62828"
+                  })
+                })]
+              })]
+            })]
+          })
+        }, c.id);
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: '#1A1A2E',
+          borderRadius: 14,
+          padding: '14px 16px',
+          marginTop: 4
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+          style: {
+            color: '#E8E0D5',
+            fontSize: 12,
+            margin: '0 0 8px',
+            fontWeight: 700
+          },
+          children: "Resumen raya semanal"
+        }), [5, 6, 7].map(function (d) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              padding: '6px 0',
+              borderBottom: d < 7 ? '1px solid rgba(255,255,255,.1)' : 'none'
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+              style: {
+                color: '#E8E0D5',
+                fontSize: 13
+              },
+              children: [d, " d\xEDas trabajados"]
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+              style: {
+                color: '#FF6B2B',
+                fontWeight: 700
+              },
+              children: fmt(totalDiario * d)
+            })]
+          }, d);
+        })]
+      })]
+    }), modal && /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: {
-        width: '100%',
-        border: '1px solid #E8E0D5',
-        borderRadius: 10,
-        padding: '11px 13px',
-        fontSize: 14,
-        outline: 'none',
-        fontFamily: 'inherit',
-        boxSizing: 'border-box'
-      }
-    }));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: add,
-    style: {
-      width: '100%',
-      background: '#FF6B2B',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 14,
-      padding: 14,
-      fontSize: 15,
-      fontWeight: 700,
-      cursor: 'pointer',
-      marginTop: 4,
-      fontFamily: 'inherit'
-    }
-  }, "Guardar trabajador"))));
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,.6)',
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'flex-end'
+      },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: '#fff',
+          width: '100%',
+          borderRadius: '20px 20px 0 0',
+          padding: '24px 20px 40px'
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 18
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("h3", {
+            style: {
+              margin: 0,
+              fontSize: 17,
+              fontWeight: 700,
+              color: '#1A1A2E'
+            },
+            children: "Agregar trabajador"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+            onClick: function onClick() {
+              return setModal(false);
+            },
+            style: {
+              background: 'none',
+              border: 'none',
+              fontSize: 20,
+              cursor: 'pointer',
+              color: '#888'
+            },
+            children: "\u2715"
+          })]
+        }), [{
+          k: 'nombre',
+          l: 'Nombre *',
+          ph: 'Nombre completo'
+        }, {
+          k: 'oficio',
+          l: 'Oficio *',
+          ph: 'Albañil, plomero...'
+        }, {
+          k: 'tel',
+          l: 'Teléfono',
+          ph: '55 0000 0000'
+        }, {
+          k: 'diario',
+          l: 'Pago diario (MXN)',
+          ph: '850',
+          t: 'number'
+        }].map(function (f) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              marginBottom: 12
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+              style: {
+                fontSize: 12,
+                fontWeight: 700,
+                color: '#2D2D2D',
+                display: 'block',
+                marginBottom: 4
+              },
+              children: f.l
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+              type: f.t || 'text',
+              placeholder: f.ph,
+              value: form[f.k],
+              onChange: function onChange(e) {
+                return setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, f.k, e.target.value)));
+              },
+              style: {
+                width: '100%',
+                border: '1px solid #E8E0D5',
+                borderRadius: 10,
+                padding: '11px 13px',
+                fontSize: 14,
+                outline: 'none',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box'
+              }
+            })]
+          }, f.k);
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+          onClick: add,
+          style: {
+            width: '100%',
+            background: '#FF6B2B',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 14,
+            padding: 14,
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: 'pointer',
+            marginTop: 4,
+            fontFamily: 'inherit'
+          },
+          children: "Guardar trabajador"
+        })]
+      })
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1739,7 +1829,7 @@ function Cuadrilla(_ref0) {
 function Reviews(_ref1) {
   var lang = _ref1.lang;
   var t = T[lang];
-  var _useState15 = (0, React.useState)(SEED_REVIEWS),
+  var _useState15 = useState(SEED_REVIEWS),
     _useState16 = _slicedToArray(_useState15, 1),
     reviews = _useState16[0];
   var avg = (reviews.reduce(function (s, r) {
@@ -1751,287 +1841,319 @@ function Reviews(_ref1) {
     var n = _ref10.n,
       _ref10$size = _ref10.size,
       size = _ref10$size === void 0 ? 16 : _ref10$size;
-    return /*#__PURE__*/React.createElement("span", null, [1, 2, 3, 4, 5].map(function (i) {
-      return /*#__PURE__*/React.createElement(Ic, {
-        key: i,
-        d: ICONS.star,
-        size: size,
-        col: i <= n ? '#FFA000' : '#E8E0D5'
-      });
-    }));
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+      children: [1, 2, 3, 4, 5].map(function (i) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+          d: ICONS.star,
+          size: size,
+          col: i <= n ? '#FFA000' : '#E8E0D5'
+        }, i);
+      })
+    });
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '16px 18px 16px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: 'rgba(255,255,255,.08)',
-      border: '1px solid rgba(255,255,255,.1)',
-      borderRadius: 14,
-      padding: '16px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 16,
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: 'center'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#FF6B2B',
-      fontSize: 42,
-      fontWeight: 700,
-      margin: 0,
-      lineHeight: 1
-    }
-  }, avg), /*#__PURE__*/React.createElement(Stars, {
-    n: Math.round(+avg),
-    size: 18
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 11,
-      margin: '4px 0 0'
-    }
-  }, reviews.length, " rese\xF1as")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, [5, 4, 3].map(function (s) {
-    var cnt = reviews.filter(function (r) {
-      return r.stars === s;
-    }).length;
-    var pct = Math.round(cnt / reviews.length * 100) || 0;
-    return /*#__PURE__*/React.createElement("div", {
-      key: s,
-      style: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        marginBottom: 5
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: '#E8E0D5',
-        fontSize: 11,
-        width: 8
-      }
-    }, s), /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS.star,
-      size: 11,
-      col: "#FFA000"
-    }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1,
-        background: 'rgba(255,255,255,.15)',
-        borderRadius: 3,
-        height: 5
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: "".concat(pct, "%"),
-        height: '100%',
-        background: '#FFA000',
-        borderRadius: 3
-      }
-    })), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: '#E8E0D5',
-        fontSize: 11,
-        width: 16
-      }
-    }, cnt));
-  }))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '14px 18px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#E8F5E9',
-      border: '1px solid #A5D6A7',
-      borderRadius: 14,
-      padding: '14px 16px',
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#1B5E20',
-      margin: '0 0 8px'
-    }
-  }, "Pide una rese\xF1a \u2014 copia este link"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#fff',
-      borderRadius: 10,
-      padding: '10px 12px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.qr,
-    size: 16,
-    col: "#1B5E20"
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 11,
-      color: '#1B5E20',
-      margin: 0,
-      wordBreak: 'break-all',
-      flex: 1
-    }
-  }, reviewLink)), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      var _navigator$clipboard, _navigator$clipboard$;
-      (_navigator$clipboard = navigator.clipboard) === null || _navigator$clipboard === void 0 || (_navigator$clipboard$ = _navigator$clipboard.writeText) === null || _navigator$clipboard$ === void 0 || _navigator$clipboard$.call(_navigator$clipboard, reviewLink);
     },
-    style: {
-      width: '100%',
-      background: '#1B5E20',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 10,
-      padding: '10px',
-      fontSize: 13,
-      fontWeight: 700,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.qr,
-    size: 16,
-    col: "#fff"
-  }), " Copiar link de rese\xF1a"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 10,
-      color: '#2E7D32',
-      margin: '8px 0 0',
-      textAlign: 'center'
-    }
-  }, "M\xE1ndalo por WhatsApp al terminar cada obra")), /*#__PURE__*/React.createElement("button", {
-    style: {
-      width: '100%',
-      background: '#25D366',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 14,
-      padding: 13,
-      fontSize: 13,
-      fontWeight: 700,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 8,
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.wa,
-    size: 18,
-    col: "#fff"
-  }), "Enviar link por WhatsApp al cliente"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      margin: '0 0 10px'
-    }
-  }, "Rese\xF1as recientes"), reviews.map(function (r) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: r.id
-    }, /*#__PURE__*/React.createElement("div", {
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: 6
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        gap: 10,
-        alignItems: 'center'
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 36,
-        height: 36,
-        borderRadius: '50%',
         background: '#1A1A2E',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#fff',
-        fontWeight: 700,
-        fontSize: 14,
-        flexShrink: 0
-      }
-    }, r.autor.charAt(0)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+        padding: '16px 18px 16px'
+      },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          background: 'rgba(255,255,255,.08)',
+          border: '1px solid rgba(255,255,255,.1)',
+          borderRadius: 14,
+          padding: '16px'
+        },
+        children: /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            display: 'flex',
+            gap: 16,
+            alignItems: 'center'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              textAlign: 'center'
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+              style: {
+                color: '#FF6B2B',
+                fontSize: 42,
+                fontWeight: 700,
+                margin: 0,
+                lineHeight: 1
+              },
+              children: avg
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Stars, {
+              n: Math.round(+avg),
+              size: 18
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+              style: {
+                color: '#E8E0D5',
+                fontSize: 11,
+                margin: '4px 0 0'
+              },
+              children: [reviews.length, " rese\xF1as"]
+            })]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+            style: {
+              flex: 1
+            },
+            children: [5, 4, 3].map(function (s) {
+              var cnt = reviews.filter(function (r) {
+                return r.stars === s;
+              }).length;
+              var pct = Math.round(cnt / reviews.length * 100) || 0;
+              return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                style: {
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  marginBottom: 5
+                },
+                children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+                  style: {
+                    color: '#E8E0D5',
+                    fontSize: 11,
+                    width: 8
+                  },
+                  children: s
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+                  d: ICONS.star,
+                  size: 11,
+                  col: "#FFA000"
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+                  style: {
+                    flex: 1,
+                    background: 'rgba(255,255,255,.15)',
+                    borderRadius: 3,
+                    height: 5
+                  },
+                  children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+                    style: {
+                      width: "".concat(pct, "%"),
+                      height: '100%',
+                      background: '#FFA000',
+                      borderRadius: 3
+                    }
+                  })
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+                  style: {
+                    color: '#E8E0D5',
+                    fontSize: 11,
+                    width: 16
+                  },
+                  children: cnt
+                })]
+              }, s);
+            })
+          })]
+        })
+      })
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        fontWeight: 700,
-        fontSize: 13,
-        margin: '0 0 2px',
-        color: '#1A1A2E'
-      }
-    }, r.autor), /*#__PURE__*/React.createElement(Stars, {
-      n: r.stars,
-      size: 13
-    }))), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        color: '#888'
-      }
-    }, r.fecha)), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 13,
-        color: '#444',
-        margin: 0,
-        lineHeight: 1.5
-      }
-    }, r.texto));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#F5F5F0',
-      border: '1px dashed #E8E0D5',
-      borderRadius: 14,
-      padding: '16px',
-      textAlign: 'center',
-      marginTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      color: '#888',
-      margin: '0 0 8px'
-    }
-  }, "Configura tu Perfil de Negocio Google"), /*#__PURE__*/React.createElement("a", {
-    href: "https://business.google.com",
-    target: "_blank",
-    rel: "noreferrer",
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#FF6B2B',
-      textDecoration: 'none'
-    }
-  }, "business.google.com \u2192"))));
+        padding: '14px 18px 0'
+      },
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: '#E8F5E9',
+          border: '1px solid #A5D6A7',
+          borderRadius: 14,
+          padding: '14px 16px',
+          marginBottom: 14
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+          style: {
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#1B5E20',
+            margin: '0 0 8px'
+          },
+          children: "Pide una rese\xF1a \u2014 copia este link"
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            background: '#fff',
+            borderRadius: 10,
+            padding: '10px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            marginBottom: 10
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+            d: ICONS.qr,
+            size: 16,
+            col: "#1B5E20"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              fontSize: 11,
+              color: '#1B5E20',
+              margin: 0,
+              wordBreak: 'break-all',
+              flex: 1
+            },
+            children: reviewLink
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+          onClick: function onClick() {
+            var _navigator$clipboard, _navigator$clipboard$;
+            (_navigator$clipboard = navigator.clipboard) === null || _navigator$clipboard === void 0 || (_navigator$clipboard$ = _navigator$clipboard.writeText) === null || _navigator$clipboard$ === void 0 || _navigator$clipboard$.call(_navigator$clipboard, reviewLink);
+          },
+          style: {
+            width: '100%',
+            background: '#1B5E20',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 10,
+            padding: '10px',
+            fontSize: 13,
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+            d: ICONS.qr,
+            size: 16,
+            col: "#fff"
+          }), " Copiar link de rese\xF1a"]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+          style: {
+            fontSize: 10,
+            color: '#2E7D32',
+            margin: '8px 0 0',
+            textAlign: 'center'
+          },
+          children: "M\xE1ndalo por WhatsApp al terminar cada obra"
+        })]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+        style: {
+          width: '100%',
+          background: '#25D366',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 14,
+          padding: 13,
+          fontSize: 13,
+          fontWeight: 700,
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          marginBottom: 14
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+          d: ICONS.wa,
+          size: 18,
+          col: "#fff"
+        }), "Enviar link por WhatsApp al cliente"]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
+          margin: '0 0 10px'
+        },
+        children: "Rese\xF1as recientes"
+      }), reviews.map(function (r) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)(Card, {
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              marginBottom: 6
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              style: {
+                display: 'flex',
+                gap: 10,
+                alignItems: 'center'
+              },
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+                style: {
+                  width: 36,
+                  height: 36,
+                  borderRadius: '50%',
+                  background: '#1A1A2E',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  flexShrink: 0
+                },
+                children: r.autor.charAt(0)
+              }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                  style: {
+                    fontWeight: 700,
+                    fontSize: 13,
+                    margin: '0 0 2px',
+                    color: '#1A1A2E'
+                  },
+                  children: r.autor
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Stars, {
+                  n: r.stars,
+                  size: 13
+                })]
+              })]
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+              style: {
+                fontSize: 11,
+                color: '#888'
+              },
+              children: r.fecha
+            })]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+            style: {
+              fontSize: 13,
+              color: '#444',
+              margin: 0,
+              lineHeight: 1.5
+            },
+            children: r.texto
+          })]
+        }, r.id);
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: '#F5F5F0',
+          border: '1px dashed #E8E0D5',
+          borderRadius: 14,
+          padding: '16px',
+          textAlign: 'center',
+          marginTop: 4
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+          style: {
+            fontSize: 12,
+            color: '#888',
+            margin: '0 0 8px'
+          },
+          children: "Configura tu Perfil de Negocio Google"
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)("a", {
+          href: "https://business.google.com",
+          target: "_blank",
+          rel: "noreferrer",
+          style: {
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#FF6B2B',
+            textDecoration: 'none'
+          },
+          children: "business.google.com \u2192"
+        })]
+      })]
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2041,107 +2163,121 @@ function Obras(_ref11) {
   var obras = _ref11.obras,
     lang = _ref11.lang;
   var t = T[lang];
-  var _useState17 = (0, React.useState)('all'),
+  var _useState17 = useState('all'),
     _useState18 = _slicedToArray(_useState17, 2),
     f = _useState18[0],
     setF = _useState18[1];
   var shown = f === 'all' ? obras : obras.filter(function (o) {
     return o.estado === f;
   });
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       paddingBottom: 72
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      padding: '16px 18px 16px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 7
-    }
-  }, [['all', 'Todas'], ['en_obra', t.enObra], ['terminada', t.terminada]].map(function (_ref12) {
-    var _ref13 = _slicedToArray(_ref12, 2),
-      v = _ref13[0],
-      l = _ref13[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: v,
-      onClick: function onClick() {
-        return setF(v);
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: {
+        background: '#1A1A2E',
+        padding: '16px 18px 16px'
       },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          display: 'flex',
+          gap: 7
+        },
+        children: [['all', 'Todas'], ['en_obra', t.enObra], ['terminada', t.terminada]].map(function (_ref12) {
+          var _ref13 = _slicedToArray(_ref12, 2),
+            v = _ref13[0],
+            l = _ref13[1];
+          return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+            onClick: function onClick() {
+              return setF(v);
+            },
+            style: {
+              flex: 1,
+              background: f === v ? '#FF6B2B' : 'rgba(255,255,255,.1)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 20,
+              padding: '7px 0',
+              fontSize: 11,
+              fontWeight: 700,
+              cursor: 'pointer',
+              fontFamily: 'inherit'
+            },
+            children: l
+          }, v);
+        })
+      })
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
       style: {
-        flex: 1,
-        background: f === v ? '#FF6B2B' : 'rgba(255,255,255,.1)',
-        color: '#fff',
-        border: 'none',
-        borderRadius: 20,
-        padding: '7px 0',
-        fontSize: 11,
-        fontWeight: 700,
-        cursor: 'pointer',
-        fontFamily: 'inherit'
-      }
-    }, l);
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '14px 18px 0'
-    }
-  }, shown.map(function (o) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: o.id
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 7
-      }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontWeight: 700,
-        fontSize: 14,
-        margin: '0 0 2px',
-        color: '#1A1A2E'
-      }
-    }, o.cliente), /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontSize: 11,
-        color: '#888',
-        margin: 0
-      }
-    }, o.tipo, " \xB7 ", o.direccion)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        textAlign: 'right'
-      }
-    }, /*#__PURE__*/React.createElement("p", {
-      style: {
-        fontWeight: 700,
-        fontSize: 13,
-        margin: '0 0 3px'
-      }
-    }, fmt(o.total)), /*#__PURE__*/React.createElement(Badge, {
-      s: o.estado
-    }))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 4
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        color: '#888'
-      }
-    }, t.avance, " ", o.avance, "%"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        color: '#888'
-      }
-    }, o.fotos, " fotos \xB7 ", o.inicio)), /*#__PURE__*/React.createElement(Prog, {
-      p: o.avance
-    }));
-  })));
+        padding: '14px 18px 0'
+      },
+      children: shown.map(function (o) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)(Card, {
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 7
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  fontWeight: 700,
+                  fontSize: 14,
+                  margin: '0 0 2px',
+                  color: '#1A1A2E'
+                },
+                children: o.cliente
+              }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("p", {
+                style: {
+                  fontSize: 11,
+                  color: '#888',
+                  margin: 0
+                },
+                children: [o.tipo, " \xB7 ", o.direccion]
+              })]
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              style: {
+                textAlign: 'right'
+              },
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  fontWeight: 700,
+                  fontSize: 13,
+                  margin: '0 0 3px'
+                },
+                children: fmt(o.total)
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Badge, {
+                s: o.estado
+              })]
+            })]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 4
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+              style: {
+                fontSize: 11,
+                color: '#888'
+              },
+              children: [t.avance, " ", o.avance, "%"]
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+              style: {
+                fontSize: 11,
+                color: '#888'
+              },
+              children: [o.fotos, " fotos \xB7 ", o.inicio]
+            })]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(Prog, {
+            p: o.avance
+          })]
+        }, o.id);
+      })
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2182,15 +2318,15 @@ function Quote(_ref14) {
   var lang = _ref14.lang,
     onDone = _ref14.onDone;
   var t = T[lang];
-  var _useState19 = (0, React.useState)(''),
+  var _useState19 = useState(''),
     _useState20 = _slicedToArray(_useState19, 2),
     cliente = _useState20[0],
     setCliente = _useState20[1];
-  var _useState21 = (0, React.useState)(''),
+  var _useState21 = useState(''),
     _useState22 = _slicedToArray(_useState21, 2),
     addr = _useState22[0],
     setAddr = _useState22[1];
-  var _useState23 = (0, React.useState)([{
+  var _useState23 = useState([{
       id: uid(),
       concepto: '',
       cantidad: 1,
@@ -2199,11 +2335,11 @@ function Quote(_ref14) {
     _useState24 = _slicedToArray(_useState23, 2),
     items = _useState24[0],
     setItems = _useState24[1];
-  var _useState25 = (0, React.useState)(40),
+  var _useState25 = useState(40),
     _useState26 = _slicedToArray(_useState25, 2),
     pct = _useState26[0],
     setPct = _useState26[1];
-  var _useState27 = (0, React.useState)(false),
+  var _useState27 = useState(false),
     _useState28 = _slicedToArray(_useState27, 2),
     sent = _useState28[0],
     setSent = _useState28[1];
@@ -2232,7 +2368,7 @@ function Quote(_ref14) {
     if (!cliente) return;
     setSent(true);
   };
-  if (sent) return /*#__PURE__*/React.createElement("div", {
+  if (sent) return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
@@ -2241,365 +2377,395 @@ function Quote(_ref14) {
       height: '80vh',
       gap: 14,
       padding: 32
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 64,
-      height: 64,
-      borderRadius: '50%',
-      background: '#22C55E',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.check,
-    size: 32,
-    col: "#fff"
-  })), /*#__PURE__*/React.createElement("h2", {
-    style: {
-      color: '#1A1A2E',
-      margin: 0
-    }
-  }, "\xA1Cotizaci\xF3n enviada!"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#666',
-      textAlign: 'center',
-      margin: 0,
-      fontSize: 14
-    }
-  }, "PDF + link SPEI enviados por WhatsApp."), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setSent(false);
-      setCliente('');
-      setAddr('');
-      setItems([{
-        id: uid(),
-        concepto: '',
-        cantidad: 1,
-        precio: 0
-      }]);
     },
-    style: {
-      background: '#FF6B2B',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 14,
-      padding: '13px 32px',
-      fontSize: 14,
-      fontWeight: 700,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      marginTop: 8
-    }
-  }, "Nueva cotizaci\xF3n"));
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      paddingBottom: 100
-    }
-  }, /*#__PURE__*/React.createElement(Hdr, {
-    title: t.newQuote,
-    sub: today()
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '16px 18px 0'
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      display: 'block',
-      marginBottom: 5
-    }
-  }, "Cliente"), /*#__PURE__*/React.createElement("input", {
-    value: cliente,
-    onChange: function onChange(e) {
-      return setCliente(e.target.value);
-    },
-    placeholder: "Nombre del cliente",
-    style: {
-      width: '100%',
-      border: '1px solid #E8E0D5',
-      borderRadius: 10,
-      padding: '11px 13px',
-      fontSize: 14,
-      outline: 'none',
-      fontFamily: 'inherit',
-      boxSizing: 'border-box',
-      marginBottom: 12
-    }
-  }), /*#__PURE__*/React.createElement("label", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      display: 'block',
-      marginBottom: 5
-    }
-  }, "Alcald\xEDa / Direcci\xF3n"), /*#__PURE__*/React.createElement("input", {
-    value: addr,
-    onChange: function onChange(e) {
-      return setAddr(e.target.value);
-    },
-    placeholder: "Iztapalapa, CDMX",
-    style: {
-      width: '100%',
-      border: '1px solid #E8E0D5',
-      borderRadius: 10,
-      padding: '11px 13px',
-      fontSize: 14,
-      outline: 'none',
-      fontFamily: 'inherit',
-      boxSizing: 'border-box',
-      marginBottom: 14
-    }
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      margin: '0 0 8px'
-    }
-  }, "Partidas r\xE1pidas CDMX"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 7,
-      overflowX: 'auto',
-      paddingBottom: 10,
-      marginBottom: 12
-    }
-  }, PARTIDAS.map(function (p) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: p.concepto,
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: {
+        width: 64,
+        height: 64,
+        borderRadius: '50%',
+        background: '#22C55E',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+        d: ICONS.check,
+        size: 32,
+        col: "#fff"
+      })
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("h2", {
+      style: {
+        color: '#1A1A2E',
+        margin: 0
+      },
+      children: "\xA1Cotizaci\xF3n enviada!"
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+      style: {
+        color: '#666',
+        textAlign: 'center',
+        margin: 0,
+        fontSize: 14
+      },
+      children: "PDF + link SPEI enviados por WhatsApp."
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
       onClick: function onClick() {
-        return addTpl(p);
+        setSent(false);
+        setCliente('');
+        setAddr('');
+        setItems([{
+          id: uid(),
+          concepto: '',
+          cantidad: 1,
+          precio: 0
+        }]);
       },
       style: {
-        flexShrink: 0,
-        background: '#F5F5F0',
-        border: '1px solid #E8E0D5',
-        borderRadius: 20,
-        padding: '5px 11px',
-        fontSize: 11,
+        background: '#FF6B2B',
+        color: '#fff',
+        border: 'none',
+        borderRadius: 14,
+        padding: '13px 32px',
+        fontSize: 14,
+        fontWeight: 700,
         cursor: 'pointer',
         fontFamily: 'inherit',
-        color: '#1A1A2E'
-      }
-    }, p.concepto);
-  })), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: '#2D2D2D',
-      margin: '0 0 8px'
-    }
-  }, "Conceptos"), items.map(function (item) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: item.id,
-      style: {
-        background: '#fff',
-        border: '1px solid #E8E0D5',
-        borderRadius: 12,
-        padding: 12,
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("input", {
-      value: item.concepto,
-      onChange: function onChange(e) {
-        return upd(item.id, 'concepto', e.target.value);
+        marginTop: 8
       },
-      placeholder: "Concepto",
+      children: "Nueva cotizaci\xF3n"
+    })]
+  });
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+    style: {
+      paddingBottom: 100
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Hdr, {
+      title: t.newQuote,
+      sub: today()
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        width: '100%',
-        border: '1px solid #E8E0D5',
-        borderRadius: 8,
-        padding: '8px 10px',
-        fontSize: 13,
-        outline: 'none',
-        fontFamily: 'inherit',
-        boxSizing: 'border-box',
-        marginBottom: 7
-      }
-    }), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        gap: 7
-      }
-    }, [['cantidad', 'Cantidad', 'number'], ['precio', 'Precio', 'number']].map(function (_ref15) {
-      var _ref16 = _slicedToArray(_ref15, 3),
-        f = _ref16[0],
-        l = _ref16[1],
-        tp = _ref16[2];
-      return /*#__PURE__*/React.createElement("div", {
-        key: f
-      }, /*#__PURE__*/React.createElement("label", {
+        padding: '16px 18px 0'
+      },
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
         style: {
-          fontSize: 10,
-          color: '#888',
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
           display: 'block',
-          marginBottom: 3
-        }
-      }, l), /*#__PURE__*/React.createElement("input", {
-        type: tp,
-        value: item[f],
-        onChange: function onChange(e) {
-          return upd(item.id, f, +e.target.value);
+          marginBottom: 5
         },
+        children: "Cliente"
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+        value: cliente,
+        onChange: function onChange(e) {
+          return setCliente(e.target.value);
+        },
+        placeholder: "Nombre del cliente",
         style: {
           width: '100%',
           border: '1px solid #E8E0D5',
-          borderRadius: 7,
-          padding: '6px 8px',
-          fontSize: 13,
+          borderRadius: 10,
+          padding: '11px 13px',
+          fontSize: 14,
           outline: 'none',
           fontFamily: 'inherit',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
+          marginBottom: 12
         }
-      }));
-    }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-      style: {
-        fontSize: 10,
-        color: '#888',
-        display: 'block',
-        marginBottom: 3
-      }
-    }, "Subtotal"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        padding: '6px 0',
-        fontSize: 13,
-        fontWeight: 700,
-        color: '#FF6B2B'
-      }
-    }, fmt(item.cantidad * item.precio)))));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setItems([].concat(_toConsumableArray(items), [{
-        id: uid(),
-        concepto: '',
-        cantidad: 1,
-        precio: 0
-      }]));
-    },
-    style: {
-      width: '100%',
-      background: '#F5F5F0',
-      border: '1px dashed #E8E0D5',
-      borderRadius: 12,
-      padding: 11,
-      fontSize: 13,
-      cursor: 'pointer',
-      color: '#666',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 7,
-      fontFamily: 'inherit',
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.plus,
-    size: 15,
-    col: "#666"
-  }), " Agregar concepto"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: '#1A1A2E',
-      borderRadius: 14,
-      padding: '16px 18px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 13
-    }
-  }, "Total obra"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#fff',
-      fontSize: 17,
-      fontWeight: 700
-    }
-  }, fmt(sub))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      marginBottom: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12,
-      whiteSpace: 'nowrap'
-    }
-  }, "Anticipo"), /*#__PURE__*/React.createElement("input", {
-    type: "range",
-    min: 20,
-    max: 60,
-    value: pct,
-    onChange: function onChange(e) {
-      return setPct(+e.target.value);
-    },
-    style: {
-      flex: 1,
-      accentColor: '#FF6B2B'
-    }
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#FF6B2B',
-      fontWeight: 700,
-      fontSize: 13,
-      minWidth: 34
-    }
-  }, pct, "%")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      borderTop: '1px solid rgba(255,255,255,.1)',
-      paddingTop: 10,
-      display: 'flex',
-      justifyContent: 'space-between'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#E8E0D5',
-      fontSize: 12
-    }
-  }, "Anticipo a cobrar"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#FF6B2B',
-      fontSize: 19,
-      fontWeight: 700
-    }
-  }, fmt(antMonto)))), /*#__PURE__*/React.createElement("button", {
-    onClick: send,
-    style: {
-      width: '100%',
-      background: '#25D366',
-      color: '#fff',
-      border: 'none',
-      borderRadius: 14,
-      padding: 14,
-      fontSize: 14,
-      fontWeight: 700,
-      cursor: 'pointer',
-      marginTop: 14,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 9,
-      fontFamily: 'inherit'
-    }
-  }, /*#__PURE__*/React.createElement(Ic, {
-    d: ICONS.wa,
-    size: 19,
-    col: "#fff"
-  }), " Enviar WhatsApp + link de pago")));
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
+          display: 'block',
+          marginBottom: 5
+        },
+        children: "Alcald\xEDa / Direcci\xF3n"
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+        value: addr,
+        onChange: function onChange(e) {
+          return setAddr(e.target.value);
+        },
+        placeholder: "Iztapalapa, CDMX",
+        style: {
+          width: '100%',
+          border: '1px solid #E8E0D5',
+          borderRadius: 10,
+          padding: '11px 13px',
+          fontSize: 14,
+          outline: 'none',
+          fontFamily: 'inherit',
+          boxSizing: 'border-box',
+          marginBottom: 14
+        }
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
+          margin: '0 0 8px'
+        },
+        children: "Partidas r\xE1pidas CDMX"
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          display: 'flex',
+          gap: 7,
+          overflowX: 'auto',
+          paddingBottom: 10,
+          marginBottom: 12
+        },
+        children: PARTIDAS.map(function (p) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+            onClick: function onClick() {
+              return addTpl(p);
+            },
+            style: {
+              flexShrink: 0,
+              background: '#F5F5F0',
+              border: '1px solid #E8E0D5',
+              borderRadius: 20,
+              padding: '5px 11px',
+              fontSize: 11,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              color: '#1A1A2E'
+            },
+            children: p.concepto
+          }, p.concepto);
+        })
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+        style: {
+          fontSize: 12,
+          fontWeight: 700,
+          color: '#2D2D2D',
+          margin: '0 0 8px'
+        },
+        children: "Conceptos"
+      }), items.map(function (item) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            background: '#fff',
+            border: '1px solid #E8E0D5',
+            borderRadius: 12,
+            padding: 12,
+            marginBottom: 8
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+            value: item.concepto,
+            onChange: function onChange(e) {
+              return upd(item.id, 'concepto', e.target.value);
+            },
+            placeholder: "Concepto",
+            style: {
+              width: '100%',
+              border: '1px solid #E8E0D5',
+              borderRadius: 8,
+              padding: '8px 10px',
+              fontSize: 13,
+              outline: 'none',
+              fontFamily: 'inherit',
+              boxSizing: 'border-box',
+              marginBottom: 7
+            }
+          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+            style: {
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr',
+              gap: 7
+            },
+            children: [[['cantidad', 'Cantidad', 'number'], ['precio', 'Precio', 'number']].map(function (_ref15) {
+              var _ref16 = _slicedToArray(_ref15, 3),
+                f = _ref16[0],
+                l = _ref16[1],
+                tp = _ref16[2];
+              return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+                children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+                  style: {
+                    fontSize: 10,
+                    color: '#888',
+                    display: 'block',
+                    marginBottom: 3
+                  },
+                  children: l
+                }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+                  type: tp,
+                  value: item[f],
+                  onChange: function onChange(e) {
+                    return upd(item.id, f, +e.target.value);
+                  },
+                  style: {
+                    width: '100%',
+                    border: '1px solid #E8E0D5',
+                    borderRadius: 7,
+                    padding: '6px 8px',
+                    fontSize: 13,
+                    outline: 'none',
+                    fontFamily: 'inherit',
+                    boxSizing: 'border-box'
+                  }
+                })]
+              }, f);
+            }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("label", {
+                style: {
+                  fontSize: 10,
+                  color: '#888',
+                  display: 'block',
+                  marginBottom: 3
+                },
+                children: "Subtotal"
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
+                style: {
+                  margin: 0,
+                  padding: '6px 0',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: '#FF6B2B'
+                },
+                children: fmt(item.cantidad * item.precio)
+              })]
+            })]
+          })]
+        }, item.id);
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+        onClick: function onClick() {
+          return setItems([].concat(_toConsumableArray(items), [{
+            id: uid(),
+            concepto: '',
+            cantidad: 1,
+            precio: 0
+          }]));
+        },
+        style: {
+          width: '100%',
+          background: '#F5F5F0',
+          border: '1px dashed #E8E0D5',
+          borderRadius: 12,
+          padding: 11,
+          fontSize: 13,
+          cursor: 'pointer',
+          color: '#666',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 7,
+          fontFamily: 'inherit',
+          marginBottom: 16
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+          d: ICONS.plus,
+          size: 15,
+          col: "#666"
+        }), " Agregar concepto"]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+        style: {
+          background: '#1A1A2E',
+          borderRadius: 14,
+          padding: '16px 18px'
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 10
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 13
+            },
+            children: "Total obra"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              color: '#fff',
+              fontSize: 17,
+              fontWeight: 700
+            },
+            children: fmt(sub)
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            marginBottom: 8
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 12,
+              whiteSpace: 'nowrap'
+            },
+            children: "Anticipo"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("input", {
+            type: "range",
+            min: 20,
+            max: 60,
+            value: pct,
+            onChange: function onChange(e) {
+              return setPct(+e.target.value);
+            },
+            style: {
+              flex: 1,
+              accentColor: '#FF6B2B'
+            }
+          }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("span", {
+            style: {
+              color: '#FF6B2B',
+              fontWeight: 700,
+              fontSize: 13,
+              minWidth: 34
+            },
+            children: [pct, "%"]
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+          style: {
+            borderTop: '1px solid rgba(255,255,255,.1)',
+            paddingTop: 10,
+            display: 'flex',
+            justifyContent: 'space-between'
+          },
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              color: '#E8E0D5',
+              fontSize: 12
+            },
+            children: "Anticipo a cobrar"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+            style: {
+              color: '#FF6B2B',
+              fontSize: 19,
+              fontWeight: 700
+            },
+            children: fmt(antMonto)
+          })]
+        })]
+      }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+        onClick: send,
+        style: {
+          width: '100%',
+          background: '#25D366',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 14,
+          padding: 14,
+          fontSize: 14,
+          fontWeight: 700,
+          cursor: 'pointer',
+          marginTop: 14,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 9,
+          fontFamily: 'inherit'
+        },
+        children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+          d: ICONS.wa,
+          size: 19,
+          col: "#fff"
+        }), " Enviar WhatsApp + link de pago"]
+      })]
+    })]
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2642,7 +2808,7 @@ var GlobalBar = function GlobalBar(_ref17) {
     cuadrilla: t.crewTitle,
     reviews: t.reviewTitle
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       position: 'fixed',
       top: 0,
@@ -2657,59 +2823,62 @@ var GlobalBar = function GlobalBar(_ref17) {
       justifyContent: 'space-between',
       padding: '10px 18px',
       boxSizing: 'border-box'
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#fff',
-      fontSize: 15,
-      fontWeight: 700,
-      margin: 0,
-      letterSpacing: -0.3
-    }
-  }, screenTitles[tab] || 'RoofTech'), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      background: 'rgba(255,255,255,.12)',
-      borderRadius: 20,
-      padding: 2,
-      gap: 2
-    }
-  }, ['es', 'en'].map(function (l) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: l,
-      onClick: function onClick() {
-        return setLang(l);
-      },
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("p", {
       style: {
-        background: lang === l ? '#FF6B2B' : 'none',
-        color: lang === l ? '#fff' : '#E8E0D5',
-        border: 'none',
-        borderRadius: 16,
-        padding: '4px 12px',
-        fontSize: 12,
+        color: '#fff',
+        fontSize: 15,
         fontWeight: 700,
-        cursor: 'pointer',
-        fontFamily: 'inherit',
-        transition: 'background .2s'
-      }
-    }, l.toUpperCase());
-  })));
+        margin: 0,
+        letterSpacing: -0.3
+      },
+      children: screenTitles[tab] || 'RoofTech'
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+      style: {
+        display: 'flex',
+        background: 'rgba(255,255,255,.12)',
+        borderRadius: 20,
+        padding: 2,
+        gap: 2
+      },
+      children: ['es', 'en'].map(function (l) {
+        return /*#__PURE__*/(0, _jsxRuntime.jsx)("button", {
+          onClick: function onClick() {
+            return setLang(l);
+          },
+          style: {
+            background: lang === l ? '#FF6B2B' : 'none',
+            color: lang === l ? '#fff' : '#E8E0D5',
+            border: 'none',
+            borderRadius: 16,
+            padding: '4px 12px',
+            fontSize: 12,
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            transition: 'background .2s'
+          },
+          children: l.toUpperCase()
+        }, l);
+      })
+    })]
+  });
 };
 function App() {
-  var _useState29 = (0, React.useState)('home'),
+  var _useState29 = useState('home'),
     _useState30 = _slicedToArray(_useState29, 2),
     tab = _useState30[0],
     setTab = _useState30[1];
-  var _useState31 = (0, React.useState)('es'),
+  var _useState31 = useState('es'),
     _useState32 = _slicedToArray(_useState31, 2),
     lang = _useState32[0],
     setLang = _useState32[1];
-  var _useState33 = (0, React.useState)(SEED_OBRAS),
+  var _useState33 = useState(SEED_OBRAS),
     _useState34 = _slicedToArray(_useState33, 2),
     obras = _useState34[0],
     setObras = _useState34[1];
   var t = T[lang];
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     style: {
       maxWidth: 430,
       margin: '0 auto',
@@ -2717,118 +2886,125 @@ function App() {
       background: '#F5F5F0',
       minHeight: '100vh',
       position: 'relative'
-    }
-  }, /*#__PURE__*/React.createElement("link", {
-    href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap",
-    rel: "stylesheet"
-  }), /*#__PURE__*/React.createElement(GlobalBar, {
-    lang: lang,
-    setLang: setLang,
-    tab: tab
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      paddingTop: 46,
-      paddingBottom: 76,
-      minHeight: '100vh'
-    }
-  }, tab === 'home' && /*#__PURE__*/React.createElement(Home, {
-    obras: obras,
-    lang: lang,
-    setLang: setLang,
-    onTab: setTab
-  }), tab === 'quote' && /*#__PURE__*/React.createElement(Quote, {
-    lang: lang
-  }), tab === 'obras' && /*#__PURE__*/React.createElement(Obras, {
-    obras: obras,
-    lang: lang
-  }), tab === 'medidas' && /*#__PURE__*/React.createElement(Medidas, {
-    lang: lang
-  }), tab === 'seguridad' && /*#__PURE__*/React.createElement(Seguridad, {
-    lang: lang
-  }), tab === 'cuadrilla' && /*#__PURE__*/React.createElement(Cuadrilla, {
-    lang: lang
-  }), tab === 'reviews' && /*#__PURE__*/React.createElement(Reviews, {
-    lang: lang
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'fixed',
-      bottom: 0,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      width: '100%',
-      maxWidth: 430,
-      background: '#fff',
-      borderTop: '1px solid #E8E0D5',
-      zIndex: 50
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex'
-    }
-  }, TABS.slice(0, 4).map(function (tb) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: tb.id,
-      onClick: function onClick() {
-        return setTab(tb.id);
+    },
+    children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("link", {
+      href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap",
+      rel: "stylesheet"
+    }), /*#__PURE__*/(0, _jsxRuntime.jsx)(GlobalBar, {
+      lang: lang,
+      setLang: setLang,
+      tab: tab
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
+      style: {
+        paddingTop: 46,
+        paddingBottom: 76,
+        minHeight: '100vh'
       },
+      children: [tab === 'home' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Home, {
+        obras: obras,
+        lang: lang,
+        setLang: setLang,
+        onTab: setTab
+      }), tab === 'quote' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Quote, {
+        lang: lang
+      }), tab === 'obras' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Obras, {
+        obras: obras,
+        lang: lang
+      }), tab === 'medidas' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Medidas, {
+        lang: lang
+      }), tab === 'seguridad' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Seguridad, {
+        lang: lang
+      }), tab === 'cuadrilla' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Cuadrilla, {
+        lang: lang
+      }), tab === 'reviews' && /*#__PURE__*/(0, _jsxRuntime.jsx)(Reviews, {
+        lang: lang
+      })]
+    }), /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
       style: {
-        flex: 1,
-        background: 'none',
-        border: 'none',
-        padding: '7px 0 9px',
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-        fontFamily: 'inherit',
-        borderBottom: '1px solid #F0EDE8'
-      }
-    }, /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS[tb.icon],
-      size: 20,
-      col: tab === tb.id ? '#FF6B2B' : '#aaa'
-    }), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: tab === tb.id ? '#FF6B2B' : '#aaa',
-        fontWeight: tab === tb.id ? 700 : 400
-      }
-    }, t[tb.id] || tb.id));
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex'
-    }
-  }, TABS.slice(4).map(function (tb) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: tb.id,
-      onClick: function onClick() {
-        return setTab(tb.id);
+        position: 'fixed',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: 430,
+        background: '#fff',
+        borderTop: '1px solid #E8E0D5',
+        zIndex: 50
       },
-      style: {
-        flex: 1,
-        background: 'none',
-        border: 'none',
-        padding: '7px 0 10px',
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-        fontFamily: 'inherit'
-      }
-    }, /*#__PURE__*/React.createElement(Ic, {
-      d: ICONS[tb.icon],
-      size: 20,
-      col: tab === tb.id ? '#FF6B2B' : '#aaa'
-    }), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 9,
-        color: tab === tb.id ? '#FF6B2B' : '#aaa',
-        fontWeight: tab === tb.id ? 700 : 400
-      }
-    }, t[tb.id] || tb.id));
-  }))));
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          display: 'flex'
+        },
+        children: TABS.slice(0, 4).map(function (tb) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+            onClick: function onClick() {
+              return setTab(tb.id);
+            },
+            style: {
+              flex: 1,
+              background: 'none',
+              border: 'none',
+              padding: '7px 0 9px',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2,
+              fontFamily: 'inherit',
+              borderBottom: '1px solid #F0EDE8'
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+              d: ICONS[tb.icon],
+              size: 20,
+              col: tab === tb.id ? '#FF6B2B' : '#aaa'
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+              style: {
+                fontSize: 9,
+                color: tab === tb.id ? '#FF6B2B' : '#aaa',
+                fontWeight: tab === tb.id ? 700 : 400
+              },
+              children: t[tb.id] || tb.id
+            })]
+          }, tb.id);
+        })
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+        style: {
+          display: 'flex'
+        },
+        children: TABS.slice(4).map(function (tb) {
+          return /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+            onClick: function onClick() {
+              return setTab(tb.id);
+            },
+            style: {
+              flex: 1,
+              background: 'none',
+              border: 'none',
+              padding: '7px 0 10px',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2,
+              fontFamily: 'inherit'
+            },
+            children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Ic, {
+              d: ICONS[tb.icon],
+              size: 20,
+              col: tab === tb.id ? '#FF6B2B' : '#aaa'
+            }), /*#__PURE__*/(0, _jsxRuntime.jsx)("span", {
+              style: {
+                fontSize: 9,
+                color: tab === tb.id ? '#FF6B2B' : '#aaa',
+                fontWeight: tab === tb.id ? 700 : 400
+              },
+              children: t[tb.id] || tb.id
+            })]
+          }, tb.id);
+        })
+      })]
+    })]
+  });
 }
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script>
