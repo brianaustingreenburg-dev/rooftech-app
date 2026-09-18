@@ -1,296 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f1117">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RoofTech — Field Estimator</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f1117" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>RoofTech — Field Estimator</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      *{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',system-ui,sans-serif}
+      body{background:#0f1117;color:#fff;min-height:100vh}
+      #landing{max-width:430px;margin:0 auto;padding:40px 24px 32px}
+      .logo-row{text-align:center;margin-bottom:32px}
+      .rt-title{font-size:36px;font-weight:800;color:#fff;letter-spacing:-1px}
+      .rt-title span{color:#FF6B2B}
+      .rt-sub{font-size:12px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+      .quote{background:rgba(255,255,255,.05);border-left:3px solid #FF6B2B;border-radius:0 12px 12px 0;padding:16px 18px;margin:24px 0;font-size:14px;color:#E8E0D5;line-height:1.6;font-style:italic}
+      .features{list-style:none;margin:24px 0}
+      .features li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;color:#E8E0D5}
+      .features li:last-child{border:none}
+      .feat-icon{font-size:18px;flex-shrink:0;width:24px}
+      .enter-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:18px;font-size:17px;font-weight:700;cursor:pointer;margin:28px 0 16px;letter-spacing:.3px}
+      .enter-btn:active{transform:scale(.98)}
+      .tax-section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;margin-top:8px}
+      .tax-title{font-size:12px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+      .tax-links{display:flex;flex-direction:column;gap:8px}
+      .tax-link{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px;text-decoration:none;color:#fff}
+      .tax-link-name{font-size:13px;font-weight:600}
+      .tax-link-sub{font-size:11px;color:#94A3B8;margin-top:2px}
+      .arrow{color:#FF6B2B}
+      .footer{text-align:center;margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
+      .footer p{font-size:11px;color:#555}
+      .footer span{color:#FF6B2B;font-weight:600}
+    </style>
+    <script type="module" crossorigin src="/assets/index-DHrTSpmj.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Bhi2IHxc.css">
+  </head>
+  <body style="margin:0;background:#0f1117;">
 
-/* SPLASH */
-#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
-.la-logo{font-size:13px;font-weight:700;color:#FF6B2B;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;opacity:.8}
-.rt-title{font-size:42px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-1px}
-.rt-sub{font-size:13px;color:#94A3B8;margin-bottom:64px;letter-spacing:.5px}
-.tap-btn{background:#FF6B2B;color:#fff;border:none;border-radius:18px;padding:18px 48px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px;box-shadow:0 0 40px rgba(255,107,43,.3)}
-.tap-btn:active{transform:scale(.97)}
-
-/* APP - hidden until splash tapped */
-#app-shell{display:none}
-
-/* HEADER */
-.hdr{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:rgba(15,17,23,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.08)}
-.hdr-logo{font-size:17px;font-weight:800;color:#fff}
-.hdr-sub{font-size:10px;color:#94A3B8;margin-top:1px}
-.lang-pill{display:flex;background:rgba(255,255,255,.08);border-radius:20px;padding:2px;gap:2px}
-.lang-btn{background:none;color:#94A3B8;border:none;border-radius:16px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
-.lang-btn.on{background:#FF6B2B;color:#fff}
-
-/* CONTENT */
-.screen{display:none;padding-bottom:80px}
-.screen.active{display:block}
-
-/* NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;background:#0f1117;border-top:1px solid rgba(255,255,255,.08);display:flex;z-index:50;max-width:430px;margin:0 auto}
-.nav-btn{flex:1;background:none;border:none;padding:8px 0 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
-.nav-icon{font-size:20px}
-.nav-label{font-size:9px;color:#94A3B8;font-weight:500}
-.nav-btn.on .nav-label{color:#FF6B2B;font-weight:700}
-
-/* SAFETY */
-.safe-hdr{background:#1a1d27;padding:14px 18px}
-.phase-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
-.phase-btn{flex-shrink:0;background:rgba(255,255,255,.08);color:#94A3B8;border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
-.phase-btn.on{background:#FF6B2B;color:#fff}
-.prog-wrap{background:rgba(255,255,255,.1);border-radius:3px;height:4px;margin-top:10px;overflow:hidden}
-.prog-bar{height:100%;background:#FF6B2B;border-radius:3px;transition:width .3s}
-.check-list{padding:14px 18px 0}
-.check-item{display:flex;gap:12px;align-items:flex-start;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
-.check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
-.check-box.on{background:#22C55E;border-color:#22C55E}
-.check-text{font-size:13px;color:#E8E0D5;margin:0;line-height:1.4}
-.check-text.done{color:#555;text-decoration:line-through}
-
-/* EMERGENCY */
-.emergency-section{background:#1a1d27;margin:14px 18px;border-radius:16px;padding:16px}
-.emergency-label{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.call-911{width:100%;background:#EF4444;color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
-.field-label{font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
-.field-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;font-family:inherit;margin-bottom:12px}
-
-/* JOB HEADER */
-.job-section{padding:14px 18px 0}
-.job-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;font-family:inherit;margin-bottom:10px}
-.job-label{font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
-.auto-saved{font-size:10px;color:#94A3B8;margin-bottom:12px}
-
-/* COMPLETE BTN */
-.complete-btn{background:#22C55E;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
-
-/* TAX SECTION */
-.tax-section{padding:14px 18px}
-.tax-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px}
-.tax-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.tax-links{display:flex;flex-direction:column;gap:8px}
-.tax-link{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;text-decoration:none;color:#fff}
-.tax-link-name{font-size:13px;font-weight:600}
-.tax-link-sub{font-size:11px;color:#94A3B8;margin-top:2px}
-.tax-arrow{color:#FF6B2B;font-size:16px}
-
-/* COMPLETE screen */
-.complete-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px;text-align:center}
-</style>
-</head>
-<body>
-
-<!-- SPLASH -->
-<div id="splash">
-  <div class="la-logo">LA Studios</div>
-  <div class="rt-title">RoofTech</div>
-  <div class="rt-sub">FIELD ESTIMATOR</div>
-  <button class="tap-btn" onclick="startApp()">Tap to Start</button>
-</div>
-
-<!-- APP -->
-<div id="app-shell" style="max-width:430px;margin:0 auto">
-
-  <div class="hdr">
-    <div>
-      <div class="hdr-logo" id="hdr-title">RoofTech</div>
-      <div class="hdr-sub">Auto-saved</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="lang-pill">
-        <button class="lang-btn on" onclick="setLang('es')" id="btn-es">Español</button>
-        <button class="lang-btn" onclick="setLang('en')" id="btn-en">m²</button>
+    <div id="landing">
+      <div class="logo-row">
+        <div class="rt-title"><span>Roof</span>Tech</div>
+        <div class="rt-sub">Field Estimator</div>
       </div>
-      <button class="complete-btn" onclick="markComplete()">COMPLETE</button>
-    </div>
-  </div>
 
-  <!-- SAFETY SCREEN -->
-  <div id="screen-safety" class="screen active">
-    <div class="job-section">
-      <div class="job-label" id="lbl-jobname">JOB NAME</div>
-      <input class="job-input" id="job-name" placeholder="1425 Oak Street — Tear off & replace" oninput="saveJob()">
-      <div class="job-label" id="lbl-siteaddr">SITE ADDRESS</div>
-      <input class="job-input" id="site-addr" placeholder="1425 Oak Street, Austin TX 78701" oninput="saveJob()">
-    </div>
-
-    <div class="emergency-section">
-      <div class="emergency-label">🛡 <span id="lbl-emergency">EMERGENCY</span></div>
-      <button class="call-911" onclick="window.location='tel:911'">🚨 Call 911</button>
-      <div class="field-label" id="lbl-hospital">NEAREST HOSPITAL / URGENT CARE</div>
-      <input class="field-input" id="hospital" placeholder="Hospital name & address">
-      <div class="field-label" id="lbl-incident">INCIDENT LOG</div>
-      <div style="display:flex;gap:8px">
-        <input class="field-input" id="incident" placeholder="Describe incident..." style="margin:0;flex:1">
-        <button onclick="logIncident()" style="background:#FF6B2B;border:none;border-radius:10px;padding:0 14px;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0">+ Log</button>
+      <div class="quote">
+        "As an ex-fisherman in the cold waters of the Bering Sea, I learned how to work hard, work smart, and stay alive. I built this all-in-one app just for you."
       </div>
-      <div id="incident-log" style="margin-top:8px"></div>
-    </div>
 
-    <div class="safe-hdr">
-      <div class="phase-row" id="phase-row"></div>
-      <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px">
-        <span style="font-size:11px;color:#94A3B8" id="phase-label-sm"></span>
-        <span style="font-size:11px;color:#FF6B2B" id="prog-count"></span>
-      </div>
-    </div>
+      <ul class="features">
+        <li><span class="feat-icon">🛡️</span>Required OSHA safety checklist</li>
+        <li><span class="feat-icon">📐</span>Automatic architectural blueprints for measurement</li>
+        <li><span class="feat-icon">🧮</span>Auto materials estimate in sq ft</li>
+        <li><span class="feat-icon">⏱️</span>Time tracking + payroll export</li>
+        <li><span class="feat-icon">📋</span>One-tap job report</li>
+        <li><span class="feat-icon">📍</span>GPS — location logged on clock-in</li>
+        <li><span class="feat-icon">💳</span>Company expenses per job</li>
+        <li><span class="feat-icon">🧾</span>Tax-ready expense export</li>
+        <li><span class="feat-icon">✅</span>Works 100% offline</li>
+        <li><span class="feat-icon">🌎</span>English & Spanish</li>
+        <li><span class="feat-icon">👥</span>Unlimited users</li>
+      </ul>
 
-    <div class="check-list" id="check-list"></div>
+      <button class="enter-btn" onclick="document.getElementById('landing').style.display='none';document.getElementById('root').style.display='block'">
+        Go to Work →
+      </button>
 
-    <div class="tax-section">
-      <div class="tax-card">
-        <div class="tax-title">💰 <span id="lbl-tax">Tax & Accounting</span></div>
+      <div class="tax-section">
+        <div class="tax-title">💰 Tax & Accounting</div>
         <div class="tax-links">
           <a href="https://gusto.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">Gusto</div><div class="tax-link-sub" id="tax-gusto">Payroll & Benefits</div></div>
-            <div class="tax-arrow">→</div>
+            <div><div class="tax-link-name">Gusto</div><div class="tax-link-sub">Payroll & Benefits</div></div>
+            <span class="arrow">→</span>
           </a>
           <a href="https://quickbooks.intuit.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">QuickBooks</div><div class="tax-link-sub" id="tax-qb">Accounting & Taxes</div></div>
-            <div class="tax-arrow">→</div>
+            <div><div class="tax-link-name">QuickBooks</div><div class="tax-link-sub">Accounting & Taxes</div></div>
+            <span class="arrow">→</span>
           </a>
           <a href="https://www.deel.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">Deel</div><div class="tax-link-sub" id="tax-deel">International Payroll</div></div>
-            <div class="tax-arrow">→</div>
+            <div><div class="tax-link-name">Deel</div><div class="tax-link-sub">International Payroll</div></div>
+            <span class="arrow">→</span>
           </a>
         </div>
       </div>
+
+      <div class="footer">
+        <p>Powered by <span>LA Studios</span></p>
+        <p style="margin-top:4px">© 2026 RoofTech · Unlimited users · No contracts</p>
+      </div>
     </div>
-  </div>
 
-</div>
+    <div id="root" style="display:none"></div>
 
-<script>
-var LANG = 'en';
-var PHASE = 0;
-var CHECKED = {};
-var INCIDENTS = [];
-
-var TX = {
-  en:{
-    phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
-    items:[
-      ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder placed on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA 10 or 30 cards on site','Safety meeting held with crew'],
-      ['Excavation shored or sloped per OSHA','Utilities located and marked (811 called)','Trench entry/exit ladders in place','Soil stability assessed','Concrete forms inspected','Rebar secured and inspected','No overhead power line conflicts','Equipment operators certified','Ground compaction verified','Foundation drainage planned'],
-      ['Scaffolding inspected and tagged','Fall arrest systems installed (>6 ft)','Electrical lockout/tagout in place','Roofing safety monitor assigned','Hot work permit obtained if needed','Crane/lift pre-use inspection done','Materials secured against wind','Fire extinguisher within 10 ft of hot work','Workers not working alone at height','Housekeeping — debris removed daily'],
-      ['Silica dust controls in place','Respirators available for drywall/insulation','Lead/asbestos assessment done if renovation','Eye wash station available','Electrical panels labeled and secured','GFCI protection on all temporary power','Cuts and abrasions first aid available','No trip hazards in work area','Ladders inspected and rated for load','Adequate lighting in all work areas'],
-      ['Final walkthrough completed','Punch list items resolved','All tools and equipment removed','Debris and waste disposed properly','Site restored to pre-work condition','Client walkthrough and sign-off','Permits closed out with authority','As-built documentation provided','Warranty documents delivered','Safety incident report filed if any']
-    ],
-    jobName:'JOB NAME',siteAddr:'SITE ADDRESS',emergency:'EMERGENCY',hospital:'NEAREST HOSPITAL / URGENT CARE',incident:'INCIDENT LOG',
-    tax:'Tax & Accounting',gusto:'Payroll & Benefits',qb:'Accounting & Taxes',deel:'International Payroll'
-  },
-  es:{
-    phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
-    items:[
-      ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA 10 o 30 en obra','Reunión de seguridad con la cuadrilla'],
-      ['Excavación apuntalada según norma','Servicios localizados y marcados','Escaleras de entrada/salida en zanjas','Estabilidad del suelo evaluada','Cimbra inspeccionada','Varilla asegurada e inspeccionada','Sin conflictos con líneas eléctricas aéreas','Operadores de equipo certificados','Compactación del terreno verificada','Drenaje de cimentación planeado'],
-      ['Andamios inspeccionados y etiquetados','Sistemas de arresto de caídas instalados (>1.8m)','Bloqueo/etiquetado eléctrico en lugar','Monitor de seguridad en techo asignado','Permiso de trabajo en caliente obtenido','Inspección previa de grúa/elevador','Materiales asegurados contra viento','Extintor a menos de 3m del trabajo en caliente','Trabajadores no laboran solos en altura','Orden — escombro retirado diariamente'],
-      ['Controles de polvo de sílice en lugar','Respiradores disponibles para tabla roca/aislante','Evaluación de plomo/asbesto si es remodelación','Lavaojos disponible','Tableros eléctricos etiquetados y asegurados','Protección GFCI en toda energía temporal','Primeros auxilios para cortes disponibles','Sin obstáculos en área de trabajo','Escaleras inspeccionadas y con capacidad de carga','Iluminación adecuada en todas las áreas'],
-      ['Revisión final completada','Puntos pendientes resueltos','Todas las herramientas y equipos retirados','Residuos y desperdicios eliminados','Sitio restaurado a condición previa','Revisión y firma del cliente','Permisos cerrados con la autoridad','Documentación as-built entregada','Documentos de garantía entregados','Reporte de incidente de seguridad archivado']
-    ],
-    jobName:'NOMBRE DEL TRABAJO',siteAddr:'DIRECCIÓN DEL SITIO',emergency:'EMERGENCIA',hospital:'HOSPITAL / URGENCIAS MÁS CERCANO',incident:'REGISTRO DE INCIDENTES',
-    tax:'Impuestos y Contabilidad',gusto:'Nómina y Beneficios',qb:'Contabilidad e Impuestos',deel:'Nómina Internacional'
-  }
-};
-
-function startApp(){
-  document.getElementById('splash').style.display='none';
-  document.getElementById('app-shell').style.display='block';
-  renderPhases();
-  renderChecklist();
-}
-
-function setLang(l){
-  LANG=l;
-  document.getElementById('btn-es').className='lang-btn'+(l==='es'?' on':'');
-  document.getElementById('btn-en').className='lang-btn'+(l==='en'?' on':'');
-  var t=TX[l];
-  document.getElementById('lbl-jobname').textContent=t.jobName;
-  document.getElementById('lbl-siteaddr').textContent=t.siteAddr;
-  document.getElementById('lbl-emergency').textContent=t.emergency;
-  document.getElementById('lbl-hospital').textContent=t.hospital;
-  document.getElementById('lbl-incident').textContent=t.incident;
-  document.getElementById('lbl-tax').textContent=t.tax;
-  document.getElementById('tax-gusto').textContent=t.gusto;
-  document.getElementById('tax-qb').textContent=t.qb;
-  document.getElementById('tax-deel').textContent=t.deel;
-  renderPhases();
-  renderChecklist();
-}
-
-function renderPhases(){
-  var t=TX[LANG];
-  var row=document.getElementById('phase-row');
-  row.innerHTML='';
-  t.phases.forEach(function(p,i){
-    var btn=document.createElement('button');
-    btn.className='phase-btn'+(i===PHASE?' on':'');
-    btn.textContent=p;
-    btn.onclick=function(){PHASE=i;renderPhases();renderChecklist();};
-    row.appendChild(btn);
-  });
-  updateProgress();
-}
-
-function renderChecklist(){
-  var t=TX[LANG];
-  var items=t.items[PHASE];
-  var list=document.getElementById('check-list');
-  list.innerHTML='';
-  items.forEach(function(item,i){
-    var k=PHASE+'_'+i;
-    var on=!!CHECKED[k];
-    var div=document.createElement('div');
-    div.className='check-item';
-    div.innerHTML='<div class="check-box'+(on?' on':'')+'">'+(on?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>':'')+'</div>'
-      +'<p class="check-text'+(on?' done':'')+'" style="margin:0">'+item+'</p>';
-    div.onclick=function(){CHECKED[k]=!CHECKED[k];renderChecklist();renderPhases();};
-    list.appendChild(div);
-  });
-  updateProgress();
-}
-
-function updateProgress(){
-  var t=TX[LANG];
-  var items=t.items[PHASE];
-  var done=items.filter(function(_,i){return CHECKED[PHASE+'_'+i];}).length;
-  var pct=Math.round(done/items.length*100);
-  document.getElementById('prog-bar').style.width=pct+'%';
-  document.getElementById('prog-count').textContent=done+'/'+items.length;
-  document.getElementById('phase-label-sm').textContent=t.phases[PHASE];
-}
-
-function saveJob(){
-  // auto-save indicator already shown
-}
-
-function logIncident(){
-  var input=document.getElementById('incident');
-  if(!input.value.trim())return;
-  INCIDENTS.push({text:input.value,time:new Date().toLocaleTimeString()});
-  input.value='';
-  var log=document.getElementById('incident-log');
-  log.innerHTML=INCIDENTS.map(function(inc){
-    return '<div style="background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#E8E0D5"><span style="color:#94A3B8;font-size:10px">'+inc.time+'</span><br>'+inc.text+'</div>';
-  }).join('');
-}
-
-function markComplete(){
-  var name=document.getElementById('job-name').value||'Job';
-  var t=TX[LANG];
-  var total=t.items[PHASE].length;
-  var done=t.items[PHASE].filter(function(_,i){return CHECKED[PHASE+'_'+i];}).length;
-  alert(name+'\n'+done+'/'+total+' items completed');
-}
-</script>
-</body>
+  </body>
 </html>
