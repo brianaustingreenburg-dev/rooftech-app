@@ -14,26 +14,20 @@
     <style>
       *{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',system-ui,sans-serif}
       body{background:#0f1117;color:#fff;min-height:100vh}
-      #landing{max-width:430px;margin:0 auto;padding:40px 24px 32px}
-      .logo-row{text-align:center;margin-bottom:32px}
-      .rt-title{font-size:36px;font-weight:800;color:#fff;letter-spacing:-1px}
+      #landing{max-width:430px;margin:0 auto;padding:48px 24px 40px}
+      .logo-row{text-align:center;margin-bottom:36px}
+      .rt-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1px}
       .rt-title span{color:#FF6B2B}
-      .rt-sub{font-size:12px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
-      .quote{background:rgba(255,255,255,.05);border-left:3px solid #FF6B2B;border-radius:0 12px 12px 0;padding:16px 18px;margin:24px 0;font-size:14px;color:#E8E0D5;line-height:1.6;font-style:italic}
-      .features{list-style:none;margin:24px 0}
+      .rt-sub{font-size:12px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-top:6px}
+      .quote{background:rgba(255,255,255,.05);border-left:3px solid #FF6B2B;border-radius:0 12px 12px 0;padding:16px 18px;margin:0 0 24px;font-size:14px;color:#E8E0D5;line-height:1.6;font-style:italic}
+      .quote-attr{font-size:11px;color:#FF6B2B;font-weight:700;font-style:normal;margin-top:8px}
+      .enter-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:18px;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:.3px;margin-bottom:32px}
+      .enter-btn:active{transform:scale(.98)}
+      .features{list-style:none;margin:0}
       .features li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;color:#E8E0D5}
       .features li:last-child{border:none}
       .feat-icon{font-size:18px;flex-shrink:0;width:24px}
-      .enter-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:18px;font-size:17px;font-weight:700;cursor:pointer;margin:28px 0 16px;letter-spacing:.3px}
-      .enter-btn:active{transform:scale(.98)}
-      .tax-section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;margin-top:8px}
-      .tax-title{font-size:12px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
-      .tax-links{display:flex;flex-direction:column;gap:8px}
-      .tax-link{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px;text-decoration:none;color:#fff}
-      .tax-link-name{font-size:13px;font-weight:600}
-      .tax-link-sub{font-size:11px;color:#94A3B8;margin-top:2px}
-      .arrow{color:#FF6B2B}
-      .footer{text-align:center;margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
+      .footer{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
       .footer p{font-size:11px;color:#555}
       .footer span{color:#FF6B2B;font-weight:600}
     </style>
@@ -50,7 +44,12 @@
 
       <div class="quote">
         "As an ex-fisherman in the cold waters of the Bering Sea, I learned how to work hard, work smart, and stay alive. I built this all-in-one app just for you."
+        <div class="quote-attr">— Lalo Austin, Founder · LA Studios</div>
       </div>
+
+      <button class="enter-btn" onclick="document.getElementById('landing').style.display='none';document.getElementById('root').style.display='block';window.scrollTo(0,0)">
+        Go to Work →
+      </button>
 
       <ul class="features">
         <li><span class="feat-icon">🛡️</span>Required OSHA safety checklist</li>
@@ -65,28 +64,6 @@
         <li><span class="feat-icon">🌎</span>English & Spanish</li>
         <li><span class="feat-icon">👥</span>Unlimited users</li>
       </ul>
-
-      <button class="enter-btn" onclick="document.getElementById('landing').style.display='none';document.getElementById('root').style.display='block'">
-        Go to Work →
-      </button>
-
-      <div class="tax-section">
-        <div class="tax-title">💰 Tax & Accounting</div>
-        <div class="tax-links">
-          <a href="https://gusto.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">Gusto</div><div class="tax-link-sub">Payroll & Benefits</div></div>
-            <span class="arrow">→</span>
-          </a>
-          <a href="https://quickbooks.intuit.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">QuickBooks</div><div class="tax-link-sub">Accounting & Taxes</div></div>
-            <span class="arrow">→</span>
-          </a>
-          <a href="https://www.deel.com" target="_blank" class="tax-link">
-            <div><div class="tax-link-name">Deel</div><div class="tax-link-sub">International Payroll</div></div>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </div>
 
       <div class="footer">
         <p>Powered by <span>LA Studios</span></p>
