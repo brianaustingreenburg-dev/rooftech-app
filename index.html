@@ -204,45 +204,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 
     <!-- COLORS -->
     <div id="screen-colors" class="screen">
-      <div class="shdr"><p class="shdr-title" id="lbl-colors-sub">3D Color Consultant — pick your colors</p></div>
-      <div class="house-wrap">
-        <svg id="house-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-          <rect width="320" height="200" fill="#87CEEB"/>
-          <rect y="160" width="320" height="40" fill="#4CAF50" opacity=".6"/>
-          <rect x="55" y="90" width="210" height="90" id="svg-wall" fill="#F5F5F0"/>
-          <polygon points="35,92 160,22 285,92" id="svg-roof" fill="#8B6535"/>
-          <polygon points="35,92 160,22 285,92" fill="none" id="svg-trim" stroke="#FFFFFF" stroke-width="3"/>
-          <rect x="130" y="130" width="60" height="50" rx="4" id="svg-door" fill="#8B6535"/>
-          <circle cx="183" cy="157" r="3" fill="#FFD700"/>
-          <rect x="68" y="104" width="50" height="36" rx="3" fill="#B3E5FC" id="svg-win1" stroke="#FFFFFF" stroke-width="2"/>
-          <line x1="93" y1="104" x2="93" y2="140" stroke="#FFFFFF" stroke-width="1"/>
-          <line x1="68" y1="122" x2="118" y2="122" stroke="#FFFFFF" stroke-width="1"/>
-          <rect x="202" y="104" width="50" height="36" rx="3" fill="#B3E5FC" id="svg-win2" stroke="#FFFFFF" stroke-width="2"/>
-          <line x1="227" y1="104" x2="227" y2="140" stroke="#FFFFFF" stroke-width="1"/>
-          <line x1="202" y1="122" x2="252" y2="122" stroke="#FFFFFF" stroke-width="1"/>
-          <rect x="215" y="32" width="24" height="38" fill="#8B6535"/>
-          <circle cx="272" cy="36" r="18" fill="#FFD700" opacity=".7"/>
-        </svg>
-      </div>
-      <div class="color-pickers">
-        <div class="color-picker-wrap">
-          <div class="color-lbl-sm" id="lbl-walls">WALLS</div>
-          <input type="color" class="color-inp" value="#F5F5F0" id="color-wall" onchange="updateHouse()">
-        </div>
-        <div class="color-picker-wrap">
-          <div class="color-lbl-sm" id="lbl-trim">TRIM</div>
-          <input type="color" class="color-inp" value="#FFFFFF" id="color-trim" onchange="updateHouse()">
-        </div>
-        <div class="color-picker-wrap">
-          <div class="color-lbl-sm" id="lbl-door">DOOR</div>
-          <input type="color" class="color-inp" value="#8B6535" id="color-door" onchange="updateHouse()">
-        </div>
-      </div>
-      <div style="padding:0 18px 10px"><p style="font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px" id="lbl-palettes">SUGGESTED PALETTES</p></div>
-      <div class="palette-grid" id="palette-grid"></div>
-      <div style="padding:14px 18px">
-        <button class="btn-orange" onclick="alert(L==='es'?'¡Esquema guardado!':'Color scheme saved!')" id="btn-save-colors">💾 Save Color Scheme</button>
-      </div>
+      <div id="colors-content"></div>
     </div>
 
     <!-- SOLAR -->
@@ -447,7 +409,7 @@ function renderAll(){
   renderNav();
   if(TAB==='safety')renderSafety();
   if(TAB==='trades')renderTrades();
-  if(TAB==='colors')renderPalettes();
+  if(TAB==='colors')renderColors();
   if(TAB==='solar')renderSolar();
   if(TAB==='partners')renderPartners();
   }catch(e){console.error('renderAll error:',e);}
@@ -529,34 +491,192 @@ function renderTrades(){
 }
 function selectTrade(id){TRADE_SEL=id;renderTrades();}
 
-// ── Colors ────────────────────────────────────────────────────
-function updateHouse(){
-  var w=document.getElementById('color-wall').value;
-  var tr=document.getElementById('color-trim').value;
-  var d=document.getElementById('color-door').value;
-  document.getElementById('svg-wall').setAttribute('fill',w);
-  document.getElementById('svg-roof').setAttribute('stroke',tr);
-  document.getElementById('svg-trim').setAttribute('stroke',tr);
-  document.getElementById('svg-door').setAttribute('fill',d);
-  document.getElementById('svg-win1').setAttribute('stroke',tr);
-  document.getElementById('svg-win2').setAttribute('stroke',tr);
+// ── Colors State ──────────────────────────────────────────────
+var cWall='#F2EDE4';
+var cTrim='#FFFFFF';
+var cDoor='#2C3E50';
+var cTarget='wall'; // wall, trim, door
+var cBrand='bm'; // bm, sw
+
+var PAINT_COLORS={
+  bm:{
+    name:'Benjamin Moore',
+    collections:[
+      {name:'Whites & Neutrals',colors:[
+        {name:'White Dove',hex:'#F4F1EC'},{name:'Chantilly Lace',hex:'#F5F4F0'},{name:'Simply White',hex:'#F7F4EE'},
+        {name:'Cloud White',hex:'#EDE8DC'},{name:'White Heron',hex:'#F0EDE4'},{name:'Decorators White',hex:'#EFF0EB'},
+        {name:'Pale Oak',hex:'#DDD4C3'},{name:'Revere Pewter',hex:'#C2B9A7'},{name:'Edgecomb Gray',hex:'#D4CBBB'},
+        {name:'Balboa Mist',hex:'#D9D3C7'},
+      ]},
+      {name:'Grays & Blues',colors:[
+        {name:'Coventry Gray',hex:'#9DA4A8'},{name:'Stonington Gray',hex:'#B4BAB9'},{name:'Gray Owl',hex:'#C5C5BC'},
+        {name:'Van Deusen Blue',hex:'#4A6580'},{name:'Hale Navy',hex:'#3B4F62'},{name:'Newburyport Blue',hex:'#7E9DAE'},
+        {name:'Blue Note',hex:'#6B7F8E'},{name:'Narragansett Green',hex:'#5C7A6B'},{name:'Sea Salt',hex:'#B8C9C4'},
+        {name:'Buxton Blue',hex:'#7A8F96'},
+      ]},
+      {name:'Greens & Earths',colors:[
+        {name:'Turtle Green',hex:'#7A8C6E'},{name:'Saybrook Sage',hex:'#9FAE96'},{name:'Hancock Green',hex:'#4E6B4F'},
+        {name:'Olive Branch',hex:'#8C8C6A'},{name:'Guilford Green',hex:'#7E9B8A'},{name:'Cedar Green',hex:'#6B7A5C'},
+        {name:'October Mist',hex:'#A8B09E'},{name:'Fernwood Green',hex:'#8EA08A'},{name:'Venetian Tile',hex:'#B5845A'},
+        {name:'Middlebury Brown',hex:'#7A5C3E'},
+      ]},
+      {name:'Warm & Bold',colors:[
+        {name:'Caliente',hex:'#BB2A2A'},{name:'Raspberry Blush',hex:'#E8715A'},{name:'Moroccan Red',hex:'#9B3A3A'},
+        {name:'Golden Straw',hex:'#D4B06A'},{name:'Butter Milk',hex:'#F0D88A'},{name:'Autumn Orange',hex:'#CC6633'},
+        {name:'Toffee',hex:'#8C6040'},{name:'Onyx',hex:'#353839'},{name:'Soot',hex:'#2B2C2E'},{name:'Black',hex:'#1A1A1A'},
+      ]},
+    ]
+  },
+  sw:{
+    name:'Sherwin-Williams',
+    collections:[
+      {name:'Whites & Creams',colors:[
+        {name:'Alabaster',hex:'#EDEADE'},{name:'Pure White',hex:'#F4F1E8'},{name:'High Reflective White',hex:'#F5F5F2'},
+        {name:'Creamy',hex:'#F2E6C8'},{name:'Antique White',hex:'#EDE0C4'},{name:'Natural Choice',hex:'#DDD5C0'},
+        {name:'Accessible Beige',hex:'#D4C9B0'},{name:'Wool Skein',hex:'#C8BDA8'},{name:'Mega Greige',hex:'#B8AA96'},
+        {name:'Agreeable Gray',hex:'#D0C8B8'},
+      ]},
+      {name:'Grays & Blues',colors:[
+        {name:'Repose Gray',hex:'#C2BEB4'},{name:'Mindful Gray',hex:'#B8B4A8'},{name:'Dorian Gray',hex:'#A8A49A'},
+        {name:'Naval',hex:'#3D4F6C'},{name:'Refuge',hex:'#4A5568'},{name:'Interesting Aqua',hex:'#7AADAD'},
+        {name:'Rainstorm',hex:'#5B7A8C'},{name:'Comfort Gray',hex:'#8BA8A4'},{name:'Rainwashed',hex:'#9DC0BC'},
+        {name:'Niebla Azul',hex:'#8FA8B4'},
+      ]},
+      {name:'Greens & Sage',colors:[
+        {name:'Evergreen Fog',hex:'#8FA49A'},{name:'Rosemary',hex:'#6B8C6E'},{name:'Sage',hex:'#9BA88A'},
+        {name:'Basil',hex:'#4E6B50'},{name:'Cascades',hex:'#6B8C80'},{name:'Pewter Green',hex:'#7A8C72'},
+        {name:'Retreat',hex:'#8FA896'},{name:'Ripe Olive',hex:'#7A7A50'},{name:'Oakmoss',hex:'#6B6B48'},
+        {name:'Avocado',hex:'#7A8040'},
+      ]},
+      {name:'Bold & Deep',colors:[
+        {name:'Caviar',hex:'#252525'},{name:'Iron Ore',hex:'#3C3C3A'},{name:'Tricorn Black',hex:'#2A2A2A'},
+        {name:'Garage Band',hex:'#4A3C3C'},{name:'Wicked Red',hex:'#8C2020'},{name:'Antler Velvet',hex:'#6B4030'},
+        {name:'Umber',hex:'#5C4030'},{name:'Rookwood Red',hex:'#7A2828'},{name:'Burgundy',hex:'#6B2030'},
+        {name:'Poinsettia',hex:'#B82828'},
+      ]},
+    ]
+  }
+};
+
+function renderColors(){
+  var es=L==='es';
+  var brand=PAINT_COLORS[cBrand];
+  var html='';
+
+  // Modern house SVG
+  html+='<div style="background:linear-gradient(160deg,#1a3a5c,#0d2137,#1a1d27);padding:20px 16px 16px">';
+  html+='<p style="color:#94A3B8;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;text-align:center">🎨 '+(es?'CONSULTOR DE COLOR 3D':'3D COLOR CONSULTANT')+'</p>';
+
+  // House SVG - modern design
+  html+='<div style="background:linear-gradient(180deg,#87CEEB 0%,#B8D8F0 60%,#7CB87C 60%,#5A9A5A 100%);border-radius:20px;overflow:hidden;padding:0;position:relative">';
+  html+='<svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">';
+  html+='<!-- Sky gradient --><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5BAEE8"/><stop offset="100%" stop-color="#87CEEB"/></linearGradient><linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6AAE6A"/><stop offset="100%" stop-color="#4A8A4A"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.2"/></filter></defs>';
+  html+='<rect width="340" height="220" fill="url(#sky)"/>';
+  // Sun
+  html+='<circle cx="290" cy="38" r="22" fill="#FFE566" opacity="0.9"/>';
+  html+='<circle cx="290" cy="38" r="28" fill="#FFE566" opacity="0.2"/>';
+  // Clouds
+  html+='<ellipse cx="80" cy="45" rx="28" ry="12" fill="#fff" opacity="0.7"/><ellipse cx="100" cy="40" rx="22" ry="10" fill="#fff" opacity="0.7"/><ellipse cx="60" cy="42" rx="18" ry="8" fill="#fff" opacity="0.7"/>';
+  // Ground
+  html+='<rect x="0" y="172" width="340" height="48" fill="url(#grass)"/>';
+  // Driveway
+  html+='<polygon points="150,220 190,220 185,172 155,172" fill="#C8C0B0" opacity="0.6"/>';
+  // House body with shadow
+  html+='<rect x="60" y="95" width="220" height="100" rx="3" fill="'+cWall+'" filter="url(#shadow)"/>';
+  // Roof
+  html+='<polygon points="42,97 170,22 298,97" fill="#6B5040"/>';
+  // Roof highlight
+  html+='<polygon points="42,97 170,22 298,97" fill="none" stroke="'+cTrim+'" stroke-width="3"/>';
+  // Chimney
+  html+='<rect x="222" y="38" width="22" height="42" fill="#8B6B50"/><rect x="218" y="34" width="30" height="8" rx="2" fill="#7A5A40"/>';
+  // Fascia / trim
+  html+='<rect x="60" y="93" width="220" height="8" fill="'+cTrim+'" opacity="0.9"/>';
+  // Left window
+  html+='<rect x="74" y="112" width="52" height="38" rx="4" fill="#B3E5FC" opacity="0.85" stroke="'+cTrim+'" stroke-width="2.5"/>';
+  html+='<line x1="100" y1="112" x2="100" y2="150" stroke="'+cTrim+'" stroke-width="1.5"/>';
+  html+='<line x1="74" y1="131" x2="126" y2="131" stroke="'+cTrim+'" stroke-width="1.5"/>';
+  html+='<rect x="74" y="148" width="52" height="6" rx="2" fill="'+cTrim+'" opacity="0.6"/>';
+  // Right window
+  html+='<rect x="214" y="112" width="52" height="38" rx="4" fill="#B3E5FC" opacity="0.85" stroke="'+cTrim+'" stroke-width="2.5"/>';
+  html+='<line x1="240" y1="112" x2="240" y2="150" stroke="'+cTrim+'" stroke-width="1.5"/>';
+  html+='<line x1="214" y1="131" x2="266" y2="131" stroke="'+cTrim+'" stroke-width="1.5"/>';
+  html+='<rect x="214" y="148" width="52" height="6" rx="2" fill="'+cTrim+'" opacity="0.6"/>';
+  // Door
+  html+='<rect x="145" y="136" width="50" height="59" rx="4" fill="'+cDoor+'" filter="url(#shadow)"/>';
+  html+='<rect x="152" y="143" width="16" height="20" rx="2" fill="'+cDoor+'" stroke="'+cTrim+'" stroke-width="1" opacity="0.6"/>';
+  html+='<rect x="173" y="143" width="16" height="20" rx="2" fill="'+cDoor+'" stroke="'+cTrim+'" stroke-width="1" opacity="0.6"/>';
+  html+='<circle cx="168" cy="166" r="3.5" fill="#D4AF37"/>';
+  html+='<rect x="145" y="134" width="50" height="6" rx="2" fill="'+cTrim+'"/>';
+  // Garage
+  html+='<!-- Bushes --><ellipse cx="60" cy="175" rx="18" ry="10" fill="#3A7A3A"/><ellipse cx="280" cy="175" rx="18" ry="10" fill="#3A7A3A"/>';
+  html+='</svg></div>';
+
+  // Color target selector
+  html+='<div style="display:flex;gap:8px;margin-top:14px">';
+  var targets=[
+    {id:'wall',label:es?'Paredes':'Walls',color:cWall},
+    {id:'trim',label:es?'Molduras':'Trim',color:cTrim},
+    {id:'door',label:es?'Puerta':'Door',color:cDoor},
+  ];
+  targets.forEach(function(tg){
+    var on=cTarget===tg.id;
+    html+='<button onclick="cTarget=\''+tg.id+'\';renderColors()" style="flex:1;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'rgba(255,255,255,.1)')+';border-radius:10px;padding:8px 4px;cursor:pointer;text-align:center">'
+      +'<div style="width:20px;height:20px;border-radius:4px;background:'+tg.color+';margin:0 auto 4px;border:1px solid rgba(255,255,255,.3)"></div>'
+      +'<span style="font-size:10px;font-weight:700;color:'+(on?'#fff':'#94A3B8')+'">'+tg.label+'</span></button>';
+  });
+  html+='</div>';
+
+  // Current color display
+  var currentColor=cTarget==='wall'?cWall:cTarget==='trim'?cTrim:cDoor;
+  html+='<div style="display:flex;align-items:center;gap:10px;margin-top:10px;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 12px">'
+    +'<div style="width:32px;height:32px;border-radius:8px;background:'+currentColor+';flex-shrink:0;border:1px solid rgba(255,255,255,.2)"></div>'
+    +'<div><p style="font-size:12px;font-weight:700;color:#fff;margin:0">'+(es?'Color seleccionado':'Selected color')+'</p><p style="font-size:11px;color:#94A3B8;margin:0">'+currentColor.toUpperCase()+'</p></div>'
+    +'<input type="color" value="'+currentColor+'" onchange="applyCustomColor(this.value)" style="margin-left:auto;width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:none"></div>';
+
+  html+='</div>'; // end dark header
+
+  // Brand selector
+  html+='<div style="padding:14px 18px 0">';
+  html+='<div style="display:flex;gap:8px;margin-bottom:16px">';
+  html+='<button onclick="cBrand=\'bm\';renderColors()" style="flex:1;background:'+(cBrand==='bm'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='bm'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer;text-align:center">'
+    +'<p style="font-size:12px;font-weight:800;color:'+(cBrand==='bm'?'#fff':'#555');html+=';margin:0">Benjamin Moore</p></button>';
+  html+='<button onclick="cBrand=\'sw\';renderColors()" style="flex:1;background:'+(cBrand==='sw'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='sw'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer;text-align:center">'
+    +'<p style="font-size:12px;font-weight:800;color:'+(cBrand==='sw'?'#fff':'#555')+'margin:0">Sherwin-Williams</p></button>';
+  html+='</div>';
+
+  // Color collections
+  brand.collections.forEach(function(col){
+    html+='<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+col.name+'</p>';
+    html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">';
+    col.colors.forEach(function(c){
+      var isSelected=(cTarget==='wall'&&cWall===c.hex)||(cTarget==='trim'&&cTrim===c.hex)||(cTarget==='door'&&cDoor===c.hex);
+      html+='<div onclick="applyColor(\''+c.hex+'\',\''+c.name+'\')" title="'+c.name+'" style="width:36px;height:36px;border-radius:8px;background:'+c.hex+';cursor:pointer;border:2px solid '+(isSelected?'#FF6B2B':'rgba(255,255,255,.15)')+';box-shadow:'+(isSelected?'0 0 0 2px #FF6B2B':'none')+';flex-shrink:0"></div>';
+    });
+    html+='</div>';
+  });
+
+  html+='<button onclick="savePainting()" class="btn-orange" style="margin-bottom:20px">💾 '+(es?'Guardar esquema de color':'Save color scheme')+'</button>';
+  html+='</div>';
+
+  document.getElementById('colors-content').innerHTML=html;
 }
-function renderPalettes(){
-  var pg=document.getElementById('palette-grid');
-  pg.innerHTML=PALETTES.map(function(p){
-    return'<div class="palette-card" onclick="applyPalette(\''+p.w+'\',\''+p.t+'\',\''+p.d+'\')">'
-      +'<div class="palette-swatches">'
-      +'<div class="swatch" style="background:'+p.w+'"></div>'
-      +'<div class="swatch" style="background:'+p.t+'"></div>'
-      +'<div class="swatch" style="background:'+p.d+'"></div>'
-      +'</div><span class="palette-name">'+p.name+'</span></div>';
-  }).join('');
+
+function applyColor(hex,name){
+  if(cTarget==='wall') cWall=hex;
+  else if(cTarget==='trim') cTrim=hex;
+  else cDoor=hex;
+  renderColors();
 }
-function applyPalette(w,t,d){
-  document.getElementById('color-wall').value=w;
-  document.getElementById('color-trim').value=t;
-  document.getElementById('color-door').value=d;
-  updateHouse();
+
+function applyCustomColor(hex){
+  if(cTarget==='wall') cWall=hex;
+  else if(cTarget==='trim') cTrim=hex;
+  else cDoor=hex;
+  renderColors();
+}
+
+function savePainting(){
+  alert(L==='es'?'¡Esquema de color guardado!':'Color scheme saved!');
 }
 
 // ── Solar ─────────────────────────────────────────────────────
