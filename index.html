@@ -1,84 +1,654 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f1117" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>RoofTech — Field Estimator</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      *{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',system-ui,sans-serif}
-      body{background:#0f1117;color:#fff;min-height:100vh}
-      #landing{max-width:430px;margin:0 auto;padding:48px 24px 40px}
-      .logo-row{text-align:center;margin-bottom:24px}
-      .rt-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1px}
-      .rt-title span{color:#FF6B2B}
-      .rt-sub{font-size:12px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-top:6px}
-      .flags{text-align:center;font-size:22px;margin:12px 0 20px;letter-spacing:4px}
-      .quote{background:rgba(255,255,255,.05);border-left:3px solid #FF6B2B;border-radius:0 12px 12px 0;padding:16px 18px;margin:0 0 20px;font-size:14px;color:#E8E0D5;line-height:1.6;font-style:italic}
-      .quote-attr{font-size:11px;color:#FF6B2B;font-weight:700;font-style:normal;margin-top:8px}
-      .enter-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:18px;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:.3px;margin-bottom:28px;display:block}
-      .enter-btn:active{transform:scale(.98)}
-      .features{list-style:none;margin:0 0 32px}
-      .features li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;color:#E8E0D5}
-      .features li:last-child{border:none}
-      .feat-icon{font-size:18px;flex-shrink:0;width:24px}
-      .footer{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
-      .footer p{font-size:11px;color:#555}
-      .footer span{color:#FF6B2B;font-weight:600}
-    </style>
-    <script type="module" crossorigin src="/assets/index-DHrTSpmj.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Bhi2IHxc.css">
-  </head>
-  <body style="margin:0;background:#0f1117;">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1117">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RoofTech — Field Estimator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+#app{max-width:430px;margin:0 auto;min-height:100vh;position:relative}
 
-    <div id="landing">
-      <div class="logo-row">
-        <div class="rt-title"><span>Roof</span>Tech</div>
-        <div class="rt-sub">Field Estimator</div>
-      </div>
+/* SPLASH */
+#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;background:radial-gradient(ellipse at top,rgba(255,107,43,.1) 0%,transparent 60%)}
+.splash-brand{font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+.splash-title{font-size:44px;font-weight:800;margin-bottom:6px;letter-spacing:-1.5px}
+.splash-title span{color:#FF6B2B}
+.splash-sub{font-size:12px;color:#94A3B8;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.splash-flags{font-size:20px;letter-spacing:6px;margin-bottom:32px}
+.splash-quote{font-size:14px;color:#94A3B8;line-height:1.7;font-style:italic;max-width:320px;margin:0 auto 40px}
+.splash-btn{background:#FF6B2B;color:#fff;border:none;border-radius:16px;padding:18px 48px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 32px rgba(255,107,43,.3);letter-spacing:.3px}
+.splash-btn:active{transform:scale(.97)}
 
-      <div class="flags">🇺🇸 🇲🇽 🇵🇭 🇨🇴 🇧🇷</div>
+/* APP */
+#main{display:none}
 
-      <div class="quote">
-        "As an ex-fisherman in the cold waters of the Bering Sea, I learned how to work hard, work smart, and stay alive. I built this all-in-one app just for you."
-        <div class="quote-attr">— Lalo Austin, Founder · LA Studios</div>
-      </div>
+/* HEADER */
+.hdr{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(15,17,23,.97);backdrop-filter:blur(12px);z-index:60;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+.hdr-title{font-size:16px;font-weight:800;color:#fff}
+.hdr-sub{font-size:9px;color:#94A3B8;margin-top:1px}
+.lang-wrap{display:flex;background:rgba(255,255,255,.08);border-radius:20px;padding:2px;gap:2px}
+.lang-btn{background:none;color:#94A3B8;border:none;border-radius:16px;padding:4px 11px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn.on{background:#FF6B2B;color:#fff}
 
-      <button class="enter-btn" onclick="document.getElementById('landing').style.display='none';document.getElementById('root').style.display='block';window.scrollTo(0,0)">
-        Go to Work →
-      </button>
+/* CONTENT */
+.content{padding-top:52px;padding-bottom:72px;min-height:100vh}
+.screen{display:none}
+.screen.active{display:block}
 
-      <ul class="features">
-        <li><span class="feat-icon">🛡️</span>Required OSHA safety checklist</li>
-        <li><span class="feat-icon">📐</span>World's first: automatic architectural blueprints for measurement</li>
-        <li><span class="feat-icon">🧮</span>Auto materials estimate in sq ft</li>
-        <li><span class="feat-icon">⏱️</span>Time tracking + payroll export</li>
-        <li><span class="feat-icon">📋</span>One-tap job report</li>
-        <li><span class="feat-icon">📍</span>GPS — location logged on clock-in</li>
-        <li><span class="feat-icon">💳</span>Company expenses per job</li>
-        <li><span class="feat-icon">🧾</span>Tax-ready expense export</li>
-        <li><span class="feat-icon">✅</span>Works 100% offline</li>
-        <li><span class="feat-icon">🌎</span>English & Spanish</li>
-        <li><span class="feat-icon">👥</span>Unlimited users</li>
-      </ul>
+/* NAV */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#0f1117;border-top:1px solid rgba(255,255,255,.08);z-index:60;padding-bottom:env(safe-area-inset-bottom)}
+.nav-row{display:flex}
+.nav-btn{flex:1;background:none;border:none;padding:7px 0 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit}
+.nav-icon{font-size:19px}
+.nav-lbl{font-size:9px;color:#555;font-weight:500;transition:color .2s}
+.nav-btn.on .nav-lbl{color:#FF6B2B;font-weight:700}
 
-      <div class="footer">
-        <p>Powered by <span>LA Studios</span></p>
-        <p style="margin-top:4px">© 2026 RoofTech · Unlimited users · No contracts</p>
-        <div style="display:flex;justify-content:center;gap:16px;margin-top:12px">
-          <a href="/workers.html" style="font-size:12px;color:#94A3B8;text-decoration:none">👷 Workers</a>
-          <a href="/partners.html" style="font-size:12px;color:#94A3B8;text-decoration:none">🤝 Partners</a>
+/* DARK SECTION HEADER */
+.shdr{background:#1a1d27;padding:14px 18px}
+.shdr-title{color:#E8E0D5;font-size:12px;margin:0}
+
+/* CARDS */
+.card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.card-white{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:14px 16px;margin-bottom:10px}
+
+/* INPUTS */
+.inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;font-family:inherit;margin-bottom:10px}
+.inp::placeholder{color:#555}
+.inp-label{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block}
+
+/* BUTTONS */
+.btn-orange{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-red{width:100%;background:#EF4444;color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
+.btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;font-size:12px;color:#E8E0D5;cursor:pointer;font-family:inherit}
+
+/* SAFETY */
+.phase-row{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 0}
+.phase-btn{flex-shrink:0;background:rgba(255,255,255,.08);color:#94A3B8;border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.phase-btn.on{background:#FF6B2B;color:#fff}
+.prog-wrap{background:rgba(255,255,255,.1);border-radius:3px;height:3px;margin:10px 18px 0;overflow:hidden}
+.prog-bar{height:100%;background:#FF6B2B;border-radius:3px;transition:width .3s}
+.check-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;margin-bottom:8px;cursor:pointer;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.check-box.on{background:#22C55E;border-color:#22C55E}
+.check-txt{font-size:13px;color:#E8E0D5;line-height:1.4}
+.check-txt.done{color:#444;text-decoration:line-through}
+
+/* TRADES */
+.trade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 18px}
+.trade-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px 10px;cursor:pointer;text-align:center;transition:border-color .2s}
+.trade-card:active{border-color:#FF6B2B}
+.trade-icon{font-size:28px;margin-bottom:8px}
+.trade-name{font-size:13px;font-weight:700;color:#E8E0D5}
+.section-lbl{font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.detail-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.detail-row:last-child{border:none}
+.detail-txt{font-size:13px;color:#E8E0D5}
+
+/* COLORS */
+.house-wrap{background:linear-gradient(180deg,#87CEEB 0%,#B0E2FF 100%);border-radius:16px;overflow:hidden;margin:14px 18px}
+.color-pickers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 18px 12px}
+.color-picker-wrap{text-align:center}
+.color-lbl-sm{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.color-inp{width:100%;height:44px;border:none;border-radius:10px;cursor:pointer;padding:2px;background:none}
+.palette-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px}
+.palette-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.palette-swatches{display:flex;gap:3px}
+.swatch{width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,.2)}
+.palette-name{font-size:11px;font-weight:600;color:#E8E0D5}
+
+/* SOLAR */
+.solar-stat{background:#1a1d27;border-radius:12px;padding:12px 14px;text-align:center}
+.solar-val{font-size:22px;font-weight:800;color:#F59E0B;margin-bottom:2px}
+.solar-lbl{font-size:10px;color:#94A3B8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.solar-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 12px}
+
+/* PARTNERS */
+.partner-card{display:flex;align-items:center;gap:12px;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
+.partner-icon{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border-radius:10px;flex-shrink:0}
+.partner-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.partner-sub{font-size:11px;color:#94A3B8}
+.partner-comm{font-size:10px;font-weight:700;color:#22C55E;background:rgba(34,197,94,.1);border-radius:20px;padding:3px 8px;margin-left:auto;flex-shrink:0}
+
+/* ABOUT */
+.about-hero{background:linear-gradient(135deg,#1a1d27,#0f1117);padding:32px 18px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
+.about-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#FF6B2B,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 16px}
+.about-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.about-title{font-size:13px;color:#FF6B2B;font-weight:600}
+.about-section{padding:20px 18px 0}
+.about-section-title{font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.about-text{font-size:14px;color:#94A3B8;line-height:1.8}
+.about-text strong{color:#E8E0D5;font-weight:600}
+.contact-btn{display:flex;align-items:center;gap:12px;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
+.contact-icon{font-size:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,107,43,.15);border-radius:10px;flex-shrink:0}
+.contact-label{font-size:14px;font-weight:600}
+.contact-sub{font-size:11px;color:#94A3B8;margin-top:1px}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-brand">LA Studios</div>
+  <div class="splash-title"><span>Roof</span>Tech</div>
+  <div class="splash-sub">Field Estimator</div>
+  <div class="splash-flags">🇺🇸 🇲🇽 🇵🇭 🇨🇴 🇧🇷</div>
+  <div class="splash-quote">"As an ex-fisherman in the cold waters of the Bering Sea, I learned how to work hard, work smart, and stay alive. I built this all-in-one app just for you."</div>
+  <button class="splash-btn" onclick="startApp()">Go to Work →</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="main">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title" id="hdr-title">RoofTech</div>
+      <div class="hdr-sub">Powered by LA Studios</div>
+    </div>
+    <div class="lang-wrap">
+      <button class="lang-btn on" id="btn-es" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- SAFETY -->
+    <div id="screen-safety" class="screen active">
+      <div class="shdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span class="shdr-title" id="lbl-autosaved">Auto-saved</span>
+          <button onclick="markComplete()" style="background:#22C55E;color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;cursor:pointer" id="lbl-complete">COMPLETE</button>
         </div>
+        <span class="inp-label" id="lbl-jobname">JOB NAME</span>
+        <input class="inp" id="job-name" placeholder="1425 Oak Street — Tear off & replace">
+        <span class="inp-label" id="lbl-siteaddr">SITE ADDRESS</span>
+        <input class="inp" id="site-addr" placeholder="1425 Oak Street, Austin TX 78701">
+      </div>
+
+      <div style="padding:14px 18px">
+        <div class="card" style="border-color:rgba(239,68,68,.3)">
+          <div style="font-size:10px;font-weight:700;color:#EF4444;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">🛡️ <span id="lbl-emergency">EMERGENCY</span></div>
+          <button class="btn-red" onclick="window.location='tel:911'">🚨 Call 911</button>
+          <span class="inp-label" id="lbl-hospital">NEAREST HOSPITAL / URGENT CARE</span>
+          <input class="inp" style="margin-bottom:10px" placeholder="Hospital name & address">
+          <span class="inp-label" id="lbl-incident">INCIDENT LOG</span>
+          <div style="display:flex;gap:8px">
+            <input class="inp" id="incident-inp" placeholder="Describe incident..." style="margin:0;flex:1">
+            <button onclick="logIncident()" style="background:#FF6B2B;border:none;border-radius:10px;padding:0 14px;color:#fff;font-weight:700;cursor:pointer;flex-shrink:0">+ Log</button>
+          </div>
+          <div id="incident-log" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <div style="background:#1a1d27;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="padding:14px 18px 6px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;font-weight:700;color:#E8E0D5" id="lbl-checklist">🛡️ SAFETY CHECKLIST</span>
+          <span style="font-size:11px;color:#FF6B2B;font-weight:700" id="prog-count">0/10</span>
+        </div>
+        <div class="phase-row" id="phase-row"></div>
+        <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+        <div style="padding:6px 18px 12px"><span style="font-size:10px;color:#555" id="phase-label-sm"></span></div>
+      </div>
+
+      <div style="padding:12px 18px 0" id="check-list"></div>
+    </div>
+
+    <!-- TRADES -->
+    <div id="screen-trades" class="screen">
+      <div class="shdr"><p class="shdr-title" id="lbl-trades-sub">Select a trade to see tools, materials & safety</p></div>
+      <div id="trades-content"></div>
+    </div>
+
+    <!-- COLORS -->
+    <div id="screen-colors" class="screen">
+      <div class="shdr"><p class="shdr-title" id="lbl-colors-sub">3D Color Consultant — pick your colors</p></div>
+      <div class="house-wrap">
+        <svg id="house-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+          <rect width="320" height="200" fill="#87CEEB"/>
+          <rect y="160" width="320" height="40" fill="#4CAF50" opacity=".6"/>
+          <rect x="55" y="90" width="210" height="90" id="svg-wall" fill="#F5F5F0"/>
+          <polygon points="35,92 160,22 285,92" id="svg-roof" fill="#8B6535"/>
+          <polygon points="35,92 160,22 285,92" fill="none" id="svg-trim" stroke="#FFFFFF" stroke-width="3"/>
+          <rect x="130" y="130" width="60" height="50" rx="4" id="svg-door" fill="#8B6535"/>
+          <circle cx="183" cy="157" r="3" fill="#FFD700"/>
+          <rect x="68" y="104" width="50" height="36" rx="3" fill="#B3E5FC" id="svg-win1" stroke="#FFFFFF" stroke-width="2"/>
+          <line x1="93" y1="104" x2="93" y2="140" stroke="#FFFFFF" stroke-width="1"/>
+          <line x1="68" y1="122" x2="118" y2="122" stroke="#FFFFFF" stroke-width="1"/>
+          <rect x="202" y="104" width="50" height="36" rx="3" fill="#B3E5FC" id="svg-win2" stroke="#FFFFFF" stroke-width="2"/>
+          <line x1="227" y1="104" x2="227" y2="140" stroke="#FFFFFF" stroke-width="1"/>
+          <line x1="202" y1="122" x2="252" y2="122" stroke="#FFFFFF" stroke-width="1"/>
+          <rect x="215" y="32" width="24" height="38" fill="#8B6535"/>
+          <circle cx="272" cy="36" r="18" fill="#FFD700" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="color-pickers">
+        <div class="color-picker-wrap">
+          <div class="color-lbl-sm" id="lbl-walls">WALLS</div>
+          <input type="color" class="color-inp" value="#F5F5F0" id="color-wall" onchange="updateHouse()">
+        </div>
+        <div class="color-picker-wrap">
+          <div class="color-lbl-sm" id="lbl-trim">TRIM</div>
+          <input type="color" class="color-inp" value="#FFFFFF" id="color-trim" onchange="updateHouse()">
+        </div>
+        <div class="color-picker-wrap">
+          <div class="color-lbl-sm" id="lbl-door">DOOR</div>
+          <input type="color" class="color-inp" value="#8B6535" id="color-door" onchange="updateHouse()">
+        </div>
+      </div>
+      <div style="padding:0 18px 10px"><p style="font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px" id="lbl-palettes">SUGGESTED PALETTES</p></div>
+      <div class="palette-grid" id="palette-grid"></div>
+      <div style="padding:14px 18px">
+        <button class="btn-orange" onclick="alert(L==='es'?'¡Esquema guardado!':'Color scheme saved!')" id="btn-save-colors">💾 Save Color Scheme</button>
       </div>
     </div>
 
-    <div id="root" style="display:none"></div>
+    <!-- SOLAR -->
+    <div id="screen-solar" class="screen">
+      <div class="shdr"><p class="shdr-title" id="lbl-solar-sub">Solar savings estimator</p></div>
+      <div style="padding:14px 18px">
+        <span class="inp-label" id="lbl-roof-area">ROOF AREA (sq ft)</span>
+        <input class="inp" type="number" id="solar-area" placeholder="1500" oninput="calcSolar()">
+        <span class="inp-label" id="lbl-power-bill">MONTHLY POWER BILL ($)</span>
+        <input class="inp" type="number" id="solar-bill" placeholder="150" oninput="calcSolar()">
+        <div class="solar-grid" id="solar-results"></div>
+        <div id="solar-detail" style="margin-top:12px"></div>
+      </div>
+    </div>
 
-  </body>
+    <!-- PARTNERS -->
+    <div id="screen-partners" class="screen">
+      <div class="shdr"><p class="shdr-title" id="lbl-partners-sub">Tax, accounting & travel partners</p></div>
+      <div style="padding:14px 18px 0" id="partners-content"></div>
+    </div>
+
+    <!-- ABOUT -->
+    <div id="screen-about" class="screen">
+      <div class="about-hero">
+        <div class="about-avatar">L</div>
+        <div class="about-name">Lalo Austin</div>
+        <div class="about-title">Founder · LA Studios</div>
+      </div>
+
+      <div class="about-section">
+        <div class="about-section-title" id="lbl-mystory">MY STORY</div>
+        <p class="about-text">
+          <strong>Jack of all trades, master of nothing — until now.</strong>
+          <br><br>
+          LA Studios started as a dream. Years ago I was fishing the cold waters of Alaska, pulling long shifts on boats most people only see on TV. If you've watched <em>Deadliest Catch</em>, you know what that life looks like — months at sea, little sleep, dangerous conditions every single day. That's where I learned that it's not about how many layers you put on. It's about the <strong>quality of each layer</strong>.
+          <br><br>
+          Safety first. Stay healthy. Make your money and go home.
+          <br><br>
+          Now in my 50s, living in Acapulco, Mexico, I challenged myself again. Long nights in front of a computer, brainstorming, building, putting ideas into practice. RoofTech is the result — built by someone who's actually worked the trades, not a committee in a San Francisco office.
+          <br><br>
+          I know some of you love fishing as much as I do. So I set up an entire travel package through the app — fishing trips, resorts, the whole thing. Whether you want to work or unwind, this app works for you.
+          <br><br>
+          <strong>Stay up & blessed,</strong><br>
+          <span style="color:#FF6B2B;font-weight:700">Lalo Austin</span><br>
+          <span style="font-size:12px;color:#555">Founder, LA Studios · Acapulco, Mexico</span>
+        </p>
+      </div>
+
+      <div class="about-section" style="padding-bottom:20px">
+        <div class="about-section-title" id="lbl-contact">CONTACT</div>
+        <a href="tel:+14084223505" class="contact-btn">
+          <div class="contact-icon">📞</div>
+          <div><div class="contact-label">+1 (408) 422-3505</div><div class="contact-sub" id="lbl-direct">Direct line — call or text</div></div>
+        </a>
+        <a href="https://wa.me/14084223505" target="_blank" class="contact-btn">
+          <div class="contact-icon">💬</div>
+          <div><div class="contact-label">WhatsApp</div><div class="contact-sub">+1 (408) 422-3505</div></div>
+        </a>
+        <a href="mailto:hiring@lastudios-hq.com" class="contact-btn">
+          <div class="contact-icon">📧</div>
+          <div><div class="contact-label">hiring@lastudios-hq.com</div><div class="contact-sub" id="lbl-email-sub">General inquiries</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-row" id="nav-top"></div>
+    <div class="nav-row" id="nav-bot"></div>
+  </nav>
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ── State ─────────────────────────────────────────────────────
+var L = 'en';
+var TAB = 'safety';
+var PHASE = 0;
+var CHECKED = {};
+var INCIDENTS = [];
+var TRADE_SEL = null;
+
+// ── Translations ──────────────────────────────────────────────
+var TX = {
+  en:{
+    tabs:['Safety','Trades','Colors','Solar','Partners','About'],
+    ids:['safety','trades','colors','solar','partners','about'],
+    icons:['🛡️','🔨','🎨','☀️','🤝','👤'],
+    screens:{safety:'Safety Checklist',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
+    phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
+    items:[
+      ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA cards on site','Safety meeting held with crew'],
+      ['Excavation shored or sloped per OSHA','Utilities located and marked (811 called)','Trench entry/exit ladders in place','Soil stability assessed','Concrete forms inspected','Rebar secured and inspected','No overhead power line conflicts','Equipment operators certified','Ground compaction verified','Foundation drainage planned'],
+      ['Scaffolding inspected and tagged','Fall arrest systems installed (>6 ft)','Electrical lockout/tagout in place','Roofing safety monitor assigned','Hot work permit obtained if needed','Crane/lift pre-use inspection done','Materials secured against wind','Fire extinguisher within 10 ft of hot work','Workers not working alone at height','Housekeeping — debris removed daily'],
+      ['Silica dust controls in place','Respirators available for drywall/insulation','Lead/asbestos assessment done if renovation','Eye wash station available','Electrical panels labeled and secured','GFCI protection on all temporary power','No trip hazards in work area','Ladders inspected and rated for load','Adequate lighting in all work areas','Cuts and abrasions first aid available'],
+      ['Final walkthrough completed','Punch list items resolved','All tools and equipment removed','Debris and waste disposed properly','Site restored to pre-work condition','Client walkthrough and sign-off','Permits closed out','As-built documentation provided','Warranty documents delivered','Safety incident report filed if any']
+    ],
+    jobName:'JOB NAME',siteAddr:'SITE ADDRESS',emergency:'EMERGENCY',hospital:'NEAREST HOSPITAL / URGENT CARE',incident:'INCIDENT LOG',checklist:'🛡️ SAFETY CHECKLIST',complete:'COMPLETE',autosaved:'Auto-saved',
+    tradesSub:'Select a trade to see tools, materials & safety',
+    colorsSub:'3D Color Consultant — pick your colors',
+    walls:'WALLS',trim:'TRIM',door:'DOOR',palettes:'SUGGESTED PALETTES',saveColors:'💾 Save Color Scheme',
+    solarSub:'Solar savings estimator',roofArea:'ROOF AREA (sq ft)',powerBill:'MONTHLY POWER BILL ($)',
+    sysSize:'System Size',production:'Annual Production',savings:'Annual Savings',payback:'Payback Period',
+    partnersSub:'Tax, accounting & travel partners',
+    tax:'💰 TAX & ACCOUNTING',travel:'✈️ TRAVEL & RESORTS',fishing:'🎣 FISHING & OUTDOORS',
+    mystory:'MY STORY',contact:'CONTACT',direct:'Direct line — call or text',emailsub:'General inquiries',
+  },
+  es:{
+    tabs:['Seguridad','Oficios','Colores','Solar','Socios','Acerca'],
+    ids:['safety','trades','colors','solar','partners','about'],
+    icons:['🛡️','🔨','🎨','☀️','🤝','👤'],
+    screens:{safety:'Lista de Seguridad',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
+    phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
+    items:[
+      ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA en obra','Reunión de seguridad con la cuadrilla'],
+      ['Excavación apuntalada según norma','Servicios localizados y marcados','Escaleras de entrada/salida en zanjas','Estabilidad del suelo evaluada','Cimbra inspeccionada','Varilla asegurada e inspeccionada','Sin conflictos con líneas eléctricas aéreas','Operadores de equipo certificados','Compactación del terreno verificada','Drenaje de cimentación planeado'],
+      ['Andamios inspeccionados y etiquetados','Sistemas de arresto de caídas instalados (>1.8m)','Bloqueo/etiquetado eléctrico en lugar','Monitor de seguridad en techo asignado','Permiso de trabajo en caliente obtenido','Inspección previa de grúa/elevador','Materiales asegurados contra viento','Extintor a menos de 3m del trabajo en caliente','Trabajadores no laboran solos en altura','Orden — escombro retirado diariamente'],
+      ['Controles de polvo de sílice en lugar','Respiradores disponibles','Evaluación de plomo/asbesto si es remodelación','Lavaojos disponible','Tableros eléctricos etiquetados y asegurados','Protección GFCI en toda energía temporal','Sin obstáculos en área de trabajo','Escaleras inspeccionadas','Iluminación adecuada en todas las áreas','Primeros auxilios para cortes disponibles'],
+      ['Revisión final completada','Puntos pendientes resueltos','Todas las herramientas y equipos retirados','Residuos y desperdicios eliminados','Sitio restaurado a condición previa','Revisión y firma del cliente','Permisos cerrados','Documentación as-built entregada','Documentos de garantía entregados','Reporte de incidente archivado']
+    ],
+    jobName:'NOMBRE DEL TRABAJO',siteAddr:'DIRECCIÓN DEL SITIO',emergency:'EMERGENCIA',hospital:'HOSPITAL / URGENCIAS MÁS CERCANO',incident:'REGISTRO DE INCIDENTES',checklist:'🛡️ LISTA DE SEGURIDAD',complete:'COMPLETAR',autosaved:'Guardado automático',
+    tradesSub:'Selecciona un oficio para ver herramientas, materiales y seguridad',
+    colorsSub:'Consultor de Color 3D — elige tus colores',
+    walls:'PAREDES',trim:'MOLDURAS',door:'PUERTA',palettes:'PALETAS SUGERIDAS',saveColors:'💾 Guardar Esquema',
+    solarSub:'Estimador de ahorro solar',roofArea:'ÁREA DEL TECHO (pies²)',powerBill:'FACTURA MENSUAL DE LUZ ($)',
+    sysSize:'Tamaño del sistema',production:'Producción anual',savings:'Ahorro anual',payback:'Período de recuperación',
+    partnersSub:'Socios de impuestos, contabilidad y viajes',
+    tax:'💰 IMPUESTOS Y CONTABILIDAD',travel:'✈️ VIAJES Y RESORTS',fishing:'🎣 PESCA Y ACTIVIDADES',
+    mystory:'MI HISTORIA',contact:'CONTACTO',direct:'Línea directa — llama o escribe',emailsub:'Consultas generales',
+  }
+};
+
+var TRADES = [
+  {id:'roofing',icon:'🏠',en:'Roofing',es:'Techado',
+    tools:{en:['Nail gun','Roofing hammer','Utility knife','Tape measure','Chalk line','Pry bar'],es:['Pistola de clavos','Martillo de techar','Cúter','Cinta métrica','Tira-línea','Barra pata de cabra']},
+    materials:{en:['Asphalt shingles','Felt paper (30 lb)','Roofing nails','Roofing cement','Ridge cap','Drip edge'],es:['Tejas asfalto','Papel fieltro (30 lb)','Clavos para techo','Sellador de techo','Cumbrera','Gotero']},
+    safety:{en:['Fall harness required at all heights','Hard hat mandatory','Safety boots with grip','No work in wet/icy conditions','Buddy system — never work alone'],es:['Arnés de caída obligatorio a toda altura','Casco obligatorio','Botas de seguridad con agarre','Sin trabajo en condiciones mojadas/heladas','Sistema de compañero — nunca trabajes solo']}},
+  {id:'painting',icon:'🎨',en:'Painting',es:'Pintura',
+    tools:{en:['Roller','Brush','Paint sprayer','Masking tape','Drop cloth','Paint tray'],es:['Rodillo','Brocha','Pistola de pintura','Cinta adhesiva','Lona protectora','Bandeja de pintura']},
+    materials:{en:['Interior paint','Exterior paint','Primer/sealer','Thinner','Caulk','Sandpaper'],es:['Pintura interior','Pintura exterior','Sellador/primer','Diluyente','Sellador de grietas','Lija']},
+    safety:{en:['Respirator for spraying','Safety glasses','Ventilate area when using solvents','No smoking near paint','Gloves to prevent skin contact'],es:['Mascarilla para rociar','Gafas de seguridad','Ventilar área con solventes','No fumar cerca de pintura','Guantes para evitar contacto con piel']}},
+  {id:'electrical',icon:'⚡',en:'Electrical',es:'Eléctrico',
+    tools:{en:['Multimeter','Wire stripper','Voltage tester','Screwdrivers','Conduit bender','Fish tape'],es:['Multímetro','Pelacables','Probador de voltaje','Destornilladores','Doblador de conduit','Cinta de jalar']},
+    materials:{en:['12 AWG wire','14 AWG wire','Circuit breakers','Electrical boxes','Conduit','Wire nuts'],es:['Cable 12 AWG','Cable 14 AWG','Breakers','Cajas eléctricas','Conduit','Conectores de alambre']},
+    safety:{en:['Lockout/tagout before any work','Dielectric gloves required','No jewelry on hands or neck','Test before you touch','GFCI protection on all circuits'],es:['Bloqueo/etiquetado antes de cualquier trabajo','Guantes dieléctricos obligatorios','Sin joyería en manos o cuello','Prueba antes de tocar','Protección GFCI en todos los circuitos']}},
+  {id:'plumbing',icon:'🔧',en:'Plumbing',es:'Plomería',
+    tools:{en:['Pipe wrench','Torch','Pipe cutter','Teflon tape','PEX crimper','Channel locks'],es:['Llave inglesa','Soplete','Cortador de tubo','Cinta de teflón','Crimpeador PEX','Pinzas de canal']},
+    materials:{en:['PVC pipe','Copper pipe','PEX tubing','Fittings','Solder','Flux'],es:['Tubo PVC','Tubo de cobre','Tubería PEX','Conectores','Soldadura','Fundente']},
+    safety:{en:['Fire extinguisher when soldering','Safety glasses','Shut off water before cutting','Check for gas lines before drilling','Ventilate when soldering indoors'],es:['Extintor al soldar','Gafas de seguridad','Cerrar el agua antes de cortar','Verificar líneas de gas antes de perforar','Ventilar al soldar en interiores']}},
+  {id:'concrete',icon:'🪨',en:'Concrete',es:'Concreto',
+    tools:{en:['Concrete vibrator','Trowel','Screed','Mixer','Bull float','Edger'],es:['Vibrador de concreto','Llana','Regla','Mezcladora','Llana de ala','Bordeadora']},
+    materials:{en:['Portland cement','Sand','Gravel','Rebar','Wire mesh','Cure compound'],es:['Cemento Portland','Arena','Grava','Varilla','Malla electrosoldada','Compuesto de curado']},
+    safety:{en:['Waterproof boots — wet concrete is caustic','Gloves and safety glasses','Knee pads for flatwork','Ventilate mixer area','Back brace for heavy bags'],es:['Botas impermeables — el concreto fresco es cáustico','Guantes y gafas de seguridad','Rodilleras para trabajo en plano','Ventilar área de mezcladora','Faja lumbar para bolsas pesadas']}},
+  {id:'framing',icon:'🪚',en:'Framing',es:'Carpintería',
+    tools:{en:['Circular saw','Nail gun','Level','Speed square','Measuring tape','Chalk line'],es:['Sierra circular','Pistola de clavos','Nivel','Escuadra rápida','Cinta métrica','Tira-línea']},
+    materials:{en:['2x4 lumber','2x6 lumber','LVL beams','Nails / screws','Joist hangers','Hurricane ties'],es:['Madera 2x4','Madera 2x6','Vigas LVL','Clavos / tornillos','Colgadores de vigueta','Amarres de huracán']},
+    safety:{en:['Ear protection with saw use','Safety glasses mandatory','Hard hat near overhead work','Secure all materials against wind','Cut away from body always'],es:['Protección auditiva con sierra','Gafas de seguridad obligatorias','Casco cerca de trabajo en altura','Asegurar materiales contra el viento','Cortar siempre alejado del cuerpo']}},
+  {id:'hvac',icon:'❄️',en:'HVAC',es:'HVAC',
+    tools:{en:['Manifold gauge set','Refrigerant leak detector','Drill','Pipe wrenches','Sheet metal tools','Vacuum pump'],es:['Juego de manómetros','Detector de fugas de refrigerante','Taladro','Llaves de tuercas','Herramientas de lámina','Bomba de vacío']},
+    materials:{en:['Refrigerant (R-410A/R-32)','Ductwork','Filters','Thermostat','Copper line set','Insulation'],es:['Refrigerante (R-410A/R-32)','Ductos','Filtros','Termostato','Línea de cobre','Aislamiento']},
+    safety:{en:['No open flame near refrigerant','Recover refrigerant — never vent to atmosphere','Respirator in tight spaces','Electrical lockout before work','EPA 608 certification required'],es:['Sin llama abierta cerca del refrigerante','Recuperar refrigerante — nunca liberar a la atmósfera','Mascarilla en espacios reducidos','Bloqueo eléctrico antes de trabajar','Certificación EPA 608 requerida']}},
+  {id:'landscaping',icon:'🌿',en:'Landscaping',es:'Jardinería',
+    tools:{en:['Lawn mower','Edger','Blower','Shovel','Rake','Pruning shears'],es:['Cortadora de césped','Bordeadora','Soplador','Pala','Rastrillo','Tijeras de podar']},
+    materials:{en:['Topsoil','Mulch','Plants / shrubs','Fertilizer','Irrigation parts','Edging material'],es:['Tierra vegetal','Mulch','Plantas / arbustos','Fertilizante','Piezas de irrigación','Material de borde']},
+    safety:{en:['Ear protection with mower/blower','Safety glasses for debris','Gloves when handling chemicals','Mark irrigation lines before digging','Sun protection on long jobs'],es:['Protección auditiva con cortadora/soplador','Gafas de seguridad para escombros','Guantes al manejar químicos','Marcar líneas de irrigación antes de excavar','Protección solar en trabajos largos']}},
+];
+
+var PALETTES = [
+  {name:'Classic White',w:'#FAFAF8',t:'#E8E4DC',d:'#C4A882'},
+  {name:'Warm Gray',w:'#9E9E9E',t:'#FFFFFF',d:'#5D4037'},
+  {name:'Navy Blue',w:'#1565C0',t:'#FFFFFF',d:'#0D47A1'},
+  {name:'Forest Green',w:'#2E7D32',t:'#F5F5F0',d:'#1B5E20'},
+  {name:'Desert Sand',w:'#D4A574',t:'#FFFFFF',d:'#8B6535'},
+  {name:'Charcoal',w:'#37474F',t:'#B0BEC5',d:'#FF6B2B'},
+  {name:'Terracotta',w:'#BF5722',t:'#FFF8F0',d:'#6D4C41'},
+  {name:'Sage',w:'#7CB342',t:'#FFFFFF',d:'#33691E'},
+];
+
+// ── App init ──────────────────────────────────────────────────
+function startApp(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('main').style.display='block';
+  renderAll();
+}
+
+function setLang(l){
+  L=l;
+  document.getElementById('btn-es').className='lang-btn'+(l==='es'?' on':'');
+  document.getElementById('btn-en').className='lang-btn'+(l==='en'?' on':'');
+  renderAll();
+}
+
+function goTab(tab){
+  TAB=tab;
+  TRADE_SEL=null;
+  renderAll();
+}
+
+function renderAll(){
+  var t=TX[L];
+  document.getElementById('hdr-title').textContent=t.screens[TAB]||'RoofTech';
+  // Labels
+  document.getElementById('lbl-jobname').textContent=t.jobName;
+  document.getElementById('lbl-siteaddr').textContent=t.siteAddr;
+  document.getElementById('lbl-emergency').textContent=t.emergency;
+  document.getElementById('lbl-hospital').textContent=t.hospital;
+  document.getElementById('lbl-incident').textContent=t.incident;
+  document.getElementById('lbl-checklist').textContent=t.checklist;
+  document.getElementById('lbl-complete').textContent=t.complete;
+  document.getElementById('lbl-autosaved').textContent=t.autosaved;
+  document.getElementById('lbl-trades-sub').textContent=t.tradesSub;
+  document.getElementById('lbl-colors-sub').textContent=t.colorsSub;
+  document.getElementById('lbl-walls').textContent=t.walls;
+  document.getElementById('lbl-trim').textContent=t.trim;
+  document.getElementById('lbl-door').textContent=t.door;
+  document.getElementById('lbl-palettes').textContent=t.palettes;
+  document.getElementById('btn-save-colors').textContent=t.saveColors;
+  document.getElementById('lbl-solar-sub').textContent=t.solarSub;
+  document.getElementById('lbl-roof-area').textContent=t.roofArea;
+  document.getElementById('lbl-power-bill').textContent=t.powerBill;
+  document.getElementById('lbl-partners-sub').textContent=t.partnersSub;
+  document.getElementById('lbl-mystory').textContent=t.mystory;
+  document.getElementById('lbl-contact').textContent=t.contact;
+  document.getElementById('lbl-direct').textContent=t.direct;
+  document.getElementById('lbl-email-sub').textContent=t.emailsub;
+  // Show active screen
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  var active=document.getElementById('screen-'+TAB);
+  if(active) active.classList.add('active');
+  renderNav();
+  if(TAB==='safety') renderSafety();
+  if(TAB==='trades') renderTrades();
+  if(TAB==='colors') renderPalettes();
+  if(TAB==='solar') renderSolar();
+  if(TAB==='partners') renderPartners();
+}
+
+// ── Nav ───────────────────────────────────────────────────────
+function renderNav(){
+  var t=TX[L];
+  function btn(i){
+    var on=t.ids[i]===TAB;
+    return '<button class="nav-btn'+(on?' on':'')+'" onclick="goTab(\''+t.ids[i]+'\')">'
+      +'<span class="nav-icon">'+t.icons[i]+'</span>'
+      +'<span class="nav-lbl" style="color:'+(on?'#FF6B2B':'#555')+'">'+t.tabs[i]+'</span></button>';
+  }
+  var top='',bot='';
+  for(var i=0;i<3;i++) top+=btn(i);
+  for(var i=3;i<6;i++) bot+=btn(i);
+  document.getElementById('nav-top').innerHTML=top;
+  document.getElementById('nav-bot').innerHTML=bot;
+}
+
+// ── Safety ────────────────────────────────────────────────────
+function renderSafety(){
+  var t=TX[L];
+  var items=t.items[PHASE];
+  var done=items.filter(function(_,i){return CHECKED[PHASE+'_'+i];}).length;
+  var pct=Math.round(done/items.length*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-count').textContent=done+'/'+items.length;
+  document.getElementById('phase-label-sm').textContent=t.phases[PHASE];
+  // Phases
+  var pr=document.getElementById('phase-row');
+  pr.innerHTML='';
+  t.phases.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.className='phase-btn'+(i===PHASE?' on':'');
+    b.textContent=p;
+    b.onclick=function(){PHASE=i;renderSafety();};
+    pr.appendChild(b);
+  });
+  // Checklist
+  var cl=document.getElementById('check-list');
+  cl.innerHTML='';
+  items.forEach(function(item,i){
+    var k=PHASE+'_'+i;var on=!!CHECKED[k];
+    var div=document.createElement('div');
+    div.className='check-item';
+    div.innerHTML='<div class="check-box'+(on?' on':'')+'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+(on?'<path d="M5 13l4 4L19 7"/>':'')+'</svg></div><span class="check-txt'+(on?' done':'')+'" style="margin:0">'+item+'</span>';
+    div.onclick=function(){CHECKED[k]=!CHECKED[k];renderSafety();};
+    cl.appendChild(div);
+  });
+}
+
+function toggleCheck(i){CHECKED[PHASE+'_'+i]=!CHECKED[PHASE+'_'+i];renderSafety();}
+function logIncident(){var inp=document.getElementById('incident-inp');if(!inp.value.trim())return;INCIDENTS.push({t:inp.value,time:new Date().toLocaleTimeString()});inp.value='';var log=document.getElementById('incident-log');log.innerHTML=INCIDENTS.map(function(inc){return'<div style="background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#E8E0D5"><span style="color:#555;font-size:10px">'+inc.time+'</span><br>'+inc.t+'</div>';}).join('');}
+function markComplete(){var n=document.getElementById('job-name').value||'Job';alert(n+(L==='es'?' marcado como completado':' marked as complete'));}
+
+// ── Trades ────────────────────────────────────────────────────
+function renderTrades(){
+  var tc=document.getElementById('trades-content');
+  if(!TRADE_SEL){
+    tc.innerHTML='<div class="trade-grid">'+TRADES.map(function(tr){
+      return'<div class="trade-card" onclick="selectTrade(\''+tr.id+'\')">'
+        +'<div class="trade-icon">'+tr.icon+'</div>'
+        +'<div class="trade-name">'+(L==='es'?tr.es:tr.en)+'</div></div>';
+    }).join('')+'</div>';
+    return;
+  }
+  var tr=TRADES.find(function(x){return x.id===TRADE_SEL;});
+  var tools=tr.tools[L];var mats=tr.materials[L];var safe=tr.safety[L];
+  tc.innerHTML='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+    +'<button onclick="TRADE_SEL=null;renderTrades()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
+    +'<span style="font-size:15px;font-weight:700;color:#E8E0D5">'+tr.icon+' '+(L==='es'?tr.es:tr.en)+'</span></div>'
+    +'<div style="padding:14px 18px 0">'
+    +'<div class="card"><div class="section-lbl" style="color:#FF6B2B">🔧 '+(L==='es'?'Herramientas':'Tools')+'</div>'+tools.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
+    +'<div class="card"><div class="section-lbl" style="color:#22C55E">📦 '+(L==='es'?'Materiales':'Materials')+'</div>'+mats.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
+    +'<div class="card"><div class="section-lbl" style="color:#EF4444">🛡️ '+(L==='es'?'Seguridad':'Safety')+'</div>'+safe.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
+    +'</div>';
+}
+function selectTrade(id){TRADE_SEL=id;renderTrades();}
+
+// ── Colors ────────────────────────────────────────────────────
+function updateHouse(){
+  var w=document.getElementById('color-wall').value;
+  var tr=document.getElementById('color-trim').value;
+  var d=document.getElementById('color-door').value;
+  document.getElementById('svg-wall').setAttribute('fill',w);
+  document.getElementById('svg-roof').setAttribute('stroke',tr);
+  document.getElementById('svg-trim').setAttribute('stroke',tr);
+  document.getElementById('svg-door').setAttribute('fill',d);
+  document.getElementById('svg-win1').setAttribute('stroke',tr);
+  document.getElementById('svg-win2').setAttribute('stroke',tr);
+}
+function renderPalettes(){
+  var pg=document.getElementById('palette-grid');
+  pg.innerHTML=PALETTES.map(function(p){
+    return'<div class="palette-card" onclick="applyPalette(\''+p.w+'\',\''+p.t+'\',\''+p.d+'\')">'
+      +'<div class="palette-swatches">'
+      +'<div class="swatch" style="background:'+p.w+'"></div>'
+      +'<div class="swatch" style="background:'+p.t+'"></div>'
+      +'<div class="swatch" style="background:'+p.d+'"></div>'
+      +'</div><span class="palette-name">'+p.name+'</span></div>';
+  }).join('');
+}
+function applyPalette(w,t,d){
+  document.getElementById('color-wall').value=w;
+  document.getElementById('color-trim').value=t;
+  document.getElementById('color-door').value=d;
+  updateHouse();
+}
+
+// ── Solar ─────────────────────────────────────────────────────
+function calcSolar(){
+  var area=parseFloat(document.getElementById('solar-area').value)||0;
+  var bill=parseFloat(document.getElementById('solar-bill').value)||0;
+  var t=TX[L];
+  if(!area&&!bill){document.getElementById('solar-results').innerHTML='';document.getElementById('solar-detail').innerHTML='';return;}
+  var kw=Math.round(area*0.004*10)/10;
+  var ann=Math.round(kw*1400);
+  var sav=Math.round(bill*12*0.85);
+  var cost=Math.round(kw*3000);
+  var pb=Math.round(cost/sav*10)/10;
+  document.getElementById('solar-results').innerHTML=
+    '<div class="solar-stat"><div class="solar-val">'+kw+' kW</div><div class="solar-lbl">'+t.sysSize+'</div></div>'
+    +'<div class="solar-stat"><div class="solar-val">'+ann.toLocaleString()+' kWh</div><div class="solar-lbl">'+t.production+'</div></div>'
+    +'<div class="solar-stat"><div class="solar-val">$'+sav.toLocaleString()+'</div><div class="solar-lbl">'+t.savings+'</div></div>'
+    +'<div class="solar-stat"><div class="solar-val">'+pb+' '+(L==='es'?'años':'yrs')+'</div><div class="solar-lbl">'+t.payback+'</div></div>';
+  document.getElementById('solar-detail').innerHTML='<div class="card">'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(L==='es'?'Costo estimado del sistema':'Estimated system cost')+'</span><span style="color:#F59E0B;font-weight:700">$'+cost.toLocaleString()+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(L==='es'?'Crédito fiscal federal (30%)':'Federal tax credit (30%)')+'</span><span style="color:#22C55E;font-weight:700">-$'+Math.round(cost*.3).toLocaleString()+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#94A3B8;font-size:13px">'+(L==='es'?'Costo después del crédito':'Cost after credit')+'</span><span style="color:#fff;font-weight:700">$'+Math.round(cost*.7).toLocaleString()+'</span></div>'
+    +'</div>';
+}
+
+// ── Partners ──────────────────────────────────────────────────
+function renderPartners(){
+  var t=TX[L];
+  var html='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">'+t.tax+'</p>';
+  var tax=[
+    {icon:'💼',name:'Gusto',sub:L==='es'?'Nómina y beneficios':'Payroll & benefits',url:'https://gusto.com',comm:'Affiliate'},
+    {icon:'📊',name:'QuickBooks',sub:L==='es'?'Contabilidad e impuestos':'Accounting & taxes',url:'https://quickbooks.intuit.com',comm:'Affiliate'},
+    {icon:'🌍',name:'Deel',sub:L==='es'?'Nómina internacional':'International payroll',url:'https://www.deel.com',comm:'Affiliate'},
+  ];
+  tax.forEach(function(p){html+=partnerCard(p);});
+  html+='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.travel+'</p>';
+  var travel=[
+    {icon:'🏨',name:'Booking.com',sub:L==='es'?'Hoteles y resorts':'Hotels & resorts worldwide',url:'https://booking.com',comm:'4–6%'},
+    {icon:'✈️',name:'Expedia',sub:L==='es'?'Paquetes de vacaciones':'Vacation packages',url:'https://expedia.com',comm:'2–6%'},
+    {icon:'🚗',name:'Rentalcars.com',sub:L==='es'?'Alquiler de autos':'Car rentals worldwide',url:'https://rentalcars.com',comm:'4–6%'},
+    {icon:'🏡',name:'VRBO',sub:L==='es'?'Casas vacacionales':'Vacation home rentals',url:'https://vrbo.com',comm:'3–5%'},
+    {icon:'🔍',name:'Skyscanner',sub:L==='es'?'Comparar vuelos':'Compare all flights',url:'https://skyscanner.com',comm:'Per click'},
+  ];
+  travel.forEach(function(p){html+=partnerCard(p);});
+  html+='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.fishing+'</p>';
+  var fishing=[
+    {icon:'🎣',name:'Bass Pro Shops',sub:L==='es'?'Equipos de pesca y outdoor':'Fishing gear & outdoors',url:'https://basspro.com',comm:'Affiliate'},
+    {icon:'⛵',name:'FishingBooker',sub:L==='es'?'Reserva viajes de pesca':'Book fishing trips',url:'https://fishingbooker.com',comm:'20%'},
+    {icon:'🏔️',name:'REI',sub:L==='es'?'Outdoor y aventura':'Outdoor & adventure gear',url:'https://rei.com',comm:'5%'},
+  ];
+  fishing.forEach(function(p){html+=partnerCard(p);});
+  html+='<p style="font-size:11px;color:#555;text-align:center;margin:20px 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">© 2026 RoofTech · Powered by LA Studios</p>';
+  document.getElementById('partners-content').innerHTML=html;
+}
+function partnerCard(p){
+  return'<a href="'+p.url+'" target="_blank" class="partner-card">'
+    +'<div class="partner-icon">'+p.icon+'</div>'
+    +'<div style="flex:1"><div class="partner-name">'+p.name+'</div><div class="partner-sub">'+p.sub+'</div></div>'
+    +'<span class="partner-comm">'+p.comm+'</span></a>';
+}
+
+// ── Init ─────────────────────────────────────────────────────
+renderPalettes();
+</script>
+</body>
 </html>
