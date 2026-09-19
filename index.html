@@ -443,42 +443,22 @@ function goTab(tab){
 }
 
 function renderAll(){
+  try{
   var t=TX[L];
-  document.getElementById('hdr-title').textContent=t.screens[TAB]||'JefeTech';
-  // Labels
-  document.getElementById('lbl-jobname').textContent=t.jobName;
-  document.getElementById('lbl-siteaddr').textContent=t.siteAddr;
-  document.getElementById('lbl-emergency').textContent=t.emergency;
-  document.getElementById('lbl-hospital').textContent=t.hospital;
-  document.getElementById('lbl-incident').textContent=t.incident;
-  document.getElementById('lbl-checklist').textContent=t.checklist;
-  document.getElementById('lbl-complete').textContent=t.complete;
-  document.getElementById('lbl-autosaved').textContent=t.autosaved;
-  document.getElementById('lbl-trades-sub').textContent=t.tradesSub;
-  document.getElementById('lbl-colors-sub').textContent=t.colorsSub;
-  document.getElementById('lbl-walls').textContent=t.walls;
-  document.getElementById('lbl-trim').textContent=t.trim;
-  document.getElementById('lbl-door').textContent=t.door;
-  document.getElementById('lbl-palettes').textContent=t.palettes;
-  document.getElementById('btn-save-colors').textContent=t.saveColors;
-  document.getElementById('lbl-solar-sub').textContent=t.solarSub;
-  document.getElementById('lbl-roof-area').textContent=t.roofArea;
-  document.getElementById('lbl-power-bill').textContent=t.powerBill;
-  document.getElementById('lbl-partners-sub').textContent=t.partnersSub;
-  document.getElementById('lbl-mystory').textContent=t.mystory;
-  document.getElementById('lbl-contact').textContent=t.contact;
-  document.getElementById('lbl-direct').textContent=t.direct;
-  document.getElementById('lbl-email-sub').textContent=t.emailsub;
-  // Show active screen
+  var el=document.getElementById('hdr-title');if(el)el.textContent=t.screens[TAB]||'JefeTech';
+  var ids=['lbl-jobname','lbl-siteaddr','lbl-emergency','lbl-hospital','lbl-incident','lbl-checklist','lbl-complete','lbl-autosaved','lbl-trades-sub','lbl-colors-sub','lbl-walls','lbl-trim','lbl-door','lbl-palettes','btn-save-colors','lbl-solar-sub','lbl-roof-area','lbl-power-bill','lbl-partners-sub','lbl-mystory','lbl-contact','lbl-direct','lbl-email-sub'];
+  var vals=[t.jobName,t.siteAddr,t.emergency,t.hospital,t.incident,t.checklist,t.complete,t.autosaved,t.tradesSub,t.colorsSub,t.walls,t.trim,t.door,t.palettes,t.saveColors,t.solarSub,t.roofArea,t.powerBill,t.partnersSub,t.mystory,t.contact,t.direct,t.emailsub];
+  ids.forEach(function(id,i){var e=document.getElementById(id);if(e)e.textContent=vals[i];});
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   var active=document.getElementById('screen-'+TAB);
-  if(active) active.classList.add('active');
+  if(active)active.classList.add('active');
   renderNav();
-  if(TAB==='safety') renderSafety();
-  if(TAB==='trades') renderTrades();
-  if(TAB==='colors') renderPalettes();
-  if(TAB==='solar') renderSolar();
-  if(TAB==='partners') renderPartners();
+  if(TAB==='safety')renderSafety();
+  if(TAB==='trades')renderTrades();
+  if(TAB==='colors')renderPalettes();
+  if(TAB==='solar')renderSolar();
+  if(TAB==='partners')renderPartners();
+  }catch(e){console.error('renderAll error:',e);}
 }
 
 // ── Nav ───────────────────────────────────────────────────────
@@ -588,6 +568,13 @@ function applyPalette(w,t,d){
 }
 
 // ── Solar ─────────────────────────────────────────────────────
+function renderSolar(){
+  // Solar screen is static HTML — just trigger calc if values exist
+  var area=document.getElementById('solar-area');
+  var bill=document.getElementById('solar-bill');
+  if(area&&bill&&(area.value||bill.value)) calcSolar();
+}
+
 function calcSolar(){
   var area=parseFloat(document.getElementById('solar-area').value)||0;
   var bill=parseFloat(document.getElementById('solar-bill').value)||0;
