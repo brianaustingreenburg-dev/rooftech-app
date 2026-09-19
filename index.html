@@ -298,10 +298,10 @@ var TRADE_SEL = null;
 // ── Translations ──────────────────────────────────────────────
 var TX = {
   en:{
-    tabs:['Safety','Jobs','Trades','Colors','Solar','Partners','About'],
-    ids:['safety','jobs','trades','colors','solar','partners','about'],
-    icons:['🛡️','📋','🔨','🎨','☀️','🤝','👤'],
-    screens:{safety:'Safety Checklist',jobs:'Jobs',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
+    tabs:['Safety','Jobs','Partners','About'],
+    ids:['safety','jobs','partners','about'],
+    icons:['🛡️','📋','🤝','👤'],
+    screens:{safety:'Safety Checklist',jobs:'Jobs',partners:'Partners',about:'About'},
     phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
     items:[
       ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA cards on site','Safety meeting held with crew'],
@@ -321,10 +321,10 @@ var TX = {
     mystory:'MY STORY',contact:'CONTACT',direct:'Direct line — call or text',emailsub:'General inquiries',
   },
   es:{
-    tabs:['Seguridad','Trabajos','Oficios','Colores','Solar','Socios','Acerca'],
-    ids:['safety','jobs','trades','colors','solar','partners','about'],
-    icons:['🛡️','📋','🔨','🎨','☀️','🤝','👤'],
-    screens:{safety:'Lista de Seguridad',jobs:'Trabajos',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
+    tabs:['Seguridad','Trabajos','Socios','Acerca'],
+    ids:['safety','jobs','partners','about'],
+    icons:['🛡️','📋','🤝','👤'],
+    screens:{safety:'Lista de Seguridad',jobs:'Trabajos',partners:'Socios',about:'Acerca de'},
     phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
     items:[
       ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA en obra','Reunión de seguridad con la cuadrilla'],
@@ -425,9 +425,6 @@ function renderAll(){
   if(TAB==='safety')renderSafety();
   if(TAB==='trades')renderTrades();
   if(TAB==='jobs')renderJobs();
-  if(TAB==='colors')renderColors();
-  if(TAB==='measure')renderMeasure();
-  if(TAB==='solar')renderSolar();
   if(TAB==='partners')renderPartners();
   }catch(e){console.error('renderAll error:',e);}
 }
@@ -443,7 +440,6 @@ function renderNav(){
   }
   var top='',bot='';
   for(var i=0;i<4;i++) top+=btn(i);
-  for(var i=4;i<7;i++) bot+=btn(i);
   document.getElementById('nav-top').innerHTML=top;
   document.getElementById('nav-mid').innerHTML='';
   document.getElementById('nav-bot').innerHTML=bot;
@@ -554,6 +550,9 @@ function renderJobs(){
     {id:'quote',icon:'💰',label:es?'Cotizar':'Quote'},
     {id:'crew',icon:'👷',label:es?'Cuadrilla':'Crew'},
     {id:'measure',icon:'📐',label:es?'Medidas':'Measure'},
+    {id:'solar',icon:'☀️',label:'Solar'},
+    {id:'trades',icon:'🔨',label:es?'Oficios':'Trades'},
+    {id:'colors',icon:'🎨',label:es?'Colores':'Colors'},
   ];
 
   var subNav='<div style="background:#1a1d27;border-bottom:1px solid rgba(255,255,255,.06);display:flex">';
@@ -570,11 +569,17 @@ function renderJobs(){
   else if(jobSection==='quote') body=renderQuoteSection(es);
   else if(jobSection==='crew') body=renderCrewSection(es);
   else if(jobSection==='measure') body=renderMeasureSection(es);
+  else if(jobSection==='solar'){var sc=document.createElement('div');sc.id='solar-content';body='<div id="solar-content"></div>';}
+  else if(jobSection==='trades') body='<div id="trades-content"></div>';
+  else if(jobSection==='colors') body='<div id="colors-content"></div>';
 
   c.innerHTML=subNav+body;
 
   // Re-init blueprint canvas if needed
   if(jobSection==='measure' && bpView==='canvas') setTimeout(initBpCanvas,50);
+  if(jobSection==='solar') renderSolar();
+  if(jobSection==='trades') renderTrades();
+  if(jobSection==='colors') renderColors();
 }
 
 function renderJobsList(es){
