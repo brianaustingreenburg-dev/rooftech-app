@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#0f1117"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>RoofTech — Workers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',system-ui,sans-serif}
+body{background:#0f1117;color:#fff;min-height:100vh}
+.page{max-width:430px;margin:0 auto;padding:24px 20px 48px}
+.back{display:flex;align-items:center;gap:8px;color:#94A3B8;font-size:13px;text-decoration:none;margin-bottom:24px}
+.page-title{font-size:26px;font-weight:800;margin-bottom:4px}
+.page-sub{font-size:13px;color:#94A3B8;margin-bottom:28px}
+.section-title{font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;margin-top:28px}
+.worker-card{background:#1a1d27;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.worker-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.avatar{width:44px;height:44px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+.worker-name{font-size:15px;font-weight:700}
+.worker-role{font-size:12px;color:#94A3B8;margin-top:2px}
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:auto}
+.badge-active{background:rgba(34,197,94,.15);color:#22C55E}
+.badge-off{background:rgba(148,163,184,.1);color:#94A3B8}
+.worker-actions{display:flex;gap:8px}
+.action-btn{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;color:#E8E0D5;text-align:center;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.action-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.2);color:#25D366}
+.action-btn.call{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.2);color:#60A5FA}
+.action-btn.pay{background:rgba(255,107,43,.1);border-color:rgba(255,107,43,.2);color:#FF6B2B}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.stat-box{background:#1a1d27;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px}
+.stat-label{font-size:11px;color:#94A3B8;margin-bottom:4px}
+.stat-val{font-size:20px;font-weight:800;color:#FF6B2B}
+.add-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:20px}
+.pay-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pay-row:last-child{border:none}
+.pay-label{font-size:13px;color:#E8E0D5}
+.pay-val{font-size:14px;font-weight:700;color:#22C55E}
+.input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;font-size:14px;color:#fff;outline:none;margin-bottom:10px}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:flex-end}
+.modal-bg.show{display:flex}
+.modal{background:#1a1d27;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;margin:0 auto}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:16px}
+.save-btn{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px}
+.cancel-btn{width:100%;background:none;border:1px solid rgba(255,255,255,.1);color:#94A3B8;border-radius:12px;padding:12px;font-size:14px;cursor:pointer;margin-top:8px}
+.footer{text-align:center;margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)}
+.footer p{font-size:11px;color:#555}
+.footer span{color:#FF6B2B;font-weight:600}
+</style>
+</head>
+<body>
+<div class="page">
+  <a href="/" class="back">← Back to RoofTech</a>
+  <div class="page-title">Workers</div>
+  <div class="page-sub">Manage your crew, payroll & hours</div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-label">Active Workers</div>
+      <div class="stat-val" id="active-count">3</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Daily Payroll</div>
+      <div class="stat-val" id="daily-total">$2,700</div>
+    </div>
+  </div>
+
+  <button class="add-btn" onclick="document.getElementById('add-modal').classList.add('show')">+ Add Worker</button>
+
+  <!-- WEEKLY PAY SUMMARY -->
+  <div class="section-title">📅 Weekly Pay Summary</div>
+  <div class="worker-card">
+    <div id="pay-summary"></div>
+  </div>
+
+  <!-- CREW LIST -->
+  <div class="section-title">👷 Crew</div>
+  <div id="crew-list"></div>
+
+  <div class="footer">
+    <p>Powered by <span>LA Studios</span></p>
+    <p style="margin-top:4px">© 2026 RoofTech · Workers</p>
+  </div>
+</div>
+
+<!-- ADD WORKER MODAL -->
+<div class="modal-bg" id="add-modal">
+  <div class="modal">
+    <div class="modal-title">Add Worker</div>
+    <input class="input" id="w-name" placeholder="Full name">
+    <input class="input" id="w-role" placeholder="Role (Roofer, Laborer, Foreman...)">
+    <input class="input" id="w-phone" placeholder="Phone number">
+    <input class="input" type="number" id="w-pay" placeholder="Daily rate ($)">
+    <button class="save-btn" onclick="addWorker()">Save Worker</button>
+    <button class="cancel-btn" onclick="document.getElementById('add-modal').classList.remove('show')">Cancel</button>
+  </div>
+</div>
+
+<script>
+var CREW = [
+  {id:1,name:'Carlos Mendoza',role:'Lead Roofer',phone:'512-555-0101',pay:950,status:'active'},
+  {id:2,name:'Miguel Ruiz',role:'Roofer',phone:'512-555-0102',pay:850,status:'active'},
+  {id:3,name:'Roberto Sanchez',role:'Laborer',phone:'512-555-0103',pay:900,status:'active'},
+  {id:4,name:'Jose Lopez',role:'Laborer',phone:'512-555-0104',pay:750,status:'off'},
+];
+
+function fmt(n){return '$'+n.toLocaleString();}
+
+function render(){
+  var active = CREW.filter(function(c){return c.status==='active';});
+  var daily = active.reduce(function(s,c){return s+c.pay;},0);
+  document.getElementById('active-count').textContent = active.length;
+  document.getElementById('daily-total').textContent = fmt(daily);
+
+  // Pay summary
+  var ps = document.getElementById('pay-summary');
+  ps.innerHTML = [5,6,7].map(function(d){
+    return '<div class="pay-row"><span class="pay-label">'+d+' days</span><span class="pay-val">'+fmt(daily*d)+'</span></div>';
+  }).join('');
+
+  // Crew list
+  var cl = document.getElementById('crew-list');
+  cl.innerHTML = CREW.map(function(w){
+    return '<div class="worker-card">'
+      +'<div class="worker-top">'
+      +'<div class="avatar">'+w.name.charAt(0)+'</div>'
+      +'<div><div class="worker-name">'+w.name+'</div><div class="worker-role">'+w.role+' · '+fmt(w.pay)+'/day</div></div>'
+      +'<span class="badge '+(w.status==='active'?'badge-active':'badge-off')+'">'+(w.status==='active'?'Active':'Off')+'</span>'
+      +'</div>'
+      +'<div class="worker-actions">'
+      +'<a href="tel:'+w.phone+'" class="action-btn call">📞 Call</a>'
+      +'<a href="https://wa.me/1'+w.phone.replace(/\D/g,'')+'" target="_blank" class="action-btn wa">💬 WhatsApp</a>'
+      +'<button class="action-btn pay" onclick="toggleStatus('+w.id+')">'+(w.status==='active'?'Clock Out':'Clock In')+'</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function toggleStatus(id){
+  var w = CREW.find(function(c){return c.id===id;});
+  if(w) w.status = w.status==='active'?'off':'active';
+  render();
+}
+
+function addWorker(){
+  var name = document.getElementById('w-name').value.trim();
+  var role = document.getElementById('w-role').value.trim();
+  var phone = document.getElementById('w-phone').value.trim();
+  var pay = parseInt(document.getElementById('w-pay').value)||0;
+  if(!name||!role)return;
+  CREW.push({id:Date.now(),name:name,role:role,phone:phone,pay:pay,status:'active'});
+  document.getElementById('w-name').value='';
+  document.getElementById('w-role').value='';
+  document.getElementById('w-phone').value='';
+  document.getElementById('w-pay').value='';
+  document.getElementById('add-modal').classList.remove('show');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
