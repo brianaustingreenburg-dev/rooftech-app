@@ -207,8 +207,10 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
       <div id="colors-content"></div>
     </div>
 
-    <!-- SOLAR -->
-    <div id="screen-solar" class="screen">
+    <!-- MEASURE -->
+    <div id="screen-measure" class="screen">
+      <div id="measure-content"></div>
+    </div>
       <div id="solar-content"></div>
     </div>
 
@@ -283,9 +285,9 @@ var TRADE_SEL = null;
 // ── Translations ──────────────────────────────────────────────
 var TX = {
   en:{
-    tabs:['Safety','Trades','Colors','Solar','Partners','About'],
-    ids:['safety','trades','colors','solar','partners','about'],
-    icons:['🛡️','🔨','🎨','☀️','🤝','👤'],
+    tabs:['Safety','Trades','Colors','Measure','Solar','Partners','About'],
+    ids:['safety','trades','colors','measure','solar','partners','about'],
+    icons:['🛡️','🔨','🎨','📐','☀️','🤝','👤'],
     screens:{safety:'Safety Checklist',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
     phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
     items:[
@@ -306,9 +308,9 @@ var TX = {
     mystory:'MY STORY',contact:'CONTACT',direct:'Direct line — call or text',emailsub:'General inquiries',
   },
   es:{
-    tabs:['Seguridad','Oficios','Colores','Solar','Socios','Acerca'],
-    ids:['safety','trades','colors','solar','partners','about'],
-    icons:['🛡️','🔨','🎨','☀️','🤝','👤'],
+    tabs:['Seguridad','Oficios','Colores','Medidas','Solar','Socios','Acerca'],
+    ids:['safety','trades','colors','measure','solar','partners','about'],
+    icons:['🛡️','🔨','🎨','📐','☀️','🤝','👤'],
     screens:{safety:'Lista de Seguridad',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
     phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
     items:[
@@ -410,6 +412,7 @@ function renderAll(){
   if(TAB==='safety')renderSafety();
   if(TAB==='trades')renderTrades();
   if(TAB==='colors')renderColors();
+  if(TAB==='measure')renderMeasure();
   if(TAB==='solar')renderSolar();
   if(TAB==='partners')renderPartners();
   }catch(e){console.error('renderAll error:',e);}
@@ -425,8 +428,8 @@ function renderNav(){
       +'<span class="nav-lbl" style="color:'+(on?'#FF6B2B':'#555')+'">'+t.tabs[i]+'</span></button>';
   }
   var top='',bot='';
-  for(var i=0;i<3;i++) top+=btn(i);
-  for(var i=3;i<6;i++) bot+=btn(i);
+  for(var i=0;i<4;i++) top+=btn(i);
+  for(var i=4;i<7;i++) bot+=btn(i);
   document.getElementById('nav-top').innerHTML=top;
   document.getElementById('nav-bot').innerHTML=bot;
 }
@@ -680,7 +683,255 @@ function savePainting(){
 }
 
 // ── Solar ─────────────────────────────────────────────────────
-// ── Solar State ───────────────────────────────────────────────
+// ── Measure / Blueprint ───────────────────────────────────────
+var bpView='address';
+var bpAddr='';
+var bpObra='';
+var bpZones=[];
+var bpPts=[];
+var bpTool='draw';
+var bpScale=1;
+var bpGrid=20;
+var bpShowGrid=true;
+var bpShowDim=true;
+var bpHover=null;
+var bpSaved=[];
+var BPW=390, BPH=300;
+var ZC=['#FF6B2B','#1565C0','#22C55E','#9C27B0','#F57C00','#00838F','#AD1457','#5D4037'];
+
+function renderMeasure(){
+  var c=document.getElementById('measure-content');
+  if(!c)return;
+  if(bpView==='address') c.innerHTML=rBpAddr();
+  else if(bpView==='saved') c.innerHTML=rBpSaved();
+  else{ c.innerHTML=rBpCanvas(); setTimeout(initBpCanvas,50); }
+}
+
+function rBpAddr(){
+  var es=L==='es';
+  return '<div style="background:#1a1d27;padding:16px 18px 18px">'
+    +'<p style="color:#FF6B2B;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">📐 '+(es?'SISTEMA DE MEDICIÓN DE PLANOS':'BLUEPRINT MEASUREMENT SYSTEM')+'</p>'
+    +'<p style="color:#94A3B8;font-size:12px;margin-bottom:14px;line-height:1.5">'+(es?'El primero del mundo: busca la dirección y mide el techo automáticamente.':'World\'s first: search the address and measure the roof automatically.')+'</p>'
+    +['1','2','3'].map(function(n,i){
+      var steps_en=['Enter job address below','Trace roof zones on the blueprint','Get area in sq ft AND m²'];
+      var steps_es=['Ingresa la dirección del trabajo','Traza las zonas del techo en el plano','Obtén el área en pies² Y m²'];
+      return'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:'+(i<2?'1px solid rgba(255,255,255,.06)':'none')+'">'
+        +'<div style="width:26px;height:26px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0">'+n+'</div>'
+        +'<span style="color:#E8E0D5;font-size:13px">'+(es?steps_es[i]:steps_en[i])+'</span></div>';
+    }).join('')
+    +'</div>'
+    +'<div style="padding:14px 18px 0">'
+    +'<span class="inp-label">'+(es?'NOMBRE DEL TRABAJO':'JOB NAME')+'</span>'
+    +'<input class="inp" id="bp-obra" placeholder="'+(es?'Casa Rodríguez — Techo':'Rodriguez House — Roof')+'" value="'+bpObra+'" oninput="bpObra=this.value">'
+    +'<span class="inp-label">'+(es?'DIRECCIÓN DEL TRABAJO':'JOB ADDRESS')+'</span>'
+    +'<input class="inp" id="bp-addr" placeholder="'+(es?'Calle Morelos 45, Iztapalapa, CDMX':'1425 Oak Street, Austin TX 78701')+'" value="'+bpAddr+'" oninput="bpAddr=this.value">'
+    +'<button onclick="loadBp()" class="btn-orange">📐 '+(es?'Cargar plano y medir':'Load blueprint & measure')+'</button>'
+    +(bpSaved.length>0?'<button onclick="bpView=\'saved\';renderMeasure()" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;margin-top:10px">📁 '+(es?'Planos guardados':'Saved blueprints')+' ('+bpSaved.length+')</button>':'')
+    +'</div>';
+}
+
+function rBpSaved(){
+  var es=L==='es';
+  var html='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+    +'<button onclick="bpView=\'address\';renderMeasure()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
+    +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Planos guardados':'Saved blueprints')+'</span></div>'
+    +'<div style="padding:14px 18px 0">';
+  if(bpSaved.length===0){
+    html+='<p style="color:#555;text-align:center;padding:32px 0">'+(es?'Sin planos guardados':'No blueprints saved')+'</p>';
+  } else {
+    bpSaved.forEach(function(bp,i){
+      var sqft=(bp.tot*10.764).toFixed(1);
+      html+='<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px">'
+        +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 2px">'+(bp.obra||bp.addr)+'</p>'
+        +'<p style="font-size:11px;color:#555;margin:0">'+bp.addr+'</p></div>'
+        +'<div style="text-align:right"><p style="color:#FF6B2B;font-weight:700;font-size:14px;margin:0">'+bp.tot.toFixed(1)+' m²</p>'
+        +'<p style="color:#94A3B8;font-size:11px;margin:0">'+sqft+' ft²</p></div></div>'
+        +'<div style="display:flex;gap:8px">'
+        +'<button onclick="loadSaved('+i+')" class="btn-orange" style="flex:1;font-size:13px;padding:10px">👁 '+(es?'Ver':'View')+'</button>'
+        +'<button onclick="bpSaved.splice('+i+',1);renderMeasure()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:10px 14px;cursor:pointer;color:#EF4444">🗑</button>'
+        +'</div></div>';
+    });
+  }
+  html+='</div>';
+  return html;
+}
+
+function rBpCanvas(){
+  var es=L==='es';
+  var tot=bpZones.reduce(function(s,z){return s+z.area;},0);
+  var totFt=(tot*10.764);
+  var nextColor=ZC[bpZones.length%ZC.length];
+  return '<div style="background:#1a1d27;padding:10px 16px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+    +'<button onclick="bpView=\'address\';renderMeasure()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
+    +'<button onclick="saveBp()" style="background:#FF6B2B;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer">💾 '+(es?'Guardar':'Save')+'</button></div>'
+    +'<p style="color:#E8E0D5;font-size:11px;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📍 '+bpAddr+'</p>'
+    +(bpObra?'<p style="color:#FF6B2B;font-size:11px;font-weight:700;margin:0">🏗️ '+bpObra+'</p>':'')
+    +'</div>'
+    +'<div style="position:relative;background:#0D1117">'
+    +'<canvas id="bpC" width="'+BPW+'" height="'+BPH+'" style="width:100%;display:block;cursor:crosshair"></canvas>'
+    +'<div style="position:absolute;bottom:8px;left:8px;background:rgba(13,17,23,.85);border-radius:7px;padding:5px 9px;font-size:10px;color:#E8E0D5">'
+    +(bpPts.length>0?bpPts.length+' pts':(es?'Toca para trazar · Toca el primer punto para cerrar':'Tap to trace · Tap first point to close'))+'</div>'
+    +'<div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:5px">'
+    +'<button onclick="bpShowGrid=!bpShowGrid;drawBp()" style="width:34px;height:34px;background:'+(bpShowGrid?'#FF6B2B':'rgba(255,255,255,.15)')+';border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px">⊞</button>'
+    +'<button onclick="bpPts=bpPts.slice(0,-1);drawBp()" style="width:34px;height:34px;background:rgba(255,255,255,.15);border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px">↩</button>'
+    +'<button onclick="bpZones=[];bpPts=[];drawBp()" style="width:34px;height:34px;background:rgba(239,68,68,.2);border:none;border-radius:8px;cursor:pointer;color:#EF4444;font-size:16px">🗑</button>'
+    +'</div></div>'
+    +'<div style="background:#1a1d27;padding:8px 14px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(255,255,255,.06)">'
+    +'<span style="color:#94A3B8;font-size:11px">'+(es?'Escala':'Scale')+':</span>'
+    +'<input type="number" value="'+bpScale+'" min="0.1" max="20" step="0.5" onchange="bpScale=parseFloat(this.value)||1;drawBp()" style="width:50px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 7px;color:#fff;font-size:12px;outline:none;font-family:inherit">'
+    +'<span style="color:#94A3B8;font-size:11px">'+(es?'Grid':'Grid')+':</span>'
+    +'<input type="range" min="12" max="40" value="'+bpGrid+'" step="2" style="flex:1;accent-color:#FF6B2B" onchange="bpGrid=+this.value;drawBp()">'
+    +'<span style="color:#FF6B2B;font-size:11px;font-weight:700;min-width:20px">'+bpGrid+'</span></div>'
+    +'<div style="padding:12px 16px;background:#0f1117">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    +'<p style="font-size:12px;font-weight:700;color:#E8E0D5;margin:0">'+(es?'Zonas':'Zones')+'</p>'
+    +(tot>0?'<div style="text-align:right"><p style="color:#FF6B2B;font-weight:700;font-size:14px;margin:0">'+tot.toFixed(2)+' m²</p><p style="color:#94A3B8;font-size:11px;margin:0">'+totFt.toFixed(1)+' ft²</p></div>':'')
+    +'</div>'
+    +(bpZones.length===0?'<p style="font-size:12px;color:#555;text-align:center;padding:14px 0">'+(es?'Traza zonas en el plano':'Trace zones on the blueprint')+'</p>'
+    :bpZones.map(function(z,i){
+      var zft=(z.area*10.764).toFixed(1);
+      return'<div style="display:flex;align-items:center;gap:10px;background:#1a1d27;border-radius:10px;padding:10px 12px;margin-bottom:8px">'
+        +'<div style="width:12px;height:12px;border-radius:3px;background:'+z.color+';flex-shrink:0"></div>'
+        +'<div style="flex:1"><p style="font-weight:700;font-size:13px;color:#E8E0D5;margin:0 0 2px">'+z.name+'</p>'
+        +'<p style="font-size:11px;color:#94A3B8;margin:0">'+z.area.toFixed(2)+' m² · '+zft+' ft²</p></div>'
+        +'<button onclick="bpZones.splice('+i+',1);drawBp();renderMeasure()" style="background:none;border:none;cursor:pointer;color:#555;font-size:16px">✕</button></div>';
+    }).join(''))
+    +(bpPts.length>=3?'<button onclick="closeBpZone()" class="btn-orange" style="margin-top:8px">✓ '+(es?'Cerrar zona':'Close zone')+'</button>':'')
+    +'</div>';
+}
+
+function loadBp(){
+  var a=document.getElementById('bp-addr')?.value||bpAddr;
+  var o=document.getElementById('bp-obra')?.value||bpObra;
+  if(!a)return;
+  bpAddr=a; bpObra=o; bpZones=[]; bpPts=[]; bpHover=null; bpView='canvas';
+  renderMeasure();
+}
+
+function loadSaved(i){
+  var bp=bpSaved[i];
+  bpAddr=bp.addr; bpObra=bp.obra;
+  bpZones=bp.zones.map(function(z){return Object.assign({},z,{points:z.points.slice()});});
+  bpPts=[]; bpView='canvas';
+  renderMeasure();
+}
+
+function initBpCanvas(){
+  var c=document.getElementById('bpC'); if(!c)return;
+  c.onclick=function(e){bpClick(e,c);};
+  c.onmousemove=function(e){
+    var r=c.getBoundingClientRect();
+    bpHover=bpSnap({x:(e.clientX-r.left)*(BPW/r.width),y:(e.clientY-r.top)*(BPH/r.height)});
+    drawBp();
+  };
+  c.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    if(e.touches[0])bpClick({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},c);
+  },{passive:false});
+  drawBp();
+}
+
+function bpSnap(p){var g=bpGrid;return{x:Math.round(p.x/g)*g,y:Math.round(p.y/g)*g};}
+
+function bpClick(e,c){
+  var r=c.getBoundingClientRect();
+  var p=bpSnap({x:(e.clientX-r.left)*(BPW/r.width),y:(e.clientY-r.top)*(BPH/r.height)});
+  if(bpPts.length>=3){var fp=bpPts[0];if(dist(p,fp)<18){closeBpZone();return;}}
+  bpPts.push(p); drawBp();
+}
+
+function dist(a,b){return Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));}
+function pArea(pts){var a=0;for(var i=0,j=pts.length-1;i<pts.length;j=i++){a+=(pts[j].x+pts[i].x)*(pts[j].y-pts[i].y);}return Math.abs(a/2);}
+function pPerim(pts){var p=0;for(var i=0;i<pts.length;i++){var n=(i+1)%pts.length;p+=dist(pts[i],pts[n]);}return p;}
+
+function closeBpZone(){
+  if(bpPts.length<3)return;
+  var color=ZC[bpZones.length%ZC.length];
+  var name='Zone '+(bpZones.length+1);
+  var mpp=bpScale/bpGrid;
+  var areaSqPx=pArea(bpPts);
+  var areaM2=areaSqPx*mpp*mpp;
+  bpZones.push({name:name,color:color,points:bpPts.slice(),area:areaM2,perim:pPerim(bpPts)*mpp});
+  bpPts=[]; bpHover=null;
+  renderMeasure();
+  setTimeout(initBpCanvas,50);
+}
+
+function saveBp(){
+  var tot=bpZones.reduce(function(s,z){return s+z.area;},0);
+  bpSaved.unshift({addr:bpAddr,obra:bpObra,zones:bpZones.map(function(z){return Object.assign({},z,{points:z.points.slice()});}),tot:tot,date:new Date().toLocaleDateString()});
+  alert((L==='es'?'Plano guardado: ':'Blueprint saved: ')+(bpObra||bpAddr));
+}
+
+function drawBp(){
+  var c=document.getElementById('bpC'); if(!c)return;
+  var ctx=c.getContext('2d');
+  var g=bpGrid, sc=bpScale, mpp=sc/g;
+  ctx.clearRect(0,0,BPW,BPH);
+  ctx.fillStyle='#0D1117'; ctx.fillRect(0,0,BPW,BPH);
+  // Grid
+  if(bpShowGrid){
+    for(var x=0;x<=BPW;x+=g){
+      ctx.strokeStyle=x%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';
+      ctx.lineWidth=x%(g*5)===0?.7:.3;
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,BPH); ctx.stroke();
+    }
+    for(var y=0;y<=BPH;y+=g){
+      ctx.strokeStyle=y%(g*5)===0?'rgba(255,255,255,.1)':'rgba(255,255,255,.04)';
+      ctx.lineWidth=y%(g*5)===0?.7:.3;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(BPW,y); ctx.stroke();
+    }
+  }
+  // Blueprint house outline
+  var cx=BPW/2, cy=BPH/2, u=g;
+  ctx.strokeStyle='rgba(100,160,255,.65)'; ctx.lineWidth=2.5; ctx.setLineDash([]);
+  ctx.strokeRect(cx-5*u,cy-3.5*u,10*u,7*u);
+  ctx.strokeStyle='rgba(100,160,255,.35)'; ctx.lineWidth=1.5;
+  [[cx,cy-3.5*u,cx,cy+3.5*u],[cx-5*u,cy-.3*u,cx,cy-.3*u],[cx,cy+.8*u,cx+5*u,cy+.8*u],[cx+3*u,cy-3.5*u,cx+3*u,cy+.8*u]].forEach(function(l){
+    ctx.beginPath(); ctx.moveTo(l[0],l[1]); ctx.lineTo(l[2],l[3]); ctx.stroke();
+  });
+  // Address label
+  ctx.fillStyle='rgba(255,255,255,.3)'; ctx.font='9px DM Sans'; ctx.textAlign='left';
+  ctx.fillText(bpAddr.length>46?bpAddr.slice(0,46)+'…':bpAddr,6,13);
+  // North
+  ctx.fillStyle='rgba(100,160,255,.65)'; ctx.font='bold 11px DM Sans'; ctx.textAlign='left';
+  ctx.fillText('N',BPW-18,17);
+  // Draw zones
+  bpZones.forEach(function(z){
+    if(z.points.length<3)return;
+    ctx.beginPath();
+    z.points.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
+    ctx.closePath();
+    ctx.fillStyle=z.color+'3A'; ctx.fill();
+    ctx.strokeStyle=z.color; ctx.lineWidth=2; ctx.setLineDash([]); ctx.stroke();
+    var zx=z.points.reduce(function(s,p){return s+p.x;},0)/z.points.length;
+    var zy=z.points.reduce(function(s,p){return s+p.y;},0)/z.points.length;
+    ctx.fillStyle=z.color; ctx.font='bold 10px DM Sans'; ctx.textAlign='center';
+    ctx.fillText(z.name,zx,zy-8);
+    ctx.font='9px DM Sans';
+    ctx.fillText(z.area.toFixed(1)+'m² / '+(z.area*10.764).toFixed(0)+'ft²',zx,zy+6);
+    ctx.textAlign='left';
+  });
+  // Current drawing pts
+  if(bpPts.length>0){
+    var color=ZC[bpZones.length%ZC.length];
+    ctx.beginPath();
+    bpPts.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
+    if(bpHover) ctx.lineTo(bpHover.x,bpHover.y);
+    ctx.strokeStyle=color; ctx.lineWidth=2; ctx.setLineDash([5,4]); ctx.stroke();
+    ctx.setLineDash([]);
+    bpPts.forEach(function(p,i){
+      ctx.beginPath(); ctx.arc(p.x,p.y,i===0?7:4,0,Math.PI*2);
+      ctx.fillStyle=i===0?color:'#fff'; ctx.fill();
+      ctx.strokeStyle=color; ctx.lineWidth=2; ctx.stroke();
+      if(i===0&&bpPts.length>=3){
+        ctx.beginPath(); ctx.arc(p.x,p.y,13,0,Math.PI*2);
+        ctx.strokeStyle=color+'66'; ctx.lineWidth=1.5; ctx.stroke();
+      }
+    });
+  }
+}
 var solView='home';
 var solProd={};
 var solBids=[];
