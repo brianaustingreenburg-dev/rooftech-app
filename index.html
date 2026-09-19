@@ -233,7 +233,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
     <!-- PARTNERS -->
     <div id="screen-partners" class="screen">
       <div class="shdr"><p class="shdr-title" id="lbl-partners-sub">Tax, accounting & travel partners</p></div>
-      <div style="padding:14px 18px 0" id="partners-content"></div>
+      <div style="padding:14px 18px 100px" id="partners-content"></div>
     </div>
 
     <!-- ABOUT -->
@@ -1768,7 +1768,7 @@ function renderPartners(){
     {icon:'🏔️',name:'REI',sub:L==='es'?'Outdoor y aventura':'Outdoor & adventure gear',url:'https://rei.com',comm:'5%'},
   ];
   fishing.forEach(function(p){html+=partnerCard(p);});
-  html+='<p style="font-size:11px;color:#555;text-align:center;margin:20px 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">© 2026 JefeTech · </p>';
+  html+='<p style="font-size:11px;color:#555;text-align:center;margin:20px 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">© 2026 JefeTech</p>';
   document.getElementById('partners-content').innerHTML=html;
 }
 function partnerCard(p){
