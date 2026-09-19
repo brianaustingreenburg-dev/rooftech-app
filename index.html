@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f1117">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RoofTech — Field Estimator</title>
+<title>JefeTech — Field Estimator</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -135,7 +135,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 <!-- SPLASH -->
 <div id="splash">
   <div class="splash-brand">LA Studios</div>
-  <div class="splash-title"><span>Roof</span>Tech</div>
+  <div class="splash-title"><span>Jefe</span>Tech</div>
   <div class="splash-sub">Field Estimator</div>
   <div class="splash-quote">The app that works as smart as you do.</div>
   <button class="splash-btn" onclick="startApp()">Go to Work →</button>
@@ -145,7 +145,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 <div id="main">
   <div class="hdr">
     <div>
-      <div class="hdr-title" id="hdr-title">RoofTech</div>
+      <div class="hdr-title" id="hdr-title">JefeTech</div>
       <div class="hdr-sub">Powered by LA Studios</div>
     </div>
     <div class="lang-wrap">
@@ -281,7 +281,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
           <br><br>
           Safety first. Stay healthy. Make your money and go home.
           <br><br>
-          Now in my 50s, living in Acapulco, Mexico, I challenged myself again. Long nights in front of a computer, brainstorming, building, putting ideas into practice. RoofTech is the result — built by someone who's actually worked the trades, not a committee in a San Francisco office.
+          Now in my 50s, living in Acapulco, Mexico, I challenged myself again. Long nights in front of a computer, brainstorming, building, putting ideas into practice. JefeTech is the result — built by someone who's actually worked the trades, not a committee in a San Francisco office.
           <br><br>
           I know some of you love fishing as much as I do. So I set up an entire travel package through the app — fishing trips, resorts, the whole thing. Whether you want to work or unwind, this app works for you.
           <br><br>
@@ -444,7 +444,7 @@ function goTab(tab){
 
 function renderAll(){
   var t=TX[L];
-  document.getElementById('hdr-title').textContent=t.screens[TAB]||'RoofTech';
+  document.getElementById('hdr-title').textContent=t.screens[TAB]||'JefeTech';
   // Labels
   document.getElementById('lbl-jobname').textContent=t.jobName;
   document.getElementById('lbl-siteaddr').textContent=t.siteAddr;
@@ -636,7 +636,7 @@ function renderPartners(){
     {icon:'🏔️',name:'REI',sub:L==='es'?'Outdoor y aventura':'Outdoor & adventure gear',url:'https://rei.com',comm:'5%'},
   ];
   fishing.forEach(function(p){html+=partnerCard(p);});
-  html+='<p style="font-size:11px;color:#555;text-align:center;margin:20px 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">© 2026 RoofTech · Powered by LA Studios</p>';
+  html+='<p style="font-size:11px;color:#555;text-align:center;margin:20px 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">© 2026 JefeTech · Powered by LA Studios</p>';
   document.getElementById('partners-content').innerHTML=html;
 }
 function partnerCard(p){
