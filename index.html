@@ -523,282 +523,395 @@ var QUICK_ITEMS_ES=[
   {d:'Tapajuntas',p:220},{d:'Canalones LF',p:18},{d:'Contenedor',p:450},{d:'Permisos',p:350},
 ];
 
+// ── Jobs Hub ──────────────────────────────────────────────────
+var JOBS=[];
+var jobSection='new'; // new, measure, quote, crew, list
+var jobDetail=null;
+var jobAdding=false;
+
+// Active job being built
+var activeJob={
+  id:null, client:'', addr:'', type:'', lat:null, lng:null,
+  sqft:0, sqm:0, totalArea:0,
+  items:[], deposit:40, total:0,
+  crew:[], status:'active', progress:0, date:'', notes:''
+};
+
+var QUICK_ITEMS_EN=[
+  {d:'Tear off & haul away',p:850},{d:'Felt paper 30lb',p:180},{d:'Shingles per sq',p:420},
+  {d:'Ridge cap',p:120},{d:'Drip edge',p:95},{d:'Labor per sq',p:280},
+  {d:'Flashing',p:220},{d:'Gutters LF',p:18},{d:'Dumpster',p:450},{d:'Permits',p:350},
+];
+var QUICK_ITEMS_ES=[
+  {d:'Desmonte y acarreo',p:850},{d:'Papel fieltro',p:180},{d:'Tejas por cuadro',p:420},
+  {d:'Cumbrera',p:120},{d:'Goterón',p:95},{d:'Mano de obra',p:280},
+  {d:'Tapajuntas',p:220},{d:'Canalones LF',p:18},{d:'Contenedor',p:450},{d:'Permisos',p:350},
+];
+var Q_UID=10;
+
+var CREW=[
+  {id:'c1',name:'Carlos Mendoza',role:'Lead Roofer',phone:'512-555-0101',pay:950,status:'active'},
+  {id:'c2',name:'Miguel Ruiz',role:'Roofer',phone:'512-555-0102',pay:850,status:'active'},
+  {id:'c3',name:'Roberto Sanchez',role:'Laborer',phone:'512-555-0103',pay:750,status:'off'},
+];
+
+function updateSqft(v){v=+v;activeJob.sqft=v;activeJob.sqm=Math.round(v*0.0929);activeJob.totalArea=v;var a=document.getElementById("disp-sqft");var b=document.getElementById("disp-sqm");if(a)a.textContent=v.toLocaleString();if(b)b.textContent=activeJob.sqm.toLocaleString();}
 function renderJobs(){
   var es=L==='es';
   var c=document.getElementById('jobs-content');
   if(!c)return;
 
-  var subTabs=[
-    {id:'jobs',icon:'📋',label:es?'Trabajos':'Jobs'},
+  // Top sub-nav
+  var steps=[
+    {id:'new',icon:'📍',label:es?'Dirección':'Address'},
+    {id:'measure',icon:'📐',label:es?'Medidas':'Measure'},
     {id:'quote',icon:'💰',label:es?'Cotizar':'Quote'},
     {id:'crew',icon:'👷',label:es?'Cuadrilla':'Crew'},
-    {id:'measure',icon:'📐',label:es?'Medidas':'Measure'},
-    {id:'solar',icon:'☀️',label:'Solar'},
-    {id:'trades',icon:'🔨',label:es?'Oficios':'Trades'},
-    {id:'colors',icon:'🎨',label:es?'Colores':'Colors'},
+    {id:'list',icon:'📋',label:es?'Trabajos':'Jobs'},
   ];
 
-  var subNav='<div style="background:#1a1d27;border-bottom:1px solid rgba(255,255,255,.06);display:flex;overflow-x:auto">';
-  subTabs.forEach(function(st){
+  var nav='<div style="background:#1a1d27;border-bottom:2px solid rgba(255,255,255,.06);display:flex">';
+  steps.forEach(function(st,i){
     var on=jobSection===st.id;
-    subNav+='<button data-sec="'+st.id+'" class="job-sub-btn" style="flex-shrink:0;flex:1;min-width:44px;background:none;border:none;border-bottom:2px solid '+(on?'#FF6B2B':'transparent')+';padding:10px 4px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px">'
+    nav+='<button data-sec="'+st.id+'" class="job-sub-btn" style="flex:1;background:none;border:none;border-bottom:3px solid '+(on?'#FF6B2B':'transparent')+';padding:9px 2px 7px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px">'
       +'<span style="font-size:15px">'+st.icon+'</span>'
-      +'<span style="font-size:9px;font-weight:700;color:'+(on?'#FF6B2B':'#555')+'">'+st.label+'</span></button>';
+      +'<span style="font-size:8px;font-weight:700;color:'+(on?'#FF6B2B':'#555')+'">'+st.label+'</span></button>';
   });
-  subNav+='</div>';
+  nav+='</div>';
 
   var body='';
-  if(jobSection==='jobs') body=renderJobsList(es);
-  else if(jobSection==='quote') body=renderQuoteSection(es);
-  else if(jobSection==='crew') body=renderCrewSection(es);
-  else if(jobSection==='measure') body=renderMeasureSection(es);
-  else if(jobSection==='solar') body='<div id="solar-content"></div>';
-  else if(jobSection==='trades') body='<div id="trades-content"></div>';
-  else if(jobSection==='colors') body='<div id="colors-content"></div>';
+  if(jobSection==='new') body=renderJobAddress(es);
+  else if(jobSection==='measure') body=renderJobMeasure(es);
+  else if(jobSection==='quote') body=renderJobQuote(es);
+  else if(jobSection==='crew') body=renderJobCrew(es);
+  else if(jobSection==='list') body=renderJobList(es);
 
-  c.innerHTML=subNav+body;
+  c.innerHTML=nav+body;
 
-  // Event delegation for sub-tabs
+  // Wire sub-nav
   c.querySelectorAll('.job-sub-btn').forEach(function(btn){
-    btn.onclick=function(){jobSection=this.getAttribute('data-sec');jobDetail=null;renderJobs();};
+    btn.onclick=function(){jobSection=this.getAttribute('data-sec');renderJobs();};
   });
 
-  // Event delegation for job cards
-  c.querySelectorAll('.job-card').forEach(function(card){
-    card.onclick=function(){
-      var id=this.getAttribute('data-id');
-      jobDetail=JOBS.find(function(x){return x.id===id;});
+  // Wire all data-action buttons
+  c.querySelectorAll('[data-action]').forEach(function(el){
+    el.onclick=function(e){
+      e.stopPropagation();
+      var a=this.getAttribute('data-action');
+      if(a==='locate') locateAddress();
+      else if(a==='next-measure'){
+        activeJob.addr=document.getElementById('job-addr').value.trim()||activeJob.addr;
+        activeJob.client=document.getElementById('job-client').value.trim()||activeJob.client;
+        activeJob.type=document.getElementById('job-type').value.trim()||activeJob.type;
+        if(!activeJob.addr){alert(es?'Ingresa la dirección':'Enter the address');return;}
+        jobSection='measure';renderJobs();
+      }
+      else if(a==='use-sqft'){
+        var s=parseFloat(document.getElementById('manual-sqft').value)||0;
+        activeJob.sqft=s;activeJob.sqm=Math.round(s*0.0929);
+        activeJob.totalArea=s;
+        autoFillQuote();
+        jobSection='quote';renderJobs();
+      }
+      else if(a==='next-quote'){
+        autoFillQuote();
+        jobSection='quote';renderJobs();
+      }
+      else if(a==='next-crew'){
+        saveQuoteItems();
+        jobSection='crew';renderJobs();
+      }
+      else if(a==='save-job'){
+        saveFullJob();
+      }
+      else if(a==='open-job'){
+        var id=this.getAttribute('data-id');
+        jobDetail=JOBS.find(function(x){return x.id===id;});
+        jobSection='detail';renderJobs();
+      }
+      else if(a==='new-job'){
+        activeJob={id:null,client:'',addr:'',type:'',lat:null,lng:null,sqft:0,sqm:0,totalArea:0,items:[],deposit:40,total:0,crew:[],status:'active',progress:0,date:'',notes:''};
+        jobSection='new';renderJobs();
+      }
+      else if(a==='add-item'){
+        activeJob.items.push({id:++Q_UID,desc:'',qty:1,price:0});renderJobs();
+      }
+      else if(a==='quick-item'){
+        var d=this.getAttribute('data-desc'),p=+this.getAttribute('data-price');
+        var blank=activeJob.items.find(function(i){return !i.desc;});
+        if(blank){blank.desc=d;blank.price=p;}else activeJob.items.push({id:++Q_UID,desc:d,qty:1,price:p});
+        renderJobs();
+      }
+      else if(a==='toggle-crew'){
+        var cid=this.getAttribute('data-id');
+        var w=CREW.find(function(x){return x.id===cid;});
+        if(w){
+          var inJob=activeJob.crew.indexOf(cid);
+          if(inJob>=0) activeJob.crew.splice(inJob,1);
+          else activeJob.crew.push(cid);
+        }
+        renderJobs();
+      }
+      else if(a==='add-crew'){addCrewMember();}
+      else if(a==='changeorder'){alert(es?'Orden de cambio enviada':'Change order sent for signature');}
+      else if(a==='report'){alert(es?'Reporte generado':'Report generated');}
+    };
+  });
+
+  // Address input auto-detect
+  var addrInput=c.querySelector('#job-addr');
+  if(addrInput && !addrInput._wired){
+    addrInput._wired=true;
+    addrInput.addEventListener('keypress',function(e){if(e.key==='Enter')locateAddress();});
+  }
+
+  // Quote item inputs
+  c.querySelectorAll('.qi-input').forEach(function(inp){
+    inp.onchange=function(){
+      var id=+this.getAttribute('data-id'),field=this.getAttribute('data-field');
+      var item=activeJob.items.find(function(i){return i.id===id;});
+      if(item){item[field]=this.type==='number'?+this.value:this.value;}
       renderJobs();
     };
   });
 
-  // Event delegation for filter buttons
-  c.querySelectorAll('.job-filter-btn').forEach(function(btn){
-    btn.onclick=function(){jobsFilter=this.getAttribute('data-filter');renderJobs();};
-  });
-
-  // Event delegation for action buttons inside detail
-  c.querySelectorAll('[data-action]').forEach(function(btn){
-    btn.onclick=function(){
-      var action=this.getAttribute('data-action');
-      if(action==='back'){jobDetail=null;renderJobs();}
-      else if(action==='measure'){jobSection='measure';bpAddr=this.getAttribute('data-addr')||'';bpObra=this.getAttribute('data-client')||'';bpView='canvas';renderJobs();}
-      else if(action==='quote'){jobSection='quote';QUOTE_CLIENT=this.getAttribute('data-client')||'';QUOTE_ADDR=this.getAttribute('data-addr')||'';renderJobs();}
-      else if(action==='changeorder'){alert(es?'Orden de cambio enviada':'Change order sent');}
-      else if(action==='report'){alert(es?'Reporte generado':'Report generated');}
-      else if(action==='addJob'){addJob();}
-      else if(action==='additem'){QUOTE_ITEMS.push({id:++Q_UID,desc:'',qty:1,price:0});renderJobs();}
-      else if(action==='sendquote'){if(QUOTE_CLIENT){QUOTE_SENT=true;renderJobs();}}
-      else if(action==='resetquote'){QUOTE_SENT=false;QUOTE_ITEMS=[{id:++Q_UID,desc:'',qty:1,price:0}];QUOTE_CLIENT='';QUOTE_ADDR='';renderJobs();}
-      else if(action==='addcrew'){addCrewMember();}
-    };
-  });
-
-  // Quick items
-  c.querySelectorAll('.quick-item-btn').forEach(function(btn){
-    btn.onclick=function(){addQuickItem(this.getAttribute('data-desc'),+this.getAttribute('data-price'));};
-  });
-
-  // Crew actions
-  c.querySelectorAll('.crew-toggle').forEach(function(btn){
-    btn.onclick=function(){toggleCrewStatus(this.getAttribute('data-id'));};
-  });
-  c.querySelectorAll('.crew-remove').forEach(function(btn){
-    btn.onclick=function(){removeCrew(this.getAttribute('data-id'));};
-  });
-
-  // Range slider for deposit
-  var slider=c.querySelector('#deposit-slider');
+  // Deposit slider
+  var slider=c.querySelector('#dep-slider');
   if(slider){
     slider.oninput=function(){
-      QUOTE_PCT=+this.value;
-      var sub=QUOTE_ITEMS.reduce(function(s,i){return s+i.qty*i.price;},0);
-      var pctEl=c.querySelector('#qpct');
-      var antEl=c.querySelector('#qant');
-      if(pctEl) pctEl.textContent=this.value+'%';
-      if(antEl) antEl.textContent='$'+Math.round(sub*+this.value/100).toLocaleString();
+      activeJob.deposit=+this.value;
+      var sub=activeJob.items.reduce(function(s,i){return s+i.qty*i.price;},0);
+      var el=c.querySelector('#dep-pct'); if(el) el.textContent=this.value+'%';
+      var el2=c.querySelector('#dep-amt'); if(el2) el2.textContent='$'+Math.round(sub*+this.value/100).toLocaleString();
     };
   }
 
-  // Quote inputs
-  c.querySelectorAll('.quote-item-input').forEach(function(inp){
-    inp.onchange=function(){updQItem(+this.getAttribute('data-id'),this.getAttribute('data-field'),this.type==='number'?+this.value:this.value);};
-  });
-  var qcInput=c.querySelector('#qc-client');
-  if(qcInput) qcInput.oninput=function(){QUOTE_CLIENT=this.value;};
-  var qaInput=c.querySelector('#qa-addr');
-  if(qaInput) qaInput.oninput=function(){QUOTE_ADDR=this.value;};
-
-  if(jobSection==='measure' && bpView==='canvas') setTimeout(initBpCanvas,50);
-  if(jobSection==='solar') renderSolar();
-  if(jobSection==='trades') renderTrades();
-  if(jobSection==='colors') renderColors();
+  if(jobSection==='measure') setTimeout(function(){initJobMap();},100);
 }
 
-function renderJobsList(es){
-  if(jobAdding){
-    return '<div style="padding:18px">'
-      +'<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px">'+(es?'NUEVO TRABAJO':'NEW JOB')+'</p>'
-      +'<span class="inp-label">'+(es?'CLIENTE':'CLIENT')+'</span>'
-      +'<input id="nj-client" class="inp" placeholder="'+(es?'Nombre del cliente':'Client name')+'">'
-      +'<span class="inp-label">'+(es?'DIRECCIÓN':'ADDRESS')+'</span>'
-      +'<input id="nj-addr" class="inp" placeholder="'+(es?'Dirección del trabajo':'Job address')+'">'
-      +'<span class="inp-label">'+(es?'TIPO DE TRABAJO':'JOB TYPE')+'</span>'
-      +'<input id="nj-type" class="inp" placeholder="'+(es?'Ej: Remodelación techo':'e.g. Roof replacement')+'">'
-      +'<span class="inp-label">'+(es?'TOTAL ($)':'TOTAL ($)')+'</span>'
-      +'<input id="nj-total" type="number" class="inp" placeholder="0.00">'
-      +'<button onclick="saveNewJob()" class="btn-orange" style="margin-bottom:10px">'+(es?'✅ Guardar trabajo':'✅ Save job')+'</button>'
-      +'<button onclick="jobAdding=false;renderJobs()" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-size:14px;color:#94A3B8;cursor:pointer;font-family:inherit">'+(es?'Cancelar':'Cancel')+'</button>'
-      +'</div>';
-  }
-  if(jobDetail){
-    var j=jobDetail;
-    var bal=j.total-j.deposit;
-    return '<div style="background:#1a1d27;padding:10px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
-      +'<button data-action="back" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
-      +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+j.client+'</span></div>'
-      +'<div style="padding:14px 18px 20px">'
-      +'<div class="card"><p style="color:#555;font-size:11px;margin-bottom:4px">'+j.type+'</p>'
-      +'<p style="color:#94A3B8;font-size:12px;margin-bottom:10px">📍 '+j.addr+'</p>'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="color:#94A3B8;font-size:12px">'+(es?'Progreso':'Progress')+'</span><span style="color:#FF6B2B;font-weight:700">'+j.progress+'%</span></div>'
-      +'<div class="prog-wrap"><div class="prog-bar" style="width:'+j.progress+'%;background:'+(j.progress===100?'#22C55E':'#FF6B2B')+'"></div></div></div>'
-      +'<div class="card"><div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">Total</span><span style="color:#E8E0D5;font-weight:700">$'+j.total.toLocaleString()+'</span></div>'
-      +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Anticipo':'Deposit')+'</span><span style="color:#22C55E;font-weight:700">$'+j.deposit.toLocaleString()+'</span></div>'
-      +'<div style="display:flex;justify-content:space-between;padding:7px 0"><span style="color:#94A3B8;font-size:13px">'+(es?'Saldo':'Balance')+'</span><span style="color:#FF6B2B;font-weight:700;font-size:16px">$'+bal.toLocaleString()+'</span></div></div>'
-      +'<button data-action="measure" data-addr="'+j.addr+'" data-client="'+j.client+'" class="btn-orange" style="margin-bottom:10px">📐 '+(es?'Medir con plano':'Measure blueprint')+'</button>'
-      +'<button data-action="quote" data-client="'+j.client+'" data-addr="'+j.addr+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;margin-bottom:10px;font-family:inherit">💰 '+(es?'Crear cotización':'Create quote')+'</button>'
-      +'<button data-action="changeorder" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;margin-bottom:10px;font-family:inherit">✍️ '+(es?'Cambio · Tap · Firma · Listo':'Change order · Tap · Sign · Done')+'</button>'
-      +'<button data-action="report" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;font-family:inherit">📋 '+(es?'Reporte':'Job report')+'</button>'
-      +'</div>';
-  }
-
-  var shown=jobsFilter==='all'?JOBS:JOBS.filter(function(j){return j.status===jobsFilter;});
-  var html='<div style="background:#1a1d27;padding:12px 18px">'
-    +'<div style="display:flex;gap:7px;margin-bottom:10px">';
-  [['all',es?'Todos':'All'],['active',es?'Activos':'Active'],['done',es?'Terminados':'Done']].forEach(function(f){
-    html+='<button class="job-filter-btn" data-filter="'+f[0]+'" style="flex:1;background:'+(jobsFilter===f[0]?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:20px;padding:7px 0;color:#fff;font-size:11px;font-weight:700;cursor:pointer">'+f[1]+'</button>';
-  });
-  html+='</div>'
-    +'<button data-action="addJob" style="width:100%;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.3);border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#FF6B2B;cursor:pointer;font-family:inherit">+ '+(es?'Nuevo trabajo':'New job')+'</button>'
-    +'</div><div style="padding:14px 18px 20px">';
-  shown.forEach(function(j){
-    html+='<div class="job-card" data-id="'+j.id+'" style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer">'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:7px">'
-      +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 2px">'+j.client+'</p>'
-      +'<p style="font-size:11px;color:#555;margin:0">'+j.type+' · '+j.date+'</p></div>'
-      +'<div style="text-align:right"><p style="font-weight:700;font-size:14px;color:#FF6B2B;margin:0 0 3px">$'+j.total.toLocaleString()+'</p>'
-      +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:'+(j.status==='active'?'rgba(255,107,43,.15)':'rgba(34,197,94,.15)')+';color:'+(j.status==='active'?'#FF6B2B':'#22C55E')+'">'+(j.status==='active'?(es?'Activo':'Active'):(es?'Terminado':'Done'))+'</span></div></div>'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#555">'+j.progress+'%</span></div>'
-      +'<div class="prog-wrap"><div class="prog-bar" style="width:'+j.progress+'%;background:'+(j.progress===100?'#22C55E':'#FF6B2B')+'"></div></div></div>';
-  });
-  return html+'</div>';
+// ── Step 1: Address + Pin ─────────────────────────────────────
+function renderJobAddress(es){
+  return '<div style="padding:16px 18px 80px">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">'+(es?'NOMBRE DEL CLIENTE':'CLIENT NAME')+'</p>'
+    +'<input id="job-client" class="inp" placeholder="'+(es?'Nombre completo':'Full name')+'" value="'+activeJob.client+'">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">'+(es?'TIPO DE TRABAJO':'JOB TYPE')+'</p>'
+    +'<input id="job-type" class="inp" placeholder="'+(es?'Ej: Reemplazo de techo':'e.g. Roof replacement')+'" value="'+activeJob.type+'">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">'+(es?'DIRECCIÓN DEL TRABAJO':'JOB ADDRESS')+'</p>'
+    +'<div style="display:flex;gap:8px;margin-bottom:10px">'
+    +'<input id="job-addr" class="inp" style="flex:1;margin:0" placeholder="'+(es?'Dirección completa':'Full address')+'" value="'+activeJob.addr+'">'
+    +'<button data-action="locate" style="background:#FF6B2B;border:none;border-radius:10px;width:44px;height:44px;font-size:20px;cursor:pointer;flex-shrink:0">📍</button>'
+    +'</div>'
+    +'<div id="job-map" style="width:100%;height:200px;border-radius:14px;background:#1a1d27;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden">'
+    +'<p style="color:#555;font-size:12px;text-align:center">'+( activeJob.addr?'📍 '+activeJob.addr:(es?'Ingresa la dirección y toca 📍':'Enter address and tap 📍'))+'</p></div>'
+    +(activeJob.lat?'<div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;gap:8px;align-items:center"><span style="font-size:16px">✅</span><span style="font-size:12px;color:#22C55E">'+(es?'Ubicación confirmada':'Location confirmed')+' — '+activeJob.addr+'</span></div>':'')
+    +'<button data-action="next-measure" class="btn-orange">'+(es?'📐 Siguiente → Medir':'📐 Next → Measure')+'</button>'
+    +'</div>';
 }
 
-function addJob(){jobAdding=true;renderJobs();}
-function saveNewJob(){
-  var client=document.getElementById('nj-client').value.trim();
-  if(!client)return;
-  var addr=document.getElementById('nj-addr').value.trim();
-  var type=document.getElementById('nj-type').value.trim();
-  var total=parseFloat(document.getElementById('nj-total').value)||0;
-  JOBS.unshift({id:'j'+Date.now(),client:client,addr:addr,type:type,total:total,deposit:0,progress:0,status:'active',date:new Date().toLocaleDateString()});
-  jobAdding=false;
-  renderJobs();
+function locateAddress(){
+  var input=document.getElementById('job-addr');
+  if(!input)return;
+  var addr=input.value.trim();
+  if(!addr)return;
+  activeJob.addr=addr;
+  activeJob.lat=30.2672;activeJob.lng=-97.7431; // simulate pin drop
+  var mapDiv=document.getElementById('job-map');
+  if(mapDiv){
+    mapDiv.innerHTML='<iframe width="100%" height="100%" frameborder="0" style="border:0;border-radius:14px" src="https://maps.google.com/maps?q='+encodeURIComponent(addr)+'&output=embed&z=17" allowfullscreen></iframe>';
+  }
+  // Show confirmed state
+  var confirmed=document.querySelector('[data-action="next-measure"]');
+  if(confirmed) confirmed.insertAdjacentHTML('beforebegin','<div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;gap:8px;align-items:center"><span style="font-size:16px">📍</span><span style="font-size:12px;color:#22C55E">'+addr+'</span></div>');
 }
 
-function renderQuoteSection(es){
-  if(QUOTE_SENT){
-    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;padding:32px;text-align:center">'
-      +'<div style="width:64px;height:64px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px">✓</div>'
-      +'<h2 style="color:#E8E0D5;margin:0 0 8px">'+(es?'¡Cotización enviada!':'Quote sent!')+'</h2>'
-      +'<p style="color:#94A3B8;margin:0 0 24px;font-size:14px">'+(es?'Enviado por WhatsApp':'Sent via WhatsApp')+'</p>'
-      +'<button data-action="resetquote" class="btn-orange" style="max-width:280px">'+(es?'Nueva cotización':'New quote')+'</button></div>';
+function initJobMap(){
+  if(activeJob.addr && activeJob.lat){
+    var mapDiv=document.getElementById('job-map');
+    if(mapDiv && !mapDiv.querySelector('iframe')){
+      mapDiv.innerHTML='<iframe width="100%" height="100%" frameborder="0" style="border:0;border-radius:14px" src="https://maps.google.com/maps?q='+encodeURIComponent(activeJob.addr)+'&output=embed&z=17" allowfullscreen></iframe>';
+    }
   }
+}
+
+// ── Step 2: Measure ───────────────────────────────────────────
+function renderJobMeasure(es){
+  var sqft=activeJob.sqft||0;
+  var sqm=activeJob.sqm||0;
+  return '<div style="padding:16px 18px 80px">'
+    +'<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;margin-bottom:14px">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">'+(es?'DIRECCIÓN':'ADDRESS')+'</p>'
+    +'<p style="font-size:13px;color:#E8E0D5;margin:0 0 12px">📍 '+(activeJob.addr||'—')+'</p>'
+    +(activeJob.addr?'<iframe width="100%" height="180" frameborder="0" style="border:0;border-radius:10px;display:block;margin-bottom:12px" src="https://maps.google.com/maps?q='+encodeURIComponent(activeJob.addr)+'&output=embed&z=17" allowfullscreen></iframe>':'')
+    +'</div>'
+    +'<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;margin-bottom:14px">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">'+(es?'INGRESA LAS MEDIDAS':'ENTER MEASUREMENTS')+'</p>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'
+    +'<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px;text-align:center">'
+    +'<p style="color:#555;font-size:10px;font-weight:700;text-transform:uppercase;margin:0 0 6px">FT²</p>'
+    +'<input id="manual-sqft" type="number" value="'+(sqft||'')+'" placeholder="0" oninput="updateSqft(this.value)" style="width:100%;background:none;border:none;border-bottom:2px solid #FF6B2B;color:#FF6B2B;font-size:28px;font-weight:800;text-align:center;outline:none;font-family:inherit">'
+    +'</div>'
+    +'<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px;text-align:center">'
+    +'<p style="color:#555;font-size:10px;font-weight:700;text-transform:uppercase;margin:0 0 6px">M²</p>'
+    +'<p id="disp-sqm" style="color:#94A3B8;font-size:28px;font-weight:800;margin:0">'+(sqm?sqm.toLocaleString():'—')+'</p>'
+    +'</div></div>'
+    +(sqft?'<div style="background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.2);border-radius:10px;padding:12px;text-align:center;margin-bottom:14px">'
+      +'<p style="color:#FF6B2B;font-size:22px;font-weight:800;margin:0"><span id="disp-sqft">'+sqft.toLocaleString()+'</span> ft² · <span id="disp-sqm2">'+sqm.toLocaleString()+'</span> m²</p>'
+      +'<p style="color:#555;font-size:11px;margin:4px 0 0">'+(es?'Área total del trabajo':'Total job area')+'</p></div>':
+      '<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px;text-align:center;margin-bottom:14px">'
+      +'<p id="disp-sqft" style="color:#FF6B2B;font-size:28px;font-weight:800;margin:0">'+(sqft?sqft.toLocaleString():'—')+'</p>'
+      +'<p style="color:#555;font-size:11px;margin:4px 0 0">ft²</p></div>')
+    +'<button data-action="next-quote" class="btn-orange">'+(es?'💰 Siguiente → Cotizar':'💰 Next → Quote')+'</button>'
+    +'</div>'
+    +'</div>';
+}
+
+// ── Step 3: Quote ─────────────────────────────────────────────
+function autoFillQuote(){
+  if(!activeJob.items.length && activeJob.sqft>0){
+    var sq=Math.round(activeJob.sqft/100);
+    activeJob.items=[
+      {id:++Q_UID,desc:'Tear off & haul away',qty:1,price:850},
+      {id:++Q_UID,desc:'Felt paper 30lb',qty:sq,price:18},
+      {id:++Q_UID,desc:'Shingles',qty:sq,price:420},
+      {id:++Q_UID,desc:'Labor',qty:sq,price:280},
+      {id:++Q_UID,desc:'Ridge cap',qty:1,price:120},
+    ];
+  }
+}
+
+function renderJobQuote(es){
+  if(!activeJob.items.length) autoFillQuote();
+  var sub=activeJob.items.reduce(function(s,i){return s+i.qty*i.price;},0);
+  var ant=Math.round(sub*activeJob.deposit/100);
   var quick=es?QUICK_ITEMS_ES:QUICK_ITEMS_EN;
-  var sub=QUOTE_ITEMS.reduce(function(s,i){return s+i.qty*i.price;},0);
-  var ant=Math.round(sub*QUOTE_PCT/100);
-  var html='<div style="padding:14px 18px 100px">'
-    +'<span class="inp-label">'+(es?'CLIENTE':'CLIENT')+'</span>'
-    +'<input id="qc-client" class="inp" placeholder="'+(es?'Nombre del cliente':'Client name')+'" value="'+QUOTE_CLIENT+'">'
-    +'<span class="inp-label">'+(es?'DIRECCIÓN':'ADDRESS')+'</span>'
-    +'<input id="qa-addr" class="inp" placeholder="'+(es?'Dirección':'Address')+'" value="'+QUOTE_ADDR+'">'
+  return '<div style="padding:14px 18px 100px">'
+    +'<div style="background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.2);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:center">'
+    +'<span style="font-size:20px">📐</span>'
+    +'<div><p style="color:#FF6B2B;font-size:13px;font-weight:700;margin:0">'+activeJob.sqft.toLocaleString()+' ft² · '+activeJob.sqm.toLocaleString()+' m²</p>'
+    +'<p style="color:#555;font-size:11px;margin:0">'+activeJob.addr+'</p></div></div>'
     +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'PARTIDAS RÁPIDAS':'QUICK ITEMS')+'</p>'
     +'<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px">';
+  var html='';
   quick.forEach(function(q){
-    html+='<button class="quick-item-btn" data-desc="'+q.d+'" data-price="'+q.p+'" style="flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;color:#E8E0D5;cursor:pointer;white-space:nowrap">'+q.d+'</button>';
+    html+='<button data-action="quick-item" data-desc="'+q.d+'" data-price="'+q.p+'" style="flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;color:#E8E0D5;cursor:pointer;white-space:nowrap;font-family:inherit">'+q.d+'</button>';
   });
-  html+='</div>'
-    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'CONCEPTOS':'LINE ITEMS')+'</p>';
-  QUOTE_ITEMS.forEach(function(item){
+  html+='</div><p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'CONCEPTOS':'LINE ITEMS')+'</p>';
+  activeJob.items.forEach(function(item){
     html+='<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;margin-bottom:8px">'
-      +'<input class="quote-item-input" data-id="'+item.id+'" data-field="desc" value="'+item.desc+'" placeholder="'+(es?'Descripción':'Description')+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 10px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px">'
+      +'<input class="qi-input" data-id="'+item.id+'" data-field="desc" value="'+item.desc+'" placeholder="'+(es?'Descripción':'Description')+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 10px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px">'
       +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">'
       +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">'+(es?'CANT':'QTY')+'</label>'
-      +'<input type="number" class="quote-item-input" data-id="'+item.id+'" data-field="qty" value="'+item.qty+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
+      +'<input type="number" class="qi-input" data-id="'+item.id+'" data-field="qty" value="'+item.qty+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
       +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">$</label>'
-      +'<input type="number" class="quote-item-input" data-id="'+item.id+'" data-field="price" value="'+item.price+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
+      +'<input type="number" class="qi-input" data-id="'+item.id+'" data-field="price" value="'+item.price+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
       +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">SUB</label>'
       +'<p style="margin:0;padding:6px 0;font-size:13px;font-weight:700;color:#FF6B2B">$'+(item.qty*item.price).toLocaleString()+'</p></div></div></div>';
   });
-  html+='<button data-action="additem" style="width:100%;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.1);border-radius:12px;padding:11px;font-size:13px;color:#555;cursor:pointer;font-family:inherit;margin-bottom:14px">+ '+(es?'Agregar':'Add item')+'</button>'
+  html+='<button data-action="add-item" style="width:100%;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.1);border-radius:12px;padding:11px;font-size:13px;color:#555;cursor:pointer;font-family:inherit;margin-bottom:14px">+ '+(es?'Agregar concepto':'Add item')+'</button>'
     +'<div style="background:#1a1d27;border-radius:14px;padding:16px 18px;margin-bottom:14px">'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:#94A3B8;font-size:13px">Total</span><span style="color:#E8E0D5;font-size:17px;font-weight:700">$'+sub.toLocaleString()+'</span></div>'
-    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#94A3B8;font-size:12px;white-space:nowrap">'+(es?'Anticipo':'Deposit')+'</span>'
-    +'<input id="deposit-slider" type="range" min="20" max="60" value="'+QUOTE_PCT+'" style="flex:1;accent-color:#FF6B2B">'
-    +'<span id="qpct" style="color:#FF6B2B;font-weight:700;font-size:13px;min-width:34px">'+QUOTE_PCT+'%</span></div>'
-    +'<div style="border-top:1px solid rgba(255,255,255,.06);padding-top:10px;display:flex;justify-content:space-between"><span style="color:#94A3B8;font-size:12px">'+(es?'Anticipo a cobrar':'Deposit')+'</span><span id="qant" style="color:#FF6B2B;font-size:19px;font-weight:700">$'+ant.toLocaleString()+'</span></div></div>'
-    +'<button data-action="sendquote" style="width:100%;background:#25D366;color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">💬 '+(es?'Enviar por WhatsApp':'Send via WhatsApp')+'</button>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:#94A3B8">Total</span><span style="color:#E8E0D5;font-size:18px;font-weight:800">$'+sub.toLocaleString()+'</span></div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+    +'<span style="color:#94A3B8;font-size:12px;white-space:nowrap">'+(es?'Anticipo':'Deposit')+'</span>'
+    +'<input id="dep-slider" type="range" min="10" max="60" value="'+activeJob.deposit+'" style="flex:1;accent-color:#FF6B2B">'
+    +'<span id="dep-pct" style="color:#FF6B2B;font-weight:700;min-width:34px">'+activeJob.deposit+'%</span></div>'
+    +'<div style="border-top:1px solid rgba(255,255,255,.06);padding-top:10px;display:flex;justify-content:space-between">'
+    +'<span style="color:#94A3B8;font-size:12px">'+(es?'Anticipo a cobrar':'Deposit to collect')+'</span>'
+    +'<span id="dep-amt" style="color:#FF6B2B;font-size:20px;font-weight:800">$'+ant.toLocaleString()+'</span></div></div>'
+    +'<button data-action="next-crew" class="btn-orange">'+(es?'👷 Siguiente → Cuadrilla':'👷 Next → Crew')+'</button>'
     +'</div>';
+  return '<div style="padding:14px 18px 100px"><div style="background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.2);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:center"><span style="font-size:20px">📐</span><div><p style="color:#FF6B2B;font-size:13px;font-weight:700;margin:0">'+activeJob.sqft.toLocaleString()+' ft² · '+activeJob.sqm.toLocaleString()+' m²</p><p style="color:#555;font-size:11px;margin:0">'+(activeJob.addr||'—')+'</p></div></div><p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'PARTIDAS RÁPIDAS':'QUICK ITEMS')+'</p><div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px">'+quick.map(function(q){return '<button data-action="quick-item" data-desc="'+q.d+'" data-price="'+q.p+'" style="flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;color:#E8E0D5;cursor:pointer;white-space:nowrap;font-family:inherit">'+q.d+'</button>';}).join('')+'</div>'+html;
+}
+
+function saveQuoteItems(){
+  // Items already live in activeJob.items
+  activeJob.total=activeJob.items.reduce(function(s,i){return s+i.qty*i.price;},0);
+}
+
+// ── Step 4: Crew ──────────────────────────────────────────────
+function renderJobCrew(es){
+  var assignedCrew=CREW.filter(function(w){return activeJob.crew.indexOf(w.id)>=0;});
+  var daily=assignedCrew.reduce(function(s,w){return s+w.pay;},0);
+  var html='<div style="padding:14px 18px 100px">';
+  if(activeJob.addr){
+    html+='<div style="background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.2);border-radius:12px;padding:10px 14px;margin-bottom:14px">'
+      +'<p style="color:#FF6B2B;font-size:12px;font-weight:700;margin:0">📍 '+(activeJob.addr||'—')+'</p>'
+      +(activeJob.sqft?'<p style="color:#555;font-size:11px;margin:4px 0 0">'+activeJob.sqft.toLocaleString()+' ft²'+(activeJob.total?' · Total: $'+activeJob.total.toLocaleString():'')+'</p>':'')
+      +'</div>';
+  }
+  html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin:0">'+(es?'ASIGNAR CUADRILLA':'ASSIGN CREW')+'</p>'
+    +'<button data-action="add-crew" style="background:#FF6B2B;border:none;border-radius:8px;padding:5px 12px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">+ '+(es?'Agregar':'Add')+'</button></div>';
+  CREW.forEach(function(w){
+    var assigned=activeJob.crew.indexOf(w.id)>=0;
+    html+='<div style="background:#1a1d27;border:2px solid '+(assigned?'#FF6B2B':'rgba(255,255,255,.06)')+';border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px">'
+      +'<div style="width:40px;height:40px;border-radius:50%;background:'+(assigned?'#FF6B2B':'rgba(255,255,255,.1)')+';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0">'+w.name.charAt(0)+'</div>'
+      +'<div style="flex:1"><p style="font-weight:700;font-size:13px;color:#E8E0D5;margin:0 0 2px">'+w.name+'</p>'
+      +'<p style="font-size:11px;color:#555;margin:0">'+w.role+' · $'+w.pay+'/day</p></div>'
+      +'<button data-action="toggle-crew" data-id="'+w.id+'" style="background:'+(assigned?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:8px;padding:7px 12px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">'+(assigned?(es?'✓ Asignado':'✓ On job'):(es?'Asignar':'Assign'))+'</button></div>';
+  });
+  if(daily>0){
+    html+='<div style="background:#1a1d27;border-radius:12px;padding:14px;margin-top:10px;margin-bottom:14px">'
+      +'<p style="color:#94A3B8;font-size:12px;margin:0 0 8px">'+(es?'Cuadrilla asignada':'Assigned crew')+': '+assignedCrew.length+' '+(es?'personas':'people')+'</p>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
+    [5,6,7].forEach(function(d){
+      html+='<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:8px;text-align:center">'
+        +'<p style="color:#FF6B2B;font-weight:700;font-size:12px;margin:0">$'+(daily*d).toLocaleString()+'</p>'
+        +'<p style="color:#555;font-size:9px;margin:2px 0 0">'+d+' '+(es?'días':'days')+'</p></div>';
+    });
+    html+='</div></div>';
+  }
+  html+='<button data-action="save-job" class="btn-orange">✅ '+(es?'Guardar trabajo':'Save job')+'</button></div>';
   return html;
 }
 
-function addQuickItem(desc,price){
-  var blank=QUOTE_ITEMS.find(function(i){return !i.desc;});
-  if(blank){blank.desc=desc;blank.price=price;}
-  else QUOTE_ITEMS.push({id:++Q_UID,desc:desc,qty:1,price:price});
-  renderJobs();
-}
-function updQItem(id,field,val){
-  var item=QUOTE_ITEMS.find(function(i){return i.id===id;});
-  if(item) item[field]=val;
+function saveFullJob(){
+  saveQuoteItems();
+  var es=L==='es';
+  if(!activeJob.client&&!activeJob.addr){alert(es?'Agrega cliente y dirección':'Add client and address');return;}
+  var job={
+    id:'j'+Date.now(),
+    client:activeJob.client||activeJob.addr,
+    addr:activeJob.addr,
+    type:activeJob.type||'Job',
+    sqft:activeJob.sqft, sqm:activeJob.sqm,
+    total:activeJob.total,
+    deposit:Math.round(activeJob.total*activeJob.deposit/100),
+    items:activeJob.items.slice(),
+    crew:activeJob.crew.slice(),
+    progress:0, status:'active',
+    date:new Date().toLocaleDateString(),
+  };
+  JOBS.unshift(job);
+  activeJob={id:null,client:'',addr:'',type:'',lat:null,lng:null,sqft:0,sqm:0,totalArea:0,items:[],deposit:40,total:0,crew:[],status:'active',progress:0,date:'',notes:''};
+  alert(es?'✅ Trabajo guardado':'✅ Job saved');
+  jobSection='list';
   renderJobs();
 }
 
-function renderCrewSection(es){
-  var active=CREW.filter(function(w){return w.status==='active';});
-  var daily=active.reduce(function(s,w){return s+w.pay;},0);
-  var html='<div style="background:#1a1d27;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.06)">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
-    +'<p style="color:#94A3B8;font-size:12px;margin:0">'+CREW.length+' '+(es?'trabajadores':'workers')+' · $'+daily.toLocaleString()+'/day</p>'
-    +'<button data-action="addcrew" style="background:#FF6B2B;border:none;border-radius:10px;width:32px;height:32px;color:#fff;cursor:pointer;font-size:18px;font-weight:700;font-family:inherit">+</button></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
-  [5,6,7].forEach(function(d){
-    html+='<div style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;text-align:center">'
-      +'<p style="color:#FF6B2B;font-weight:700;font-size:13px;margin:0">$'+(daily*d).toLocaleString()+'</p>'
-      +'<p style="color:#555;font-size:10px;margin:2px 0 0">'+d+(es?' días':' days')+'</p></div>';
+// ── Job List ──────────────────────────────────────────────────
+function renderJobList(es){
+  var html='<div style="padding:12px 18px">'
+    +'<button data-action="new-job" class="btn-orange" style="margin-bottom:0">+ '+(es?'Nuevo trabajo':'New job')+'</button></div>'
+    +'<div style="padding:10px 18px 80px">';
+  if(!JOBS.length){
+    html+='<div style="text-align:center;padding:40px 0">'
+      +'<p style="font-size:32px;margin-bottom:10px">📋</p>'
+      +'<p style="color:#555;font-size:14px">'+(es?'Sin trabajos aún. Toca + Nuevo trabajo':'No jobs yet. Tap + New job')+'</p></div>';
+  }
+  JOBS.forEach(function(j){
+    html+='<div data-action="open-job" data-id="'+j.id+'" style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:6px">'
+      +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 2px">'+j.client+'</p>'
+      +'<p style="font-size:11px;color:#555;margin:0">'+j.type+' · '+j.date+'</p></div>'
+      +'<div style="text-align:right"><p style="font-weight:700;font-size:14px;color:#FF6B2B;margin:0">'+(j.total?'$'+j.total.toLocaleString():'—')+'</p>'
+      +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(255,107,43,.15);color:#FF6B2B">'+(es?'Activo':'Active')+'</span></div></div>'
+      +(j.sqft?'<p style="font-size:11px;color:#555;margin:0 0 6px">📐 '+j.sqft.toLocaleString()+' ft²</p>':'')
+      +'<div class="prog-wrap"><div class="prog-bar" style="width:'+j.progress+'%;background:#FF6B2B"></div></div></div>';
   });
-  html+='</div></div><div style="padding:14px 18px 20px">';
-  CREW.forEach(function(w){
-    html+='<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px 15px;margin-bottom:10px">'
-      +'<div style="display:flex;align-items:center;gap:12px">'
-      +'<div style="width:42px;height:42px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0">'+w.name.charAt(0)+'</div>'
-      +'<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:6px">'
-      +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 1px">'+w.name+'</p>'
-      +'<p style="font-size:11px;color:#555;margin:0">'+w.role+'</p></div>'
-      +'<div style="text-align:right"><p style="font-weight:700;font-size:13px;color:#FF6B2B;margin:0 0 3px">$'+w.pay+'/day</p>'
-      +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:'+(w.status==='active'?'rgba(34,197,94,.15)':'rgba(255,255,255,.06)')+';color:'+(w.status==='active'?'#22C55E':'#555')+'">'+(w.status==='active'?(es?'Activo':'Active'):(es?'Disponible':'Off'))+'</span></div></div>'
-      +'<div style="display:flex;gap:6px">'
-      +'<a href="tel:'+w.phone+'" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 0;font-size:11px;color:#E8E0D5;text-align:center;text-decoration:none">📞 '+w.phone+'</a>'
-      +'<a href="https://wa.me/1'+w.phone.replace(/\D/g,'')+'" target="_blank" style="background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:8px;padding:7px 11px;color:#25D366;text-decoration:none">💬</a>'
-      +'<button class="crew-toggle" data-id="'+w.id+'" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 9px;cursor:pointer;color:#E8E0D5;font-size:11px;font-family:inherit">'+(w.status==='active'?(es?'Salida':'Out'):(es?'Entrada':'In'))+'</button>'
-      +'<button class="crew-remove" data-id="'+w.id+'" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:7px 9px;cursor:pointer;color:#EF4444;font-family:inherit">🗑</button>'
-      +'</div></div></div></div>';
-  });
-  return html+'</div>';
+  html+='</div>';
+  return html;
 }
 
-function toggleCrewStatus(id){var w=CREW.find(function(x){return x.id===id;});if(w)w.status=w.status==='active'?'off':'active';renderJobs();}
-function removeCrew(id){CREW=CREW.filter(function(w){return w.id!==id;});renderJobs();}
 function addCrewMember(){
   var es=L==='es';
   var name=prompt(es?'Nombre:':'Name:');if(!name)return;
@@ -807,12 +920,6 @@ function addCrewMember(){
   var pay=parseFloat(prompt(es?'Pago diario ($):':'Daily pay ($):'))||0;
   CREW.push({id:'c'+Date.now(),name:name,role:role||'',phone:phone||'',pay:pay,status:'active'});
   renderJobs();
-}
-
-function renderMeasureSection(es){
-  if(bpView==='address') return rBpAddr();
-  else if(bpView==='saved') return rBpSaved();
-  else return rBpCanvas();
 }
 
 
