@@ -288,7 +288,7 @@ var TX = {
     tabs:['Safety','Trades','Colors','Measure','Solar','Partners','About'],
     ids:['safety','trades','colors','measure','solar','partners','about'],
     icons:['🛡️','🔨','🎨','📐','☀️','🤝','👤'],
-    screens:{safety:'Safety Checklist',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
+    screens:{safety:'Safety Checklist',trades:'Trades',colors:'Color Consultant',measure:'Blueprint Measure',solar:'Solar Estimator',partners:'Partners',about:'About'},
     phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
     items:[
       ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA cards on site','Safety meeting held with crew'],
@@ -311,7 +311,7 @@ var TX = {
     tabs:['Seguridad','Oficios','Colores','Medidas','Solar','Socios','Acerca'],
     ids:['safety','trades','colors','measure','solar','partners','about'],
     icons:['🛡️','🔨','🎨','📐','☀️','🤝','👤'],
-    screens:{safety:'Lista de Seguridad',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
+    screens:{safety:'Lista de Seguridad',trades:'Oficios',colors:'Consultor de Color',measure:'Medición de Planos',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
     phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
     items:[
       ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA en obra','Reunión de seguridad con la cuadrilla'],
@@ -495,11 +495,20 @@ function renderTrades(){
 function selectTrade(id){TRADE_SEL=id;renderTrades();}
 
 // ── Colors State ──────────────────────────────────────────────
-var cWall='#F2EDE4';
-var cTrim='#FFFFFF';
-var cDoor='#2C3E50';
-var cTarget='wall'; // wall, trim, door
-var cBrand='bm'; // bm, sw
+var cMode='exterior'; // exterior or interior
+var cRoom='living';   // living, bedroom, kitchen, bathroom
+var cTarget='wall';
+var cBrand='bm';
+
+// Exterior colors
+var extColors={wall:'#F2EDE4',trim:'#FFFFFF',door:'#2C3E50',roof:'#6B5040',shutter:'#3B4F62'};
+// Interior room colors
+var intColors={
+  living:{wall:'#E8E0D5',ceiling:'#F5F2EE',accent:'#9E9E9E',trim:'#FFFFFF'},
+  bedroom:{wall:'#D4DCE8',ceiling:'#F5F2EE',accent:'#7A8FA0',trim:'#FFFFFF'},
+  kitchen:{wall:'#F0EDE4',ceiling:'#FAFAF8',accent:'#C4A882',trim:'#FFFFFF'},
+  bathroom:{wall:'#E0EAE8',ceiling:'#F5F2EE',accent:'#7CB3B0',trim:'#FFFFFF'},
+};
 
 var PAINT_COLORS={
   bm:{
@@ -507,26 +516,27 @@ var PAINT_COLORS={
     collections:[
       {name:'Whites & Neutrals',colors:[
         {name:'White Dove',hex:'#F4F1EC'},{name:'Chantilly Lace',hex:'#F5F4F0'},{name:'Simply White',hex:'#F7F4EE'},
-        {name:'Cloud White',hex:'#EDE8DC'},{name:'White Heron',hex:'#F0EDE4'},{name:'Decorators White',hex:'#EFF0EB'},
-        {name:'Pale Oak',hex:'#DDD4C3'},{name:'Revere Pewter',hex:'#C2B9A7'},{name:'Edgecomb Gray',hex:'#D4CBBB'},
-        {name:'Balboa Mist',hex:'#D9D3C7'},
+        {name:'Cloud White',hex:'#EDE8DC'},{name:'White Heron',hex:'#F0EDE4'},{name:'Pale Oak',hex:'#DDD4C3'},
+        {name:'Revere Pewter',hex:'#C2B9A7'},{name:'Edgecomb Gray',hex:'#D4CBBB'},{name:'Balboa Mist',hex:'#D9D3C7'},
+        {name:'Pashmina',hex:'#DDD5C5'},
       ]},
       {name:'Grays & Blues',colors:[
         {name:'Coventry Gray',hex:'#9DA4A8'},{name:'Stonington Gray',hex:'#B4BAB9'},{name:'Gray Owl',hex:'#C5C5BC'},
         {name:'Van Deusen Blue',hex:'#4A6580'},{name:'Hale Navy',hex:'#3B4F62'},{name:'Newburyport Blue',hex:'#7E9DAE'},
-        {name:'Blue Note',hex:'#6B7F8E'},{name:'Narragansett Green',hex:'#5C7A6B'},{name:'Sea Salt',hex:'#B8C9C4'},
-        {name:'Buxton Blue',hex:'#7A8F96'},
+        {name:'Blue Note',hex:'#6B7F8E'},{name:'Sea Salt',hex:'#B8C9C4'},{name:'Buxton Blue',hex:'#7A8F96'},
+        {name:'Wythe Blue',hex:'#8FA8B0'},
       ]},
       {name:'Greens & Earths',colors:[
-        {name:'Turtle Green',hex:'#7A8C6E'},{name:'Saybrook Sage',hex:'#9FAE96'},{name:'Hancock Green',hex:'#4E6B4F'},
-        {name:'Olive Branch',hex:'#8C8C6A'},{name:'Guilford Green',hex:'#7E9B8A'},{name:'Cedar Green',hex:'#6B7A5C'},
+        {name:'Sage Mountain',hex:'#7A8C6E'},{name:'Saybrook Sage',hex:'#9FAE96'},{name:'Hancock Green',hex:'#4E6B4F'},
         {name:'October Mist',hex:'#A8B09E'},{name:'Fernwood Green',hex:'#8EA08A'},{name:'Venetian Tile',hex:'#B5845A'},
-        {name:'Middlebury Brown',hex:'#7A5C3E'},
+        {name:'Middlebury Brown',hex:'#7A5C3E'},{name:'Tucson Tan',hex:'#C4A882'},{name:'Arrowroot',hex:'#D4C4A0'},
+        {name:'Antique Jade',hex:'#7A9A80'},
       ]},
-      {name:'Warm & Bold',colors:[
+      {name:'Bold & Deep',colors:[
         {name:'Caliente',hex:'#BB2A2A'},{name:'Raspberry Blush',hex:'#E8715A'},{name:'Moroccan Red',hex:'#9B3A3A'},
-        {name:'Golden Straw',hex:'#D4B06A'},{name:'Butter Milk',hex:'#F0D88A'},{name:'Autumn Orange',hex:'#CC6633'},
-        {name:'Toffee',hex:'#8C6040'},{name:'Onyx',hex:'#353839'},{name:'Soot',hex:'#2B2C2E'},{name:'Black',hex:'#1A1A1A'},
+        {name:'Golden Straw',hex:'#D4B06A'},{name:'Autumn Orange',hex:'#CC6633'},{name:'Toffee',hex:'#8C6040'},
+        {name:'Onyx',hex:'#353839'},{name:'Soot',hex:'#2B2C2E'},{name:'Wrought Iron',hex:'#413E3B'},
+        {name:'Black Beauty',hex:'#1A1A1A'},
       ]},
     ]
   },
@@ -536,148 +546,310 @@ var PAINT_COLORS={
       {name:'Whites & Creams',colors:[
         {name:'Alabaster',hex:'#EDEADE'},{name:'Pure White',hex:'#F4F1E8'},{name:'High Reflective White',hex:'#F5F5F2'},
         {name:'Creamy',hex:'#F2E6C8'},{name:'Antique White',hex:'#EDE0C4'},{name:'Natural Choice',hex:'#DDD5C0'},
-        {name:'Accessible Beige',hex:'#D4C9B0'},{name:'Wool Skein',hex:'#C8BDA8'},{name:'Mega Greige',hex:'#B8AA96'},
-        {name:'Agreeable Gray',hex:'#D0C8B8'},
+        {name:'Accessible Beige',hex:'#D4C9B0'},{name:'Wool Skein',hex:'#C8BDA8'},{name:'Agreeable Gray',hex:'#D0C8B8'},
+        {name:'Functional Gray',hex:'#C8C0B2'},
       ]},
       {name:'Grays & Blues',colors:[
-        {name:'Repose Gray',hex:'#C2BEB4'},{name:'Mindful Gray',hex:'#B8B4A8'},{name:'Dorian Gray',hex:'#A8A49A'},
-        {name:'Naval',hex:'#3D4F6C'},{name:'Refuge',hex:'#4A5568'},{name:'Interesting Aqua',hex:'#7AADAD'},
-        {name:'Rainstorm',hex:'#5B7A8C'},{name:'Comfort Gray',hex:'#8BA8A4'},{name:'Rainwashed',hex:'#9DC0BC'},
-        {name:'Niebla Azul',hex:'#8FA8B4'},
+        {name:'Repose Gray',hex:'#C2BEB4'},{name:'Mindful Gray',hex:'#B8B4A8'},{name:'Naval',hex:'#3D4F6C'},
+        {name:'Refuge',hex:'#4A5568'},{name:'Interesting Aqua',hex:'#7AADAD'},{name:'Rainstorm',hex:'#5B7A8C'},
+        {name:'Comfort Gray',hex:'#8BA8A4'},{name:'Rainwashed',hex:'#9DC0BC'},{name:'Niebla Azul',hex:'#8FA8B4'},
+        {name:'Tradewind',hex:'#82B0AE'},
       ]},
       {name:'Greens & Sage',colors:[
         {name:'Evergreen Fog',hex:'#8FA49A'},{name:'Rosemary',hex:'#6B8C6E'},{name:'Sage',hex:'#9BA88A'},
-        {name:'Basil',hex:'#4E6B50'},{name:'Cascades',hex:'#6B8C80'},{name:'Pewter Green',hex:'#7A8C72'},
-        {name:'Retreat',hex:'#8FA896'},{name:'Ripe Olive',hex:'#7A7A50'},{name:'Oakmoss',hex:'#6B6B48'},
-        {name:'Avocado',hex:'#7A8040'},
+        {name:'Basil',hex:'#4E6B50'},{name:'Pewter Green',hex:'#7A8C72'},{name:'Retreat',hex:'#8FA896'},
+        {name:'Ripe Olive',hex:'#7A7A50'},{name:'Oakmoss',hex:'#6B6B48'},{name:'Avocado',hex:'#7A8040'},
+        {name:'Cascades',hex:'#6B8C80'},
       ]},
       {name:'Bold & Deep',colors:[
         {name:'Caviar',hex:'#252525'},{name:'Iron Ore',hex:'#3C3C3A'},{name:'Tricorn Black',hex:'#2A2A2A'},
-        {name:'Garage Band',hex:'#4A3C3C'},{name:'Wicked Red',hex:'#8C2020'},{name:'Antler Velvet',hex:'#6B4030'},
-        {name:'Umber',hex:'#5C4030'},{name:'Rookwood Red',hex:'#7A2828'},{name:'Burgundy',hex:'#6B2030'},
-        {name:'Poinsettia',hex:'#B82828'},
+        {name:'Wicked Red',hex:'#8C2020'},{name:'Antler Velvet',hex:'#6B4030'},{name:'Umber',hex:'#5C4030'},
+        {name:'Rookwood Red',hex:'#7A2828'},{name:'Burgundy',hex:'#6B2030'},{name:'Poinsettia',hex:'#B82828'},
+        {name:'Garage Band',hex:'#4A3C3C'},
       ]},
     ]
   }
 };
 
+function setCMode(m){cMode=m;renderColors();}
+function setCBrand(b){cBrand=b;renderColors();}
+function setCRoom(r){cRoom=r;cTarget='wall';renderColors();}
+function setCTarget(t){cTarget=t;renderColors();}
 function renderColors(){
   var es=L==='es';
-  var brand=PAINT_COLORS[cBrand];
   var html='';
 
-  // Modern house SVG
-  html+='<div style="background:linear-gradient(160deg,#1a3a5c,#0d2137,#1a1d27);padding:20px 16px 16px">';
-  html+='<p style="color:#94A3B8;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;text-align:center">🎨 '+(es?'CONSULTOR DE COLOR 3D':'3D COLOR CONSULTANT')+'</p>';
+  // Mode switcher
+  html+='<div style="background:#1a1d27;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)">';
+  html+='<div style="display:flex;gap:8px;margin-bottom:0">';
+  html+='<button onclick="setCMode(0)" style="flex:1;background:'+(cMode==='exterior'?'#FF6B2B':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🏠 '+(es?'Exterior':'Exterior')+'</button>';
+  html+='<button onclick="setCMode(1)" style="flex:1;background:'+(cMode==='interior'?'#FF6B2B':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🛋️ '+(es?'Interior':'Interior')+'</button>';
+  html+='</div></div>';
 
-  // House SVG - modern design
-  html+='<div style="background:linear-gradient(180deg,#87CEEB 0%,#B8D8F0 60%,#7CB87C 60%,#5A9A5A 100%);border-radius:20px;overflow:hidden;padding:0;position:relative">';
-  html+='<svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">';
-  html+='<!-- Sky gradient --><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5BAEE8"/><stop offset="100%" stop-color="#87CEEB"/></linearGradient><linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6AAE6A"/><stop offset="100%" stop-color="#4A8A4A"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.2"/></filter></defs>';
-  html+='<rect width="340" height="220" fill="url(#sky)"/>';
-  // Sun
-  html+='<circle cx="290" cy="38" r="22" fill="#FFE566" opacity="0.9"/>';
-  html+='<circle cx="290" cy="38" r="28" fill="#FFE566" opacity="0.2"/>';
-  // Clouds
-  html+='<ellipse cx="80" cy="45" rx="28" ry="12" fill="#fff" opacity="0.7"/><ellipse cx="100" cy="40" rx="22" ry="10" fill="#fff" opacity="0.7"/><ellipse cx="60" cy="42" rx="18" ry="8" fill="#fff" opacity="0.7"/>';
-  // Ground
-  html+='<rect x="0" y="172" width="340" height="48" fill="url(#grass)"/>';
-  // Driveway
-  html+='<polygon points="150,220 190,220 185,172 155,172" fill="#C8C0B0" opacity="0.6"/>';
-  // House body with shadow
-  html+='<rect x="60" y="95" width="220" height="100" rx="3" fill="'+cWall+'" filter="url(#shadow)"/>';
-  // Roof
-  html+='<polygon points="42,97 170,22 298,97" fill="#6B5040"/>';
-  // Roof highlight
-  html+='<polygon points="42,97 170,22 298,97" fill="none" stroke="'+cTrim+'" stroke-width="3"/>';
-  // Chimney
-  html+='<rect x="222" y="38" width="22" height="42" fill="#8B6B50"/><rect x="218" y="34" width="30" height="8" rx="2" fill="#7A5A40"/>';
-  // Fascia / trim
-  html+='<rect x="60" y="93" width="220" height="8" fill="'+cTrim+'" opacity="0.9"/>';
-  // Left window
-  html+='<rect x="74" y="112" width="52" height="38" rx="4" fill="#B3E5FC" opacity="0.85" stroke="'+cTrim+'" stroke-width="2.5"/>';
-  html+='<line x1="100" y1="112" x2="100" y2="150" stroke="'+cTrim+'" stroke-width="1.5"/>';
-  html+='<line x1="74" y1="131" x2="126" y2="131" stroke="'+cTrim+'" stroke-width="1.5"/>';
-  html+='<rect x="74" y="148" width="52" height="6" rx="2" fill="'+cTrim+'" opacity="0.6"/>';
-  // Right window
-  html+='<rect x="214" y="112" width="52" height="38" rx="4" fill="#B3E5FC" opacity="0.85" stroke="'+cTrim+'" stroke-width="2.5"/>';
-  html+='<line x1="240" y1="112" x2="240" y2="150" stroke="'+cTrim+'" stroke-width="1.5"/>';
-  html+='<line x1="214" y1="131" x2="266" y2="131" stroke="'+cTrim+'" stroke-width="1.5"/>';
-  html+='<rect x="214" y="148" width="52" height="6" rx="2" fill="'+cTrim+'" opacity="0.6"/>';
-  // Door
-  html+='<rect x="145" y="136" width="50" height="59" rx="4" fill="'+cDoor+'" filter="url(#shadow)"/>';
-  html+='<rect x="152" y="143" width="16" height="20" rx="2" fill="'+cDoor+'" stroke="'+cTrim+'" stroke-width="1" opacity="0.6"/>';
-  html+='<rect x="173" y="143" width="16" height="20" rx="2" fill="'+cDoor+'" stroke="'+cTrim+'" stroke-width="1" opacity="0.6"/>';
-  html+='<circle cx="168" cy="166" r="3.5" fill="#D4AF37"/>';
-  html+='<rect x="145" y="134" width="50" height="6" rx="2" fill="'+cTrim+'"/>';
-  // Garage
-  html+='<!-- Bushes --><ellipse cx="60" cy="175" rx="18" ry="10" fill="#3A7A3A"/><ellipse cx="280" cy="175" rx="18" ry="10" fill="#3A7A3A"/>';
-  html+='</svg></div>';
+  if(cMode==='exterior'){
+    html+=renderExterior(es);
+  } else {
+    html+=renderInterior(es);
+  }
 
-  // Color target selector
-  html+='<div style="display:flex;gap:8px;margin-top:14px">';
-  var targets=[
-    {id:'wall',label:es?'Paredes':'Walls',color:cWall},
-    {id:'trim',label:es?'Molduras':'Trim',color:cTrim},
-    {id:'door',label:es?'Puerta':'Door',color:cDoor},
-  ];
-  targets.forEach(function(tg){
-    var on=cTarget===tg.id;
-    html+='<button onclick="cTarget=\''+tg.id+'\';renderColors()" style="flex:1;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'rgba(255,255,255,.1)')+';border-radius:10px;padding:8px 4px;cursor:pointer;text-align:center">'
-      +'<div style="width:20px;height:20px;border-radius:4px;background:'+tg.color+';margin:0 auto 4px;border:1px solid rgba(255,255,255,.3)"></div>'
-      +'<span style="font-size:10px;font-weight:700;color:'+(on?'#fff':'#94A3B8')+'">'+tg.label+'</span></button>';
-  });
-  html+='</div>';
-
-  // Current color display
-  var currentColor=cTarget==='wall'?cWall:cTarget==='trim'?cTrim:cDoor;
-  html+='<div style="display:flex;align-items:center;gap:10px;margin-top:10px;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 12px">'
-    +'<div style="width:32px;height:32px;border-radius:8px;background:'+currentColor+';flex-shrink:0;border:1px solid rgba(255,255,255,.2)"></div>'
-    +'<div><p style="font-size:12px;font-weight:700;color:#fff;margin:0">'+(es?'Color seleccionado':'Selected color')+'</p><p style="font-size:11px;color:#94A3B8;margin:0">'+currentColor.toUpperCase()+'</p></div>'
-    +'<input type="color" value="'+currentColor+'" onchange="applyCustomColor(this.value)" style="margin-left:auto;width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:none"></div>';
-
-  html+='</div>'; // end dark header
-
-  // Brand selector
+  // Brand switcher
   html+='<div style="padding:14px 18px 0">';
-  html+='<div style="display:flex;gap:8px;margin-bottom:16px">';
-  html+='<button onclick="cBrand=\'bm\';renderColors()" style="flex:1;background:'+(cBrand==='bm'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='bm'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer;text-align:center">'
-    +'<p style="font-size:12px;font-weight:800;color:'+(cBrand==='bm'?'#fff':'#555');html+=';margin:0">Benjamin Moore</p></button>';
-  html+='<button onclick="cBrand=\'sw\';renderColors()" style="flex:1;background:'+(cBrand==='sw'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='sw'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer;text-align:center">'
-    +'<p style="font-size:12px;font-weight:800;color:'+(cBrand==='sw'?'#fff':'#555')+'margin:0">Sherwin-Williams</p></button>';
+  html+='<p style="font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'MARCA DE PINTURA':'PAINT BRAND')+'</p>';
+  html+='<div style="display:flex;gap:8px;margin-bottom:14px">';
+  html+='<button onclick="setCBrand(0)" style="flex:1;background:'+(cBrand==='bm'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='bm'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='bm'?'#fff':'#555')+';margin:0">Benjamin Moore</p></button>';
+  html+='<button onclick="setCBrand(1)" style="flex:1;background:'+(cBrand==='sw'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='sw'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='sw'?'#fff':'#555')+';margin:0">Sherwin-Williams</p></button>';
   html+='</div>';
 
   // Color collections
+  var brand=PAINT_COLORS[cBrand];
   brand.collections.forEach(function(col){
     html+='<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+col.name+'</p>';
     html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">';
-    col.colors.forEach(function(c){
-      var isSelected=(cTarget==='wall'&&cWall===c.hex)||(cTarget==='trim'&&cTrim===c.hex)||(cTarget==='door'&&cDoor===c.hex);
-      html+='<div onclick="applyColor(\''+c.hex+'\',\''+c.name+'\')" title="'+c.name+'" style="width:36px;height:36px;border-radius:8px;background:'+c.hex+';cursor:pointer;border:2px solid '+(isSelected?'#FF6B2B':'rgba(255,255,255,.15)')+';box-shadow:'+(isSelected?'0 0 0 2px #FF6B2B':'none')+';flex-shrink:0"></div>';
+    col.colors.forEach(function(c,ci){
+      var currentColor=getCurrentColor();
+      var isSelected=currentColor===c.hex;
+      var safeName=c.name.replace(/"/g,'');
+      html+='<div onclick="applyIdx('+ci+','+brand.collections.indexOf(col)+')" title="'+safeName+'" style="width:38px;height:38px;border-radius:8px;background:'+c.hex+';cursor:pointer;border:2px solid '+(isSelected?'#FF6B2B':'rgba(255,255,255,.15)')+';box-shadow:'+(isSelected?'0 0 0 2px #FF6B2B':'none')+'"></div>';
     });
     html+='</div>';
   });
 
-  html+='<button onclick="savePainting()" class="btn-orange" style="margin-bottom:20px">💾 '+(es?'Guardar esquema de color':'Save color scheme')+'</button>';
+  html+='<button onclick="saveScheme()" class="btn-orange" style="margin-bottom:20px">💾 '+(es?'Guardar esquema':'Save scheme')+'</button>';
   html+='</div>';
 
   document.getElementById('colors-content').innerHTML=html;
+  // Add click handlers to swatches
+  document.getElementById('colors-content').querySelectorAll('.color-swatch').forEach(function(el){
+    el.onclick=function(){applyColor(this.getAttribute('data-hex'));};
+  });
 }
 
-function applyColor(hex,name){
-  if(cTarget==='wall') cWall=hex;
-  else if(cTarget==='trim') cTrim=hex;
-  else cDoor=hex;
+function getCurrentColor(){
+  if(cMode==='exterior') return extColors[cTarget]||'#F2EDE4';
+  return intColors[cRoom][cTarget]||'#F2EDE4';
+}
+
+function applyColorIdx(i){applyColor(window._paintColors[i]);}
+function applyIdx(ci, gi){
+  var brand=PAINT_COLORS[cBrand];
+  var color=brand.collections[gi].colors[ci];
+  if(color) applyColor(color.hex);
+}
+function applyColor(hex){
+  if(cMode==='exterior') extColors[cTarget]=hex;
+  else intColors[cRoom][cTarget]=hex;
   renderColors();
 }
 
-function applyCustomColor(hex){
-  if(cTarget==='wall') cWall=hex;
-  else if(cTarget==='trim') cTrim=hex;
-  else cDoor=hex;
-  renderColors();
+function renderExterior(es){
+  var html='';
+  // 3D house SVG
+  html+='<div style="background:linear-gradient(160deg,#1a3a5c,#0d2137);padding:16px 16px 12px">';
+  html+='<p style="color:#94A3B8;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">🏠 '+(es?'VISTA EXTERIOR':'EXTERIOR VIEW')+'</p>';
+  html+='<div style="background:linear-gradient(180deg,#5BAEE8 0%,#87CEEB 55%,#6AAE6A 55%,#4A8A4A 100%);border-radius:16px;overflow:hidden">';
+  html+='<svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">';
+  html+='<defs><filter id="shd"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.2"/></filter></defs>';
+  // Sun
+  html+='<circle cx="290" cy="35" r="20" fill="#FFE566" opacity="0.9"/><circle cx="290" cy="35" r="26" fill="#FFE566" opacity="0.15"/>';
+  // Clouds
+  html+='<ellipse cx="80" cy="42" rx="26" ry="11" fill="#fff" opacity="0.75"/><ellipse cx="98" cy="37" rx="20" ry="9" fill="#fff" opacity="0.75"/>';
+  // Ground
+  html+='<rect x="0" y="165" width="340" height="45" fill="#4A8A4A"/>';
+  // Driveway
+  html+='<polygon points="148,210 192,210 186,165 154,165" fill="#B8B0A0" opacity="0.5"/>';
+  // Main house body
+  html+='<rect x="55" y="90" width="230" height="98" fill="'+extColors.wall+'" filter="url(#shd)"/>';
+  // Roof
+  html+='<polygon points="38,92 170,18 302,92" fill="'+extColors.roof+'"/>';
+  // Trim line under roof
+  html+='<rect x="55" y="89" width="230" height="7" fill="'+extColors.trim+'" opacity="0.9"/>';
+  // Left shutter
+  html+='<rect x="67" y="108" width="12" height="36" rx="2" fill="'+extColors.shutter+'"/>';
+  // Left window
+  html+='<rect x="80" y="108" width="50" height="36" rx="3" fill="#B3E5FC" opacity="0.85" stroke="'+extColors.trim+'" stroke-width="2.5"/>';
+  html+='<line x1="105" y1="108" x2="105" y2="144" stroke="'+extColors.trim+'" stroke-width="1.5"/>';
+  html+='<line x1="80" y1="126" x2="130" y2="126" stroke="'+extColors.trim+'" stroke-width="1.5"/>';
+  html+='<rect x="67" y="144" width="65" height="5" rx="2" fill="'+extColors.trim+'" opacity="0.5"/>';
+  // Right shutter
+  html+='<rect x="200" y="108" width="12" height="36" rx="2" fill="'+extColors.shutter+'"/>';
+  // Right window
+  html+='<rect x="213" y="108" width="50" height="36" rx="3" fill="#B3E5FC" opacity="0.85" stroke="'+extColors.trim+'" stroke-width="2.5"/>';
+  html+='<line x1="238" y1="108" x2="238" y2="144" stroke="'+extColors.trim+'" stroke-width="1.5"/>';
+  html+='<line x1="213" y1="126" x2="263" y2="126" stroke="'+extColors.trim+'" stroke-width="1.5"/>';
+  html+='<rect x="200" y="144" width="65" height="5" rx="2" fill="'+extColors.trim+'" opacity="0.5"/>';
+  // Door surround
+  html+='<rect x="143" y="132" width="54" height="58" rx="5" fill="'+extColors.trim+'" filter="url(#shd)"/>';
+  // Door
+  html+='<rect x="146" y="135" width="48" height="55" rx="3" fill="'+extColors.door+'"/>';
+  html+='<rect x="153" y="142" width="14" height="18" rx="2" fill="'+extColors.door+'" stroke="'+extColors.trim+'" stroke-width="1" opacity="0.5"/>';
+  html+='<rect x="173" y="142" width="14" height="18" rx="2" fill="'+extColors.door+'" stroke="'+extColors.trim+'" stroke-width="1" opacity="0.5"/>';
+  html+='<circle cx="168" cy="163" r="3" fill="#D4AF37"/>';
+  // Chimney
+  html+='<rect x="220" y="34" width="20" height="38" fill="'+extColors.roof+'" opacity="0.85"/>';
+  html+='<rect x="217" y="30" width="26" height="7" rx="2" fill="'+extColors.roof+'"/>';
+  // Bushes
+  html+='<ellipse cx="58" cy="168" rx="16" ry="9" fill="#2E6E2E"/><ellipse cx="282" cy="168" rx="16" ry="9" fill="#2E6E2E"/>';
+  html+='</svg></div>';
+
+  // Target selector - exterior
+  html+='<div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">';
+  var extTargets=[
+    {id:'wall',label:es?'Paredes':'Walls',color:extColors.wall},
+    {id:'trim',label:es?'Molduras':'Trim',color:extColors.trim},
+    {id:'door',label:es?'Puerta':'Door',color:extColors.door},
+    {id:'roof',label:es?'Techo':'Roof',color:extColors.roof},
+    {id:'shutter',label:es?'Persianas':'Shutters',color:extColors.shutter},
+  ];
+  extTargets.forEach(function(tg){
+    var on=cTarget===tg.id;
+    html+='<button onclick="setCTarget(tg.id)" style="flex:1;min-width:58px;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
+      +'<div style="width:18px;height:18px;border-radius:4px;background:'+tg.color+';margin:0 auto 3px;border:1px solid rgba(255,255,255,.2)"></div>'
+      +'<span style="font-size:9px;font-weight:700;color:'+(on?'#fff':'#555')+'">'+tg.label+'</span></button>';
+  });
+  html+='</div></div>';
+  return html;
 }
 
+function renderInterior(es){
+  var rooms=[
+    {id:'living',label:es?'Sala':'Living Room',icon:'🛋️'},
+    {id:'bedroom',label:es?'Recámara':'Bedroom',icon:'🛏️'},
+    {id:'kitchen',label:es?'Cocina':'Kitchen',icon:'🍳'},
+    {id:'bathroom',label:es?'Baño':'Bathroom',icon:'🛁'},
+  ];
+  var targets=[
+    {id:'wall',label:es?'Paredes':'Walls'},
+    {id:'ceiling',label:es?'Techo':'Ceiling'},
+    {id:'accent',label:es?'Acento':'Accent'},
+    {id:'trim',label:es?'Molduras':'Trim'},
+  ];
+  var rc=intColors[cRoom];
+
+  var html='<div style="background:linear-gradient(160deg,#1a2030,#0d1520);padding:16px 16px 12px">';
+  html+='<p style="color:#94A3B8;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">🛋️ '+(es?'VISTA INTERIOR':'INTERIOR VIEW')+'</p>';
+
+  // Room selector
+  html+='<div style="display:flex;gap:6px;margin-bottom:12px">';
+  rooms.forEach(function(r){
+    var on=cRoom===r.id;
+    html+='<button onclick="setCRoom(r.id)" style="flex:1;background:'+(on?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:8px;padding:7px 4px;cursor:pointer;text-align:center">'
+      +'<div style="font-size:16px">'+r.icon+'</div>'
+      +'<span style="font-size:9px;font-weight:700;color:#fff;display:block;margin-top:2px">'+r.label+'</span></button>';
+  });
+  html+='</div>';
+
+  // Interior SVG - room view
+  html+='<div style="background:#fff;border-radius:12px;overflow:hidden">';
+  html+='<svg viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">';
+
+  // Ceiling
+  html+='<rect x="0" y="0" width="340" height="40" fill="'+rc.ceiling+'"/>';
+  // Left wall
+  html+='<polygon points="0,0 50,40 50,180 0,180" fill="'+rc.wall+'" opacity="0.85"/>';
+  // Right wall
+  html+='<polygon points="340,0 290,40 290,180 340,180" fill="'+rc.wall+'" opacity="0.85"/>';
+  // Back wall (main)
+  html+='<rect x="50" y="40" width="240" height="140" fill="'+rc.wall+'"/>';
+  // Accent wall strip on left
+  html+='<rect x="50" y="40" width="60" height="140" fill="'+rc.accent+'" opacity="0.7"/>';
+  // Floor
+  html+='<rect x="0" y="155" width="340" height="25" fill="#C4A882" opacity="0.5"/>';
+  html+='<line x1="0" y1="155" x2="340" y2="155" stroke="#A08060" stroke-width="1"/>';
+
+  // Trim - baseboards
+  html+='<rect x="50" y="150" width="240" height="5" fill="'+rc.trim+'"/>';
+  // Crown molding
+  html+='<rect x="50" y="40" width="240" height="5" fill="'+rc.trim+'"/>';
+
+  // Room-specific furniture
+  if(cRoom==='living'){
+    // Sofa
+    html+='<rect x="100" y="110" width="140" height="40" rx="5" fill="#8B7355" opacity="0.8"/>';
+    html+='<rect x="100" y="100" width="140" height="15" rx="3" fill="#9B8365" opacity="0.8"/>';
+    // Pillows
+    html+='<rect x="112" y="103" width="22" height="12" rx="3" fill="#CC6633" opacity="0.7"/>';
+    html+='<rect x="206" y="103" width="22" height="12" rx="3" fill="#4A6580" opacity="0.7"/>';
+    // Coffee table
+    html+='<rect x="148" y="148" width="44" height="6" rx="2" fill="#6B5040" opacity="0.6"/>';
+    // Window
+    html+='<rect x="140" y="55" width="60" height="50" rx="3" fill="#B3E5FC" opacity="0.8" stroke="'+rc.trim+'" stroke-width="2"/>';
+    html+='<line x1="170" y1="55" x2="170" y2="105" stroke="'+rc.trim+'" stroke-width="1.5"/>';
+    html+='<line x1="140" y1="80" x2="200" y2="80" stroke="'+rc.trim+'" stroke-width="1.5"/>';
+  } else if(cRoom==='bedroom'){
+    // Bed headboard
+    html+='<rect x="120" y="75" width="100" height="35" rx="4" fill="#5C4030" opacity="0.8"/>';
+    // Bed
+    html+='<rect x="110" y="105" width="120" height="45" rx="3" fill="#E8E0D8" opacity="0.9"/>';
+    // Pillows
+    html+='<rect x="118" y="108" width="38" height="18" rx="4" fill="#fff" opacity="0.8"/>';
+    html+='<rect x="184" y="108" width="38" height="18" rx="4" fill="#fff" opacity="0.8"/>';
+    // Blanket
+    html+='<rect x="110" y="126" width="120" height="24" rx="3" fill="'+rc.accent+'" opacity="0.6"/>';
+    // Nightstand
+    html+='<rect x="80" y="115" width="25" height="35" rx="3" fill="#7A5C3E" opacity="0.7"/>';
+    html+='<rect x="235" y="115" width="25" height="35" rx="3" fill="#7A5C3E" opacity="0.7"/>';
+    // Lamp
+    html+='<line x1="93" y1="115" x2="93" y2="100" stroke="#888" stroke-width="1.5"/>';
+    html+='<ellipse cx="93" cy="97" rx="10" ry="5" fill="#F5E8C0" opacity="0.8"/>';
+  } else if(cRoom==='kitchen'){
+    // Counter
+    html+='<rect x="50" y="120" width="240" height="30" fill="#D4C9B0" opacity="0.8"/>';
+    html+='<rect x="50" y="115" width="240" height="8" fill="#C0B4A0" opacity="0.8"/>';
+    // Upper cabinets
+    html+='<rect x="60" y="55" width="80" height="45" rx="2" fill="#E8E0D0" opacity="0.9" stroke="'+rc.trim+'" stroke-width="1"/>';
+    html+='<rect x="145" y="55" width="80" height="45" rx="2" fill="#E8E0D0" opacity="0.9" stroke="'+rc.trim+'" stroke-width="1"/>';
+    // Cabinet handles
+    html+='<line x1="95" y1="78" x2="105" y2="78" stroke="#A0907A" stroke-width="2.5"/>';
+    html+='<line x1="178" y1="78" x2="188" y2="78" stroke="#A0907A" stroke-width="2.5"/>';
+    // Sink
+    html+='<rect x="170" y="116" width="50" height="22" rx="2" fill="#C0C0C0" opacity="0.7"/>';
+    // Faucet
+    html+='<line x1="195" y1="116" x2="195" y2="108" stroke="#888" stroke-width="2"/>';
+    html+='<path d="M193,108 Q195,104 197,108" stroke="#888" stroke-width="1.5" fill="none"/>';
+    // Stove
+    html+='<rect x="80" y="116" width="60" height="22" rx="2" fill="#888" opacity="0.6"/>';
+    html+='<circle cx="97" cy="127" r="6" fill="#555" opacity="0.5"/>';
+    html+='<circle cx="123" cy="127" r="6" fill="#555" opacity="0.5"/>';
+  } else if(cRoom==='bathroom'){
+    // Bathtub
+    html+='<rect x="185" y="105" width="95" height="45" rx="8" fill="#F0F0F0" opacity="0.9" stroke="'+rc.trim+'" stroke-width="2"/>';
+    html+='<rect x="192" y="112" width="81" height="32" rx="5" fill="#B3E5FC" opacity="0.5"/>';
+    // Faucet
+    html+='<line x1="230" y1="105" x2="230" y2="98" stroke="#C0C0C0" stroke-width="2"/>';
+    html+='<ellipse cx="230" cy="96" rx="5" ry="3" fill="#C0C0C0"/>';
+    // Vanity
+    html+='<rect x="60" y="110" width="100" height="40" rx="3" fill="#D4C9B0" opacity="0.8"/>';
+    // Sink
+    html+='<ellipse cx="110" cy="118" rx="22" ry="10" fill="#E8E8E8" opacity="0.9" stroke="'+rc.trim+'" stroke-width="1.5"/>';
+    // Mirror
+    html+='<rect x="70" y="55" width="80" height="45" rx="3" fill="#B3E5FC" opacity="0.5" stroke="'+rc.trim+'" stroke-width="2"/>';
+    // Toilet
+    html+='<rect x="260" y="120" width="35" height="30" rx="4" fill="#F0F0F0" opacity="0.9"/>';
+    html+='<ellipse cx="277" cy="120" rx="17" ry="8" fill="#E0E0E0" opacity="0.9"/>';
+    // Tile pattern on accent wall
+    for(var tx=50;tx<110;tx+=12){
+      for(var ty=40;ty<155;ty+=12){
+        html+='<rect x="'+tx+'" y="'+ty+'" width="11" height="11" fill="none" stroke="'+rc.trim+'" stroke-width="0.5" opacity="0.3"/>';
+      }
+    }
+  }
+
+  html+='</svg></div>';
+
+  // Target selector - interior
+  html+='<div style="display:flex;gap:6px;margin-top:12px">';
+  targets.forEach(function(tg){
+    var on=cTarget===tg.id;
+    var col=rc[tg.id]||'#fff';
+    html+='<button onclick="setCTarget(tg.id)" style="flex:1;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
+      +'<div style="width:18px;height:18px;border-radius:4px;background:'+col+';margin:0 auto 3px;border:1px solid rgba(255,255,255,.2)"></div>'
+      +'<span style="font-size:9px;font-weight:700;color:'+(on?'#fff':'#555')+'">'+tg.label+'</span></button>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+function saveScheme(){alert(L==='es'?'¡Esquema guardado!':'Color scheme saved!');}
 function savePainting(){
   alert(L==='es'?'¡Esquema de color guardado!':'Color scheme saved!');
 }
@@ -1011,6 +1183,7 @@ function renderSolar(){
   else c.innerHTML=rSolHome();
 }
 
+function goHome(){goHome();}
 function goSol(v){solView=v;renderSolar();}
 
 function rSolHome(){
@@ -1052,7 +1225,7 @@ function rSolEstimate(){
   var es=L==='es';
   var isMX=solMarket==='mx';
   return '<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
-    +'<button onclick="goSol(\'home\')" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
+    +'<button onclick="goHome()" style="background:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Estimador Solar':'Solar Estimator')+'</span></div>'
     +'<div style="padding:14px 18px 0">'
     +'<span class="inp-label">'+(es?'ÁREA DEL TECHO':'ROOF AREA')+' ('+(isMX?'m²':'sq ft')+')</span>'
@@ -1145,13 +1318,14 @@ function rSolWinner(){
   var es=L==='es';
   var bids=solMarket==='mx'?SOLAR_BIDS_MX:SOLAR_BIDS_US;
   var bid=bids[solWinner||0];
-  return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px;text-align:center">'
-    +'<div style="width:72px;height:72px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>'
-    +'<h2 style="color:#E8E0D5;margin:0 0 8px;font-size:22px">'+(es?'¡Oferta seleccionada!':'Bid selected!')+'</h2>'
-    +'<p style="color:#94A3B8;margin:0 0 4px;font-size:14px">'+bid.name+'</p>'
-    +'<p style="color:#F59E0B;font-size:24px;font-weight:800;margin:8px 0">'+bid.price+'</p>'
-    +'<p style="color:#94A3B8;font-size:13px;margin:0 0 24px">'+bid.warranty+'</p>'
-    +'<button onclick="goSol(\'home\')" class="btn-orange" style="max-width:280px">'+(es?'Volver al inicio':'Back to home')+'</button></div>';
+  var html='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px;text-align:center">';
+  html+='<div style="width:72px;height:72px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;margin-bottom:16px">✓</div>';
+  html+='<h2 style="color:#E8E0D5;margin:0 0 8px;font-size:22px">'+(es?'¡Oferta seleccionada!':'Bid selected!')+'</h2>';
+  html+='<p style="color:#94A3B8;margin:0 0 4px;font-size:14px">'+bid.name+'</p>';
+  html+='<p style="color:#F59E0B;font-size:24px;font-weight:800;margin:8px 0">'+bid.price+'</p>';
+  html+='<p style="color:#94A3B8;font-size:13px;margin:0 0 24px">'+bid.warranty+'</p>';
+  html+='<button onclick="goHome()" class="btn-orange" style="max-width:280px">'+(es?'Volver al inicio':'Back to home')+'</button></div>';
+  return html;
 }
 
 // ── Partners ──────────────────────────────────────────────────
@@ -1191,7 +1365,7 @@ function partnerCard(p){
 }
 
 // ── Init ─────────────────────────────────────────────────────
-renderPalettes();
+// init done
 </script>
 </body>
 </html>
