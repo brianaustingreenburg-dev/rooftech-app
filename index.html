@@ -4,24 +4,24 @@
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f1117">
+<meta name="theme-color" content="#0A1628">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JefeTech — Field Estimator</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+body{background:#0A1628;color:#fff;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
 #app{max-width:430px;margin:0 auto;min-height:100vh;position:relative}
 
 /* SPLASH */
-#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;background:radial-gradient(ellipse at top,rgba(255,107,43,.1) 0%,transparent 60%)}
-.splash-brand{font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;background:radial-gradient(ellipse at top,rgba(201,162,39,.1) 0%,transparent 60%)}
+.splash-brand{font-size:11px;font-weight:700;color:#C9A227;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
 .splash-title{font-size:44px;font-weight:800;margin-bottom:6px;letter-spacing:-1.5px}
-.splash-title span{color:#FF6B2B}
+.splash-title span{color:#C9A227}
 .splash-sub{font-size:12px;color:#94A3B8;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
 .splash-flags{font-size:20px;letter-spacing:6px;margin-bottom:32px}
 .splash-quote{font-size:14px;color:#94A3B8;line-height:1.7;font-style:italic;max-width:320px;margin:0 auto 40px}
-.splash-btn{background:#FF6B2B;color:#fff;border:none;border-radius:16px;padding:18px 48px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 32px rgba(255,107,43,.3);letter-spacing:.3px}
+.splash-btn{background:#C9A227;color:#fff;border:none;border-radius:16px;padding:18px 48px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 32px rgba(201,162,39,.3);letter-spacing:.3px}
 .splash-btn:active{transform:scale(.97)}
 
 /* APP */
@@ -33,7 +33,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 .hdr-sub{font-size:9px;color:#94A3B8;margin-top:1px}
 .lang-wrap{display:flex;background:rgba(255,255,255,.08);border-radius:20px;padding:2px;gap:2px}
 .lang-btn{background:none;color:#94A3B8;border:none;border-radius:16px;padding:4px 11px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
-.lang-btn.on{background:#FF6B2B;color:#fff}
+.lang-btn.on{background:#C9A227;color:#fff}
 
 /* CONTENT */
 .content{padding-top:52px;padding-bottom:140px;min-height:100vh}
@@ -41,19 +41,19 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 .screen.active{display:block}
 
 /* NAV */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#0f1117;border-top:1px solid rgba(255,255,255,.08);z-index:60;padding-bottom:env(safe-area-inset-bottom)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#0A1628;border-top:1px solid rgba(255,255,255,.08);z-index:60;padding-bottom:env(safe-area-inset-bottom)}
 .nav-row{display:flex}
 .nav-btn{flex:1;background:none;border:none;padding:7px 0 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit}
 .nav-icon{font-size:19px}
 .nav-lbl{font-size:9px;color:#555;font-weight:500;transition:color .2s}
-.nav-btn.on .nav-lbl{color:#FF6B2B;font-weight:700}
+.nav-btn.on .nav-lbl{color:#C9A227;font-weight:700}
 
 /* DARK SECTION HEADER */
-.shdr{background:#1a1d27;padding:14px 18px}
+.shdr{background:#0D2145;padding:14px 18px}
 .shdr-title{color:#E8E0D5;font-size:12px;margin:0}
 
 /* CARDS */
-.card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.card{background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px}
 .card-white{background:#fff;border:1px solid #E8E0D5;border-radius:14px;padding:14px 16px;margin-bottom:10px}
 
 /* INPUTS */
@@ -62,16 +62,16 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 .inp-label{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block}
 
 /* BUTTONS */
-.btn-orange{width:100%;background:#FF6B2B;color:#fff;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-orange{width:100%;background:#C9A227;color:#fff;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn-red{width:100%;background:#EF4444;color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
 .btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;font-size:12px;color:#E8E0D5;cursor:pointer;font-family:inherit}
 
 /* SAFETY */
 .phase-row{display:flex;gap:6px;overflow-x:auto;padding:12px 18px 0}
 .phase-btn{flex-shrink:0;background:rgba(255,255,255,.08);color:#94A3B8;border:none;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
-.phase-btn.on{background:#FF6B2B;color:#fff}
+.phase-btn.on{background:#C9A227;color:#fff}
 .prog-wrap{background:rgba(255,255,255,.1);border-radius:3px;height:3px;margin:10px 18px 0;overflow:hidden}
-.prog-bar{height:100%;background:#FF6B2B;border-radius:3px;transition:width .3s}
+.prog-bar{height:100%;background:#C9A227;border-radius:3px;transition:width .3s}
 .check-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;margin-bottom:8px;cursor:pointer;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
 .check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .check-box.on{background:#22C55E;border-color:#22C55E}
@@ -80,11 +80,11 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 
 /* TRADES */
 .trade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 18px}
-.trade-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px 10px;cursor:pointer;text-align:center;transition:border-color .2s}
-.trade-card:active{border-color:#FF6B2B}
+.trade-card{background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px 10px;cursor:pointer;text-align:center;transition:border-color .2s}
+.trade-card:active{border-color:#C9A227}
 .trade-icon{font-size:28px;margin-bottom:8px}
 .trade-name{font-size:13px;font-weight:700;color:#E8E0D5}
-.section-lbl{font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.section-lbl{font-size:10px;font-weight:700;color:#C9A227;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
 .detail-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 .detail-row:last-child{border:none}
 .detail-txt{font-size:13px;color:#E8E0D5}
@@ -96,35 +96,35 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
 .color-lbl-sm{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
 .color-inp{width:100%;height:44px;border:none;border-radius:10px;cursor:pointer;padding:2px;background:none}
 .palette-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px}
-.palette-card{background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.palette-card{background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:10px}
 .palette-swatches{display:flex;gap:3px}
 .swatch{width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,.2)}
 .palette-name{font-size:11px;font-weight:600;color:#E8E0D5}
 
 /* SOLAR */
-.solar-stat{background:#1a1d27;border-radius:12px;padding:12px 14px;text-align:center}
-.solar-val{font-size:22px;font-weight:800;color:#F59E0B;margin-bottom:2px}
+.solar-stat{background:#0D2145;border-radius:12px;padding:12px 14px;text-align:center}
+.solar-val{font-size:22px;font-weight:800;color:#D4A017;margin-bottom:2px}
 .solar-lbl{font-size:10px;color:#94A3B8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .solar-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 12px}
 
 /* PARTNERS */
-.partner-card{display:flex;align-items:center;gap:12px;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
+.partner-card{display:flex;align-items:center;gap:12px;background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
 .partner-icon{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border-radius:10px;flex-shrink:0}
 .partner-name{font-size:14px;font-weight:700;margin-bottom:2px}
 .partner-sub{font-size:11px;color:#94A3B8}
 .partner-comm{font-size:10px;font-weight:700;color:#22C55E;background:rgba(34,197,94,.1);border-radius:20px;padding:3px 8px;margin-left:auto;flex-shrink:0}
 
 /* ABOUT */
-.about-hero{background:linear-gradient(135deg,#1a1d27,#0f1117);padding:32px 18px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
-.about-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#FF6B2B,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 16px}
+.about-hero{background:linear-gradient(135deg,#0D2145,#0A1628);padding:32px 18px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
+.about-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#C9A227,#D4A017);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 16px}
 .about-name{font-size:22px;font-weight:800;margin-bottom:4px}
-.about-title{font-size:13px;color:#FF6B2B;font-weight:600}
+.about-title{font-size:13px;color:#C9A227;font-weight:600}
 .about-section{padding:20px 18px 0}
-.about-section-title{font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.about-section-title{font-size:11px;font-weight:700;color:#C9A227;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
 .about-text{font-size:14px;color:#94A3B8;line-height:1.8}
 .about-text strong{color:#E8E0D5;font-weight:600}
-.contact-btn{display:flex;align-items:center;gap:12px;background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
-.contact-icon{font-size:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,107,43,.15);border-radius:10px;flex-shrink:0}
+.contact-btn{display:flex;align-items:center;gap:12px;background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:#fff}
+.contact-icon{font-size:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(201,162,39,.15);border-radius:10px;flex-shrink:0}
 .contact-label{font-size:14px;font-weight:600}
 .contact-sub{font-size:11px;color:#94A3B8;margin-top:1px}
 </style>
@@ -177,16 +177,16 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
           <span class="inp-label" id="lbl-incident">INCIDENT LOG</span>
           <div style="display:flex;gap:8px">
             <input class="inp" id="incident-inp" placeholder="Describe incident..." style="margin:0;flex:1">
-            <button onclick="logIncident()" style="background:#FF6B2B;border:none;border-radius:10px;padding:0 14px;color:#fff;font-weight:700;cursor:pointer;flex-shrink:0">+ Log</button>
+            <button onclick="logIncident()" style="background:#C9A227;border:none;border-radius:10px;padding:0 14px;color:#fff;font-weight:700;cursor:pointer;flex-shrink:0">+ Log</button>
           </div>
           <div id="incident-log" style="margin-top:8px"></div>
         </div>
       </div>
 
-      <div style="background:#1a1d27;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
+      <div style="background:#0D2145;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
         <div style="padding:14px 18px 6px;display:flex;justify-content:space-between;align-items:center">
           <span style="font-size:11px;font-weight:700;color:#E8E0D5" id="lbl-checklist">🛡️ SAFETY CHECKLIST</span>
-          <span style="font-size:11px;color:#FF6B2B;font-weight:700" id="prog-count">0/10</span>
+          <span style="font-size:11px;color:#C9A227;font-weight:700" id="prog-count">0/10</span>
         </div>
         <div class="phase-row" id="phase-row"></div>
         <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
@@ -242,7 +242,7 @@ body{background:#0f1117;color:#fff;font-family:'DM Sans',system-ui,sans-serif;mi
           I know some of you love fishing as much as I do. So I set up an entire travel package through the app — fishing trips, resorts, the whole thing. Whether you want to work or unwind, this app works for you.
           <br><br>
           <strong>Stay up & blessed,</strong><br>
-          <span style="color:#FF6B2B;font-weight:700">Lalo Austin</span><br>
+          <span style="color:#C9A227;font-weight:700">Lalo Austin</span><br>
           <span style="font-size:12px;color:#555">Founder, LA Studios · Acapulco, Mexico</span>
         </p>
       </div>
@@ -373,7 +373,7 @@ var PALETTES = [
   {name:'Navy Blue',w:'#1565C0',t:'#FFFFFF',d:'#0D47A1'},
   {name:'Forest Green',w:'#2E7D32',t:'#F5F5F0',d:'#1B5E20'},
   {name:'Desert Sand',w:'#D4A574',t:'#FFFFFF',d:'#8B6535'},
-  {name:'Charcoal',w:'#37474F',t:'#B0BEC5',d:'#FF6B2B'},
+  {name:'Charcoal',w:'#37474F',t:'#B0BEC5',d:'#C9A227'},
   {name:'Terracotta',w:'#BF5722',t:'#FFF8F0',d:'#6D4C41'},
   {name:'Sage',w:'#7CB342',t:'#FFFFFF',d:'#33691E'},
 ];
@@ -425,7 +425,7 @@ function renderNav(){
     var on=t.ids[i]===TAB;
     return '<button class="nav-btn'+(on?' on':'')+'" onclick="goTab(\''+t.ids[i]+'\')">'
       +'<span class="nav-icon">'+t.icons[i]+'</span>'
-      +'<span class="nav-lbl" style="color:'+(on?'#FF6B2B':'#555')+'">'+t.tabs[i]+'</span></button>';
+      +'<span class="nav-lbl" style="color:'+(on?'#C9A227':'#555')+'">'+t.tabs[i]+'</span></button>';
   }
   var top='',bot='';
   for(var i=0;i<4;i++) top+=btn(i);
@@ -483,11 +483,11 @@ function renderTrades(){
   }
   var tr=TRADES.find(function(x){return x.id===TRADE_SEL;});
   var tools=tr.tools[L];var mats=tr.materials[L];var safe=tr.safety[L];
-  tc.innerHTML='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+  tc.innerHTML='<div style="background:#0D2145;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
     +'<button onclick="TRADE_SEL=null;renderTrades()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="font-size:15px;font-weight:700;color:#E8E0D5">'+tr.icon+' '+(L==='es'?tr.es:tr.en)+'</span></div>'
     +'<div style="padding:14px 18px 0">'
-    +'<div class="card"><div class="section-lbl" style="color:#FF6B2B">🔧 '+(L==='es'?'Herramientas':'Tools')+'</div>'+tools.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
+    +'<div class="card"><div class="section-lbl" style="color:#C9A227">🔧 '+(L==='es'?'Herramientas':'Tools')+'</div>'+tools.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
     +'<div class="card"><div class="section-lbl" style="color:#22C55E">📦 '+(L==='es'?'Materiales':'Materials')+'</div>'+mats.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
     +'<div class="card"><div class="section-lbl" style="color:#EF4444">🛡️ '+(L==='es'?'Seguridad':'Safety')+'</div>'+safe.map(function(i){return'<div class="detail-row"><span class="detail-txt">• '+i+'</span></div>';}).join('')+'</div>'
     +'</div>';
@@ -580,10 +580,10 @@ function renderColors(){
   var html='';
 
   // Mode switcher
-  html+='<div style="background:#1a1d27;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)">';
+  html+='<div style="background:#0D2145;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)">';
   html+='<div style="display:flex;gap:8px;margin-bottom:0">';
-  html+='<button onclick="setCMode(0)" style="flex:1;background:'+(cMode==='exterior'?'#FF6B2B':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🏠 '+(es?'Exterior':'Exterior')+'</button>';
-  html+='<button onclick="setCMode(1)" style="flex:1;background:'+(cMode==='interior'?'#FF6B2B':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🛋️ '+(es?'Interior':'Interior')+'</button>';
+  html+='<button onclick="setCMode(0)" style="flex:1;background:'+(cMode==='exterior'?'#C9A227':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🏠 '+(es?'Exterior':'Exterior')+'</button>';
+  html+='<button onclick="setCMode(1)" style="flex:1;background:'+(cMode==='interior'?'#C9A227':'rgba(255,255,255,.06)')+';border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🛋️ '+(es?'Interior':'Interior')+'</button>';
   html+='</div></div>';
 
   if(cMode==='exterior'){
@@ -596,20 +596,20 @@ function renderColors(){
   html+='<div style="padding:14px 18px 0">';
   html+='<p style="font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'MARCA DE PINTURA':'PAINT BRAND')+'</p>';
   html+='<div style="display:flex;gap:8px;margin-bottom:14px">';
-  html+='<button onclick="setCBrand(0)" style="flex:1;background:'+(cBrand==='bm'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='bm'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='bm'?'#fff':'#555')+';margin:0">Benjamin Moore</p></button>';
-  html+='<button onclick="setCBrand(1)" style="flex:1;background:'+(cBrand==='sw'?'#1a1d27':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='sw'?'#FF6B2B':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='sw'?'#fff':'#555')+';margin:0">Sherwin-Williams</p></button>';
+  html+='<button onclick="setCBrand(0)" style="flex:1;background:'+(cBrand==='bm'?'#0D2145':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='bm'?'#C9A227':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='bm'?'#fff':'#555')+';margin:0">Benjamin Moore</p></button>';
+  html+='<button onclick="setCBrand(1)" style="flex:1;background:'+(cBrand==='sw'?'#0D2145':'rgba(255,255,255,.03)')+';border:2px solid '+(cBrand==='sw'?'#C9A227':'rgba(255,255,255,.08)')+';border-radius:10px;padding:10px;cursor:pointer"><p style="font-size:11px;font-weight:800;color:'+(cBrand==='sw'?'#fff':'#555')+';margin:0">Sherwin-Williams</p></button>';
   html+='</div>';
 
   // Color collections
   var brand=PAINT_COLORS[cBrand];
   brand.collections.forEach(function(col){
-    html+='<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+col.name+'</p>';
+    html+='<p style="font-size:10px;font-weight:700;color:#C9A227;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+col.name+'</p>';
     html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">';
     col.colors.forEach(function(c,ci){
       var currentColor=getCurrentColor();
       var isSelected=currentColor===c.hex;
       var safeName=c.name.replace(/"/g,'');
-      html+='<div onclick="applyIdx('+ci+','+brand.collections.indexOf(col)+')" title="'+safeName+'" style="width:38px;height:38px;border-radius:8px;background:'+c.hex+';cursor:pointer;border:2px solid '+(isSelected?'#FF6B2B':'rgba(255,255,255,.15)')+';box-shadow:'+(isSelected?'0 0 0 2px #FF6B2B':'none')+'"></div>';
+      html+='<div onclick="applyIdx('+ci+','+brand.collections.indexOf(col)+')" title="'+safeName+'" style="width:38px;height:38px;border-radius:8px;background:'+c.hex+';cursor:pointer;border:2px solid '+(isSelected?'#C9A227':'rgba(255,255,255,.15)')+';box-shadow:'+(isSelected?'0 0 0 2px #C9A227':'none')+'"></div>';
     });
     html+='</div>';
   });
@@ -644,13 +644,13 @@ function applyColor(hex){
 function renderExterior(es){
   var html='';
   // 3D house SVG
-  html+='<div style="background:linear-gradient(160deg,#1a3a5c,#0d2137);padding:16px 16px 12px">';
+  html+='<div style="background:linear-gradient(160deg,#0D2145,#091830);padding:16px 16px 12px">';
   html+='<p style="color:#94A3B8;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">🏠 '+(es?'VISTA EXTERIOR':'EXTERIOR VIEW')+'</p>';
   html+='<div style="background:linear-gradient(180deg,#5BAEE8 0%,#87CEEB 55%,#6AAE6A 55%,#4A8A4A 100%);border-radius:16px;overflow:hidden">';
   html+='<svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">';
   html+='<defs><filter id="shd"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.2"/></filter></defs>';
   // Sun
-  html+='<circle cx="290" cy="35" r="20" fill="#FFE566" opacity="0.9"/><circle cx="290" cy="35" r="26" fill="#FFE566" opacity="0.15"/>';
+  html+='<circle cx="290" cy="35" r="20" fill="#F0C040" opacity="0.9"/><circle cx="290" cy="35" r="26" fill="#F0C040" opacity="0.15"/>';
   // Clouds
   html+='<ellipse cx="80" cy="42" rx="26" ry="11" fill="#fff" opacity="0.75"/><ellipse cx="98" cy="37" rx="20" ry="9" fill="#fff" opacity="0.75"/>';
   // Ground
@@ -702,7 +702,7 @@ function renderExterior(es){
   ];
   extTargets.forEach(function(tg){
     var on=cTarget===tg.id;
-    html+='<button onclick="setCTarget(tg.id)" style="flex:1;min-width:58px;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
+    html+='<button onclick="setCTarget(tg.id)" style="flex:1;min-width:58px;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#C9A227':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
       +'<div style="width:18px;height:18px;border-radius:4px;background:'+tg.color+';margin:0 auto 3px;border:1px solid rgba(255,255,255,.2)"></div>'
       +'<span style="font-size:9px;font-weight:700;color:'+(on?'#fff':'#555')+'">'+tg.label+'</span></button>';
   });
@@ -725,14 +725,14 @@ function renderInterior(es){
   ];
   var rc=intColors[cRoom];
 
-  var html='<div style="background:linear-gradient(160deg,#1a2030,#0d1520);padding:16px 16px 12px">';
+  var html='<div style="background:linear-gradient(160deg,#0D2145,#091830);padding:16px 16px 12px">';
   html+='<p style="color:#94A3B8;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">🛋️ '+(es?'VISTA INTERIOR':'INTERIOR VIEW')+'</p>';
 
   // Room selector
   html+='<div style="display:flex;gap:6px;margin-bottom:12px">';
   rooms.forEach(function(r){
     var on=cRoom===r.id;
-    html+='<button onclick="setCRoom(r.id)" style="flex:1;background:'+(on?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:8px;padding:7px 4px;cursor:pointer;text-align:center">'
+    html+='<button onclick="setCRoom(r.id)" style="flex:1;background:'+(on?'#C9A227':'rgba(255,255,255,.08)')+';border:none;border-radius:8px;padding:7px 4px;cursor:pointer;text-align:center">'
       +'<div style="font-size:16px">'+r.icon+'</div>'
       +'<span style="font-size:9px;font-weight:700;color:#fff;display:block;margin-top:2px">'+r.label+'</span></button>';
   });
@@ -841,7 +841,7 @@ function renderInterior(es){
   targets.forEach(function(tg){
     var on=cTarget===tg.id;
     var col=rc[tg.id]||'#fff';
-    html+='<button onclick="setCTarget(tg.id)" style="flex:1;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#FF6B2B':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
+    html+='<button onclick="setCTarget(tg.id)" style="flex:1;background:'+(on?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)')+';border:2px solid '+(on?'#C9A227':'transparent')+';border-radius:10px;padding:7px 4px;cursor:pointer;text-align:center">'
       +'<div style="width:18px;height:18px;border-radius:4px;background:'+col+';margin:0 auto 3px;border:1px solid rgba(255,255,255,.2)"></div>'
       +'<span style="font-size:9px;font-weight:700;color:'+(on?'#fff':'#555')+'">'+tg.label+'</span></button>';
   });
@@ -869,7 +869,7 @@ var bpShowDim=true;
 var bpHover=null;
 var bpSaved=[];
 var BPW=390, BPH=300;
-var ZC=['#FF6B2B','#1565C0','#22C55E','#9C27B0','#F57C00','#00838F','#AD1457','#5D4037'];
+var ZC=['#C9A227','#1565C0','#22C55E','#9C27B0','#F57C00','#00838F','#AD1457','#5D4037'];
 
 function renderMeasure(){
   var c=document.getElementById('measure-content');
@@ -881,14 +881,14 @@ function renderMeasure(){
 
 function rBpAddr(){
   var es=L==='es';
-  return '<div style="background:#1a1d27;padding:16px 18px 18px">'
-    +'<p style="color:#FF6B2B;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">📐 '+(es?'SISTEMA DE MEDICIÓN DE PLANOS':'BLUEPRINT MEASUREMENT SYSTEM')+'</p>'
+  return '<div style="background:#0D2145;padding:16px 18px 18px">'
+    +'<p style="color:#C9A227;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">📐 '+(es?'SISTEMA DE MEDICIÓN DE PLANOS':'BLUEPRINT MEASUREMENT SYSTEM')+'</p>'
     +'<p style="color:#94A3B8;font-size:12px;margin-bottom:14px;line-height:1.5">'+(es?'El primero del mundo: busca la dirección y mide el techo automáticamente.':'World\'s first: search the address and measure the roof automatically.')+'</p>'
     +['1','2','3'].map(function(n,i){
       var steps_en=['Enter job address below','Trace roof zones on the blueprint','Get area in sq ft AND m²'];
       var steps_es=['Ingresa la dirección del trabajo','Traza las zonas del techo en el plano','Obtén el área en pies² Y m²'];
       return'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:'+(i<2?'1px solid rgba(255,255,255,.06)':'none')+'">'
-        +'<div style="width:26px;height:26px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0">'+n+'</div>'
+        +'<div style="width:26px;height:26px;border-radius:50%;background:#C9A227;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0">'+n+'</div>'
         +'<span style="color:#E8E0D5;font-size:13px">'+(es?steps_es[i]:steps_en[i])+'</span></div>';
     }).join('')
     +'</div>'
@@ -904,7 +904,7 @@ function rBpAddr(){
 
 function rBpSaved(){
   var es=L==='es';
-  var html='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+  var html='<div style="background:#0D2145;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
     +'<button onclick="bpView=\'address\';renderMeasure()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Planos guardados':'Saved blueprints')+'</span></div>'
     +'<div style="padding:14px 18px 0">';
@@ -916,7 +916,7 @@ function rBpSaved(){
       html+='<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px">'
         +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 2px">'+(bp.obra||bp.addr)+'</p>'
         +'<p style="font-size:11px;color:#555;margin:0">'+bp.addr+'</p></div>'
-        +'<div style="text-align:right"><p style="color:#FF6B2B;font-weight:700;font-size:14px;margin:0">'+bp.tot.toFixed(1)+' m²</p>'
+        +'<div style="text-align:right"><p style="color:#C9A227;font-weight:700;font-size:14px;margin:0">'+bp.tot.toFixed(1)+' m²</p>'
         +'<p style="color:#94A3B8;font-size:11px;margin:0">'+sqft+' ft²</p></div></div>'
         +'<div style="display:flex;gap:8px">'
         +'<button onclick="loadSaved('+i+')" class="btn-orange" style="flex:1;font-size:13px;padding:10px">👁 '+(es?'Ver':'View')+'</button>'
@@ -933,37 +933,37 @@ function rBpCanvas(){
   var tot=bpZones.reduce(function(s,z){return s+z.area;},0);
   var totFt=(tot*10.764);
   var nextColor=ZC[bpZones.length%ZC.length];
-  return '<div style="background:#1a1d27;padding:10px 16px">'
+  return '<div style="background:#0D2145;padding:10px 16px">'
     +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
     +'<button onclick="bpView=\'address\';renderMeasure()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
-    +'<button onclick="saveBp()" style="background:#FF6B2B;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer">💾 '+(es?'Guardar':'Save')+'</button></div>'
+    +'<button onclick="saveBp()" style="background:#C9A227;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer">💾 '+(es?'Guardar':'Save')+'</button></div>'
     +'<p style="color:#E8E0D5;font-size:11px;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📍 '+bpAddr+'</p>'
-    +(bpObra?'<p style="color:#FF6B2B;font-size:11px;font-weight:700;margin:0">🏗️ '+bpObra+'</p>':'')
+    +(bpObra?'<p style="color:#C9A227;font-size:11px;font-weight:700;margin:0">🏗️ '+bpObra+'</p>':'')
     +'</div>'
-    +'<div style="position:relative;background:#0D1117">'
+    +'<div style="position:relative;background:#0A1628">'
     +'<canvas id="bpC" width="'+BPW+'" height="'+BPH+'" style="width:100%;display:block;cursor:crosshair"></canvas>'
     +'<div style="position:absolute;bottom:8px;left:8px;background:rgba(13,17,23,.85);border-radius:7px;padding:5px 9px;font-size:10px;color:#E8E0D5">'
     +(bpPts.length>0?bpPts.length+' pts':(es?'Toca para trazar · Toca el primer punto para cerrar':'Tap to trace · Tap first point to close'))+'</div>'
     +'<div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:5px">'
-    +'<button onclick="bpShowGrid=!bpShowGrid;drawBp()" style="width:34px;height:34px;background:'+(bpShowGrid?'#FF6B2B':'rgba(255,255,255,.15)')+';border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px">⊞</button>'
+    +'<button onclick="bpShowGrid=!bpShowGrid;drawBp()" style="width:34px;height:34px;background:'+(bpShowGrid?'#C9A227':'rgba(255,255,255,.15)')+';border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px">⊞</button>'
     +'<button onclick="bpPts=bpPts.slice(0,-1);drawBp()" style="width:34px;height:34px;background:rgba(255,255,255,.15);border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px">↩</button>'
     +'<button onclick="bpZones=[];bpPts=[];drawBp()" style="width:34px;height:34px;background:rgba(239,68,68,.2);border:none;border-radius:8px;cursor:pointer;color:#EF4444;font-size:16px">🗑</button>'
     +'</div></div>'
-    +'<div style="background:#1a1d27;padding:8px 14px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(255,255,255,.06)">'
+    +'<div style="background:#0D2145;padding:8px 14px;display:flex;gap:12px;align-items:center;border-top:1px solid rgba(255,255,255,.06)">'
     +'<span style="color:#94A3B8;font-size:11px">'+(es?'Escala':'Scale')+':</span>'
     +'<input type="number" value="'+bpScale+'" min="0.1" max="20" step="0.5" onchange="bpScale=parseFloat(this.value)||1;drawBp()" style="width:50px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 7px;color:#fff;font-size:12px;outline:none;font-family:inherit">'
     +'<span style="color:#94A3B8;font-size:11px">'+(es?'Grid':'Grid')+':</span>'
-    +'<input type="range" min="12" max="40" value="'+bpGrid+'" step="2" style="flex:1;accent-color:#FF6B2B" onchange="bpGrid=+this.value;drawBp()">'
-    +'<span style="color:#FF6B2B;font-size:11px;font-weight:700;min-width:20px">'+bpGrid+'</span></div>'
-    +'<div style="padding:12px 16px;background:#0f1117">'
+    +'<input type="range" min="12" max="40" value="'+bpGrid+'" step="2" style="flex:1;accent-color:#C9A227" onchange="bpGrid=+this.value;drawBp()">'
+    +'<span style="color:#C9A227;font-size:11px;font-weight:700;min-width:20px">'+bpGrid+'</span></div>'
+    +'<div style="padding:12px 16px;background:#0A1628">'
     +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
     +'<p style="font-size:12px;font-weight:700;color:#E8E0D5;margin:0">'+(es?'Zonas':'Zones')+'</p>'
-    +(tot>0?'<div style="text-align:right"><p style="color:#FF6B2B;font-weight:700;font-size:14px;margin:0">'+tot.toFixed(2)+' m²</p><p style="color:#94A3B8;font-size:11px;margin:0">'+totFt.toFixed(1)+' ft²</p></div>':'')
+    +(tot>0?'<div style="text-align:right"><p style="color:#C9A227;font-weight:700;font-size:14px;margin:0">'+tot.toFixed(2)+' m²</p><p style="color:#94A3B8;font-size:11px;margin:0">'+totFt.toFixed(1)+' ft²</p></div>':'')
     +'</div>'
     +(bpZones.length===0?'<p style="font-size:12px;color:#555;text-align:center;padding:14px 0">'+(es?'Traza zonas en el plano':'Trace zones on the blueprint')+'</p>'
     :bpZones.map(function(z,i){
       var zft=(z.area*10.764).toFixed(1);
-      return'<div style="display:flex;align-items:center;gap:10px;background:#1a1d27;border-radius:10px;padding:10px 12px;margin-bottom:8px">'
+      return'<div style="display:flex;align-items:center;gap:10px;background:#0D2145;border-radius:10px;padding:10px 12px;margin-bottom:8px">'
         +'<div style="width:12px;height:12px;border-radius:3px;background:'+z.color+';flex-shrink:0"></div>'
         +'<div style="flex:1"><p style="font-weight:700;font-size:13px;color:#E8E0D5;margin:0 0 2px">'+z.name+'</p>'
         +'<p style="font-size:11px;color:#94A3B8;margin:0">'+z.area.toFixed(2)+' m² · '+zft+' ft²</p></div>'
@@ -1041,7 +1041,7 @@ function drawBp(){
   var ctx=c.getContext('2d');
   var g=bpGrid, sc=bpScale, mpp=sc/g;
   ctx.clearRect(0,0,BPW,BPH);
-  ctx.fillStyle='#0D1117'; ctx.fillRect(0,0,BPW,BPH);
+  ctx.fillStyle='#0A1628'; ctx.fillRect(0,0,BPW,BPH);
   // Grid
   if(bpShowGrid){
     for(var x=0;x<=BPW;x+=g){
@@ -1189,13 +1189,13 @@ function goSol(v){solView=v;renderSolar();}
 function rSolHome(){
   var es=L==='es';
   var isMX=solMarket==='mx';
-  return '<div style="background:linear-gradient(160deg,#1A1A2E,#0D2137);padding:18px 18px 20px">'
-    +'<p style="color:#F59E0B;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:6px">☀️ SOLAR MARKETPLACE</p>'
+  return '<div style="background:linear-gradient(160deg,#0D2145,#091830);padding:18px 18px 20px">'
+    +'<p style="color:#D4A017;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:6px">☀️ SOLAR MARKETPLACE</p>'
     +'<h2 style="color:#fff;font-size:19px;font-weight:700;margin-bottom:6px">'+(es?'Energía solar para tu obra':'Solar energy for your job')+'</h2>'
     +'<p style="color:#94A3B8;font-size:12px;line-height:1.5">'+(es?'Mide · Elige productos · Instaladores locales ofertan · El mejor precio gana':'Measure · Choose products · Local installers bid · Best price wins')+'</p>'
     +'<div style="display:flex;gap:8px;margin-top:14px">'
-    +'<button onclick="solMarket=\'us\';renderSolar()" style="flex:1;background:'+(isMX?'rgba(255,255,255,.08)':'#FF6B2B')+';border:none;border-radius:10px;padding:8px 0;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🇺🇸 United States</button>'
-    +'<button onclick="solMarket=\'mx\';renderSolar()" style="flex:1;background:'+(isMX?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:10px;padding:8px 0;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🇲🇽 México</button>'
+    +'<button onclick="solMarket=\'us\';renderSolar()" style="flex:1;background:'+(isMX?'rgba(255,255,255,.08)':'#C9A227')+';border:none;border-radius:10px;padding:8px 0;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🇺🇸 United States</button>'
+    +'<button onclick="solMarket=\'mx\';renderSolar()" style="flex:1;background:'+(isMX?'#C9A227':'rgba(255,255,255,.08)')+';border:none;border-radius:10px;padding:8px 0;color:#fff;font-size:12px;font-weight:700;cursor:pointer">🇲🇽 México</button>'
     +'</div></div>'
     +'<div style="padding:16px 18px 0">'
     +'<p style="font-size:11px;font-weight:700;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">'+(es?'¿CÓMO FUNCIONA?':'HOW IT WORKS')+'</p>'
@@ -1203,15 +1203,15 @@ function rSolHome(){
     +['1','2','3','4'].map(function(n,i){
       var steps_es=['Ingresa área del techo y factura','Elige paneles y productos','Instaladores locales dan su precio','Mejor precio gana — contrato firmado'];
       var steps_en=['Enter roof area and power bill','Choose panels and products','Local installers submit bids','Best price wins — contract signed'];
-      return '<div style="display:flex;align-items:center;gap:12px;background:#1a1d27;border-radius:12px;padding:12px 14px">'
-        +'<div style="width:28px;height:28px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">'+n+'</div>'
+      return '<div style="display:flex;align-items:center;gap:12px;background:#0D2145;border-radius:12px;padding:12px 14px">'
+        +'<div style="width:28px;height:28px;border-radius:50%;background:#C9A227;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">'+n+'</div>'
         +'<span style="color:#E8E0D5;font-size:13px">'+(es?steps_es[i]:steps_en[i])+'</span></div>';
     }).join('')
     +'</div>'
-    +'<div style="background:#1a1d27;border-radius:14px;padding:14px 16px;margin-bottom:14px">'
-    +'<p style="color:#F59E0B;font-size:11px;font-weight:700;margin-bottom:10px">☀️ '+(isMX?'México — 300+ días de sol / año':'United States — 300 sun days avg / year')+'</p>'
+    +'<div style="background:#0D2145;border-radius:14px;padding:14px 16px;margin-bottom:14px">'
+    +'<p style="color:#D4A017;font-size:11px;font-weight:700;margin-bottom:10px">☀️ '+(isMX?'México — 300+ días de sol / año':'United States — 300 sun days avg / year')+'</p>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div style="text-align:center"><p style="color:#F59E0B;font-size:18px;font-weight:800">'+(isMX?'$50k–$130k MXN':'$8k–$35k USD')+'</p><p style="color:#94A3B8;font-size:10px">'+(es?'Sistema residencial':'Residential system')+'</p></div>'
+    +'<div style="text-align:center"><p style="color:#D4A017;font-size:18px;font-weight:800">'+(isMX?'$50k–$130k MXN':'$8k–$35k USD')+'</p><p style="color:#94A3B8;font-size:10px">'+(es?'Sistema residencial':'Residential system')+'</p></div>'
     +'<div style="text-align:center"><p style="color:#22C55E;font-size:18px;font-weight:800">3–5 '+(es?'años':'yrs')+'</p><p style="color:#94A3B8;font-size:10px">'+(es?'Recuperación':'Payback period')+'</p></div>'
     +'<div style="text-align:center"><p style="color:#3B82F6;font-size:18px;font-weight:800">70%</p><p style="color:#94A3B8;font-size:10px">'+(es?'Ahorro factura':'Bill savings')+'</p></div>'
     +'<div style="text-align:center"><p style="color:#94A3B8;font-size:18px;font-weight:800">25 '+(es?'años':'yrs')+'</p><p style="color:#94A3B8;font-size:10px">'+(es?'Vida útil panel':'Panel lifespan')+'</p></div>'
@@ -1224,7 +1224,7 @@ function rSolHome(){
 function rSolEstimate(){
   var es=L==='es';
   var isMX=solMarket==='mx';
-  return '<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+  return '<div style="background:#0D2145;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
     +'<button onclick="goHome()" style="background:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Estimador Solar':'Solar Estimator')+'</span></div>'
     +'<div style="padding:14px 18px 0">'
@@ -1255,7 +1255,7 @@ function updateSolEst(){
     +'<div class="solar-stat"><div class="solar-val">'+(isMX?'$':'$')+sav.toLocaleString()+(isMX?' MXN':'')+'/yr</div><div class="solar-lbl">'+(es?'Ahorro anual':'Annual savings')+'</div></div>'
     +'<div class="solar-stat"><div class="solar-val">'+(pb>0?pb+' '+(es?'años':'yrs'):'—')+'</div><div class="solar-lbl">'+(es?'Recuperación':'Payback')+'</div></div>'
     +'</div>'
-    +'<div class="card"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Costo estimado':'Estimated cost')+'</span><span style="color:#F59E0B;font-weight:700">$'+cost.toLocaleString()+(isMX?' MXN':'')+'</span></div>'
+    +'<div class="card"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Costo estimado':'Estimated cost')+'</span><span style="color:#D4A017;font-weight:700">$'+cost.toLocaleString()+(isMX?' MXN':'')+'</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Crédito fiscal (30%)':'Tax credit (30%)')+'</span><span style="color:#22C55E;font-weight:700">-$'+Math.round(cost*.3).toLocaleString()+(isMX?' MXN':'')+'</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:#94A3B8;font-size:13px">'+(es?'Costo neto':'Net cost')+'</span><span style="color:#fff;font-weight:700">$'+Math.round(cost*.7).toLocaleString()+(isMX?' MXN':'')+'</span></div></div>';
 }
@@ -1269,19 +1269,19 @@ function rSolProducts(){
     {key:'battery',icon:'🔋',label:es?'Batería respaldo':'Battery backup'},
     {key:'heater',icon:'🔆',label:es?'Calentador solar':'Solar water heater'},
   ];
-  var html='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+  var html='<div style="background:#0D2145;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
     +'<button onclick="goSol(\'estimate\')" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Elige tus productos':'Choose your products')+'</span></div>'
     +'<div style="padding:14px 18px 0">';
   cats.forEach(function(cat){
     var items=mkt[cat.key]||[];
-    html+='<p style="font-size:11px;font-weight:700;color:#F59E0B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+cat.icon+' '+cat.label+'</p>';
+    html+='<p style="font-size:11px;font-weight:700;color:#D4A017;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+cat.icon+' '+cat.label+'</p>';
     items.forEach(function(item){
       var on=!!solProd[item.id];
-      html+='<div onclick="solProd[\''+item.id+'\']=!solProd[\''+item.id+'\'];renderSolar()" style="display:flex;align-items:center;gap:12px;background:'+(on?'rgba(245,158,11,.1)':'#1a1d27')+';border:1px solid '+(on?'#F59E0B':'rgba(255,255,255,.06)')+';border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">'
-        +'<div style="width:22px;height:22px;border-radius:6px;border:2px solid '+(on?'#F59E0B':'rgba(255,255,255,.2)')+';background:'+(on?'#F59E0B':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(on?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>':'')+'</div>'
+      html+='<div onclick="solProd[\''+item.id+'\']=!solProd[\''+item.id+'\'];renderSolar()" style="display:flex;align-items:center;gap:12px;background:'+(on?'rgba(245,158,11,.1)':'#0D2145')+';border:1px solid '+(on?'#D4A017':'rgba(255,255,255,.06)')+';border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">'
+        +'<div style="width:22px;height:22px;border-radius:6px;border:2px solid '+(on?'#D4A017':'rgba(255,255,255,.2)')+';background:'+(on?'#D4A017':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(on?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>':'')+'</div>'
         +'<div style="flex:1"><p style="font-size:13px;font-weight:700;color:#E8E0D5;margin:0 0 2px">'+item.name+'</p><p style="font-size:11px;color:#94A3B8;margin:0">'+item.desc+'</p></div>'
-        +'<span style="font-size:11px;font-weight:700;color:#F59E0B;text-align:right;min-width:60px">'+item.price+'</span></div>';
+        +'<span style="font-size:11px;font-weight:700;color:#D4A017;text-align:right;min-width:60px">'+item.price+'</span></div>';
     });
     html+='<div style="height:8px"></div>';
   });
@@ -1293,17 +1293,17 @@ function rSolProducts(){
 function rSolBids(){
   var es=L==='es';
   var bids=solMarket==='mx'?SOLAR_BIDS_MX:SOLAR_BIDS_US;
-  var html='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+  var html='<div style="background:#0D2145;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
     +'<button onclick="goSol(\'products\')" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
     +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+(es?'Cotizaciones recibidas':'Bids received')+'</span>'
     +'<span style="margin-left:auto;background:#22C55E;color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:3px 8px">'+bids.length+' '+(es?'ofertas':'bids')+'</span></div>'
     +'<div style="padding:14px 18px 0">';
   bids.forEach(function(bid,i){
-    html+='<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px">'
+    html+='<div style="background:#0D2145;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px">'
       +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
       +'<div><p style="font-size:14px;font-weight:700;color:#E8E0D5;margin:0 0 4px">'+bid.name+'</p>'
-      +'<div style="display:flex;align-items:center;gap:6px"><span style="color:#F59E0B;font-size:12px">★ '+bid.rating+'</span><span style="color:#555;font-size:11px">('+bid.reviews+') · '+bid.years+(es?' años':' yrs')+'</span>'+(bid.verified?'<span style="background:rgba(34,197,94,.15);color:#22C55E;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px">✓ '+(es?'Verificado':'Verified')+'</span>':'')+'</div></div>'
-      +'<p style="font-size:18px;font-weight:800;color:#F59E0B;margin:0">'+bid.price+'</p></div>'
+      +'<div style="display:flex;align-items:center;gap:6px"><span style="color:#D4A017;font-size:12px">★ '+bid.rating+'</span><span style="color:#555;font-size:11px">('+bid.reviews+') · '+bid.years+(es?' años':' yrs')+'</span>'+(bid.verified?'<span style="background:rgba(34,197,94,.15);color:#22C55E;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px">✓ '+(es?'Verificado':'Verified')+'</span>':'')+'</div></div>'
+      +'<p style="font-size:18px;font-weight:800;color:#D4A017;margin:0">'+bid.price+'</p></div>'
       +'<p style="font-size:12px;color:#94A3B8;margin:0 0 10px">'+bid.note+'</p>'
       +'<div style="display:flex;justify-content:space-between;margin-bottom:10px">'
       +'<span style="font-size:11px;color:#94A3B8">⏱ '+bid.days+(es?' días':' days')+'</span>'
@@ -1322,7 +1322,7 @@ function rSolWinner(){
   html+='<div style="width:72px;height:72px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;margin-bottom:16px">✓</div>';
   html+='<h2 style="color:#E8E0D5;margin:0 0 8px;font-size:22px">'+(es?'¡Oferta seleccionada!':'Bid selected!')+'</h2>';
   html+='<p style="color:#94A3B8;margin:0 0 4px;font-size:14px">'+bid.name+'</p>';
-  html+='<p style="color:#F59E0B;font-size:24px;font-weight:800;margin:8px 0">'+bid.price+'</p>';
+  html+='<p style="color:#D4A017;font-size:24px;font-weight:800;margin:8px 0">'+bid.price+'</p>';
   html+='<p style="color:#94A3B8;font-size:13px;margin:0 0 24px">'+bid.warranty+'</p>';
   html+='<button onclick="goHome()" class="btn-orange" style="max-width:280px">'+(es?'Volver al inicio':'Back to home')+'</button></div>';
   return html;
@@ -1331,14 +1331,14 @@ function rSolWinner(){
 // ── Partners ──────────────────────────────────────────────────
 function renderPartners(){
   var t=TX[L];
-  var html='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">'+t.tax+'</p>';
+  var html='<p style="font-size:11px;font-weight:700;color:#C9A227;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">'+t.tax+'</p>';
   var tax=[
     {icon:'💼',name:'Gusto',sub:L==='es'?'Nómina y beneficios':'Payroll & benefits',url:'https://gusto.com',comm:'Affiliate'},
     {icon:'📊',name:'QuickBooks',sub:L==='es'?'Contabilidad e impuestos':'Accounting & taxes',url:'https://quickbooks.intuit.com',comm:'Affiliate'},
     {icon:'🌍',name:'Deel',sub:L==='es'?'Nómina internacional':'International payroll',url:'https://www.deel.com',comm:'Affiliate'},
   ];
   tax.forEach(function(p){html+=partnerCard(p);});
-  html+='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.travel+'</p>';
+  html+='<p style="font-size:11px;font-weight:700;color:#C9A227;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.travel+'</p>';
   var travel=[
     {icon:'🏨',name:'Booking.com',sub:L==='es'?'Hoteles y resorts':'Hotels & resorts worldwide',url:'https://booking.com',comm:'4–6%'},
     {icon:'✈️',name:'Expedia',sub:L==='es'?'Paquetes de vacaciones':'Vacation packages',url:'https://expedia.com',comm:'2–6%'},
@@ -1347,7 +1347,7 @@ function renderPartners(){
     {icon:'🔍',name:'Skyscanner',sub:L==='es'?'Comparar vuelos':'Compare all flights',url:'https://skyscanner.com',comm:'Per click'},
   ];
   travel.forEach(function(p){html+=partnerCard(p);});
-  html+='<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.fishing+'</p>';
+  html+='<p style="font-size:11px;font-weight:700;color:#C9A227;letter-spacing:1.5px;text-transform:uppercase;margin:20px 0 10px">'+t.fishing+'</p>';
   var fishing=[
     {icon:'🎣',name:'Bass Pro Shops',sub:L==='es'?'Equipos de pesca y outdoor':'Fishing gear & outdoors',url:'https://basspro.com',comm:'Affiliate'},
     {icon:'⛵',name:'FishingBooker',sub:L==='es'?'Reserva viajes de pesca':'Book fishing trips',url:'https://fishingbooker.com',comm:'20%'},
