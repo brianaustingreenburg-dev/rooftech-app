@@ -595,14 +595,14 @@ function calcSolar(){
   if(!area&&!bill){document.getElementById('solar-results').innerHTML='';document.getElementById('solar-detail').innerHTML='';return;}
   var kw=Math.round(area*0.004*10)/10;
   var ann=Math.round(kw*1400);
-  var sav=Math.round(bill*12*0.85);
+  var sav=bill>0?Math.round(bill*12*0.85):Math.round(kw*200);
   var cost=Math.round(kw*3000);
-  var pb=Math.round(cost/sav*10)/10;
+  var pb=sav>0?Math.round(cost/sav*10)/10:0;
   document.getElementById('solar-results').innerHTML=
     '<div class="solar-stat"><div class="solar-val">'+kw+' kW</div><div class="solar-lbl">'+t.sysSize+'</div></div>'
     +'<div class="solar-stat"><div class="solar-val">'+ann.toLocaleString()+' kWh</div><div class="solar-lbl">'+t.production+'</div></div>'
     +'<div class="solar-stat"><div class="solar-val">$'+sav.toLocaleString()+'</div><div class="solar-lbl">'+t.savings+'</div></div>'
-    +'<div class="solar-stat"><div class="solar-val">'+pb+' '+(L==='es'?'años':'yrs')+'</div><div class="solar-lbl">'+t.payback+'</div></div>';
+    +'<div class="solar-stat"><div class="solar-val">'+(pb>0?pb+' '+(L==='es'?'años':'yrs'):'—')+'</div><div class="solar-lbl">'+t.payback+'</div></div>';
   document.getElementById('solar-detail').innerHTML='<div class="card">'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(L==='es'?'Costo estimado del sistema':'Estimated system cost')+'</span><span style="color:#F59E0B;font-weight:700">$'+cost.toLocaleString()+'</span></div>'
     +'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(L==='es'?'Crédito fiscal federal (30%)':'Federal tax credit (30%)')+'</span><span style="color:#22C55E;font-weight:700">-$'+Math.round(cost*.3).toLocaleString()+'</span></div>'
