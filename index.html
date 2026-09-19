@@ -497,6 +497,7 @@ var JOBS=[
 var jobsFilter='all';
 var jobSection='jobs'; // jobs, quote, crew, measure
 var jobDetail=null;
+var jobAdding=false;
 
 var QUOTE_ITEMS=[{id:1,desc:'',qty:1,price:0}];
 var QUOTE_CLIENT='';
@@ -635,6 +636,21 @@ function renderJobs(){
 }
 
 function renderJobsList(es){
+  if(jobAdding){
+    return '<div style="padding:18px">'
+      +'<p style="font-size:11px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px">'+(es?'NUEVO TRABAJO':'NEW JOB')+'</p>'
+      +'<span class="inp-label">'+(es?'CLIENTE':'CLIENT')+'</span>'
+      +'<input id="nj-client" class="inp" placeholder="'+(es?'Nombre del cliente':'Client name')+'">'
+      +'<span class="inp-label">'+(es?'DIRECCIÓN':'ADDRESS')+'</span>'
+      +'<input id="nj-addr" class="inp" placeholder="'+(es?'Dirección del trabajo':'Job address')+'">'
+      +'<span class="inp-label">'+(es?'TIPO DE TRABAJO':'JOB TYPE')+'</span>'
+      +'<input id="nj-type" class="inp" placeholder="'+(es?'Ej: Remodelación techo':'e.g. Roof replacement')+'">'
+      +'<span class="inp-label">'+(es?'TOTAL ($)':'TOTAL ($)')+'</span>'
+      +'<input id="nj-total" type="number" class="inp" placeholder="0.00">'
+      +'<button onclick="saveNewJob()" class="btn-orange" style="margin-bottom:10px">'+(es?'✅ Guardar trabajo':'✅ Save job')+'</button>'
+      +'<button onclick="jobAdding=false;renderJobs()" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-size:14px;color:#94A3B8;cursor:pointer;font-family:inherit">'+(es?'Cancelar':'Cancel')+'</button>'
+      +'</div>';
+  }
   if(jobDetail){
     var j=jobDetail;
     var bal=j.total-j.deposit;
@@ -678,14 +694,15 @@ function renderJobsList(es){
   return html+'</div>';
 }
 
-function addJob(){
-  var es=L==='es';
-  var client=prompt(es?'Nombre del cliente:':'Client name:');
+function addJob(){jobAdding=true;renderJobs();}
+function saveNewJob(){
+  var client=document.getElementById('nj-client').value.trim();
   if(!client)return;
-  var addr=prompt(es?'Dirección:':'Job address:');
-  var type=prompt(es?'Tipo de trabajo:':'Job type:');
-  var total=parseFloat(prompt(es?'Total ($):':'Total ($):'))||0;
-  JOBS.unshift({id:'j'+Date.now(),client:client,addr:addr||'',type:type||'',total:total,deposit:0,progress:0,status:'active',date:new Date().toLocaleDateString()});
+  var addr=document.getElementById('nj-addr').value.trim();
+  var type=document.getElementById('nj-type').value.trim();
+  var total=parseFloat(document.getElementById('nj-total').value)||0;
+  JOBS.unshift({id:'j'+Date.now(),client:client,addr:addr,type:type,total:total,deposit:0,progress:0,status:'active',date:new Date().toLocaleDateString()});
+  jobAdding=false;
   renderJobs();
 }
 
