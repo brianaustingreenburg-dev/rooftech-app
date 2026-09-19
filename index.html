@@ -298,10 +298,10 @@ var TRADE_SEL = null;
 // ── Translations ──────────────────────────────────────────────
 var TX = {
   en:{
-    tabs:['Safety','Jobs','Quote','Crew','Trades','Colors','Solar','Partners','About'],
-    ids:['safety','jobs','quote','crew','trades','colors','solar','partners','about'],
-    icons:['🛡️','📋','💰','👷','🔨','🎨','☀️','🤝','👤'],
-    screens:{safety:'Safety Checklist',jobs:'My Jobs',quote:'New Quote',crew:'My Crew',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
+    tabs:['Safety','Jobs','Trades','Colors','Solar','Partners','About'],
+    ids:['safety','jobs','trades','colors','solar','partners','about'],
+    icons:['🛡️','📋','🔨','🎨','☀️','🤝','👤'],
+    screens:{safety:'Safety Checklist',jobs:'Jobs',trades:'Trades',colors:'Color Consultant',solar:'Solar Estimator',partners:'Partners',about:'About'},
     phases:['Pre-Job','Foundation','Structure','Finishes','Handover'],
     items:[
       ['Fall protection / harness on-site and inspected','Anchor / tie-off points identified and secure','Weather & wind conditions checked, safe to work','Ladder on stable ground, secured/tied off','PPE worn: hard hat, gloves, eye protection','Tool inspection completed — no damaged tools','First aid kit stocked and accessible','Emergency contacts posted at job site','OSHA cards on site','Safety meeting held with crew'],
@@ -321,10 +321,10 @@ var TX = {
     mystory:'MY STORY',contact:'CONTACT',direct:'Direct line — call or text',emailsub:'General inquiries',
   },
   es:{
-    tabs:['Seguridad','Trabajos','Cotizar','Cuadrilla','Oficios','Colores','Solar','Socios','Acerca'],
-    ids:['safety','jobs','quote','crew','trades','colors','solar','partners','about'],
-    icons:['🛡️','📋','💰','👷','🔨','🎨','☀️','🤝','👤'],
-    screens:{safety:'Lista de Seguridad',jobs:'Mis Trabajos',quote:'Nueva Cotización',crew:'Mi Cuadrilla',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
+    tabs:['Seguridad','Trabajos','Oficios','Colores','Solar','Socios','Acerca'],
+    ids:['safety','jobs','trades','colors','solar','partners','about'],
+    icons:['🛡️','📋','🔨','🎨','☀️','🤝','👤'],
+    screens:{safety:'Lista de Seguridad',jobs:'Trabajos',trades:'Oficios',colors:'Consultor de Color',solar:'Estimador Solar',partners:'Socios',about:'Acerca de'},
     phases:['Pre-Trabajo','Cimentación','Estructura','Acabados','Entrega'],
     items:[
       ['Protección contra caídas / arnés en obra e inspeccionado','Puntos de anclaje identificados y seguros','Condiciones climáticas verificadas, seguro trabajar','Escalera en terreno estable, asegurada','EPP puesto: casco, guantes, protección ocular','Inspección de herramientas completada','Botiquín de primeros auxilios surtido','Contactos de emergencia publicados en obra','Tarjetas OSHA en obra','Reunión de seguridad con la cuadrilla'],
@@ -425,8 +425,6 @@ function renderAll(){
   if(TAB==='safety')renderSafety();
   if(TAB==='trades')renderTrades();
   if(TAB==='jobs')renderJobs();
-  if(TAB==='quote')renderQuote();
-  if(TAB==='crew')renderCrew();
   if(TAB==='colors')renderColors();
   if(TAB==='measure')renderMeasure();
   if(TAB==='solar')renderSolar();
@@ -443,12 +441,11 @@ function renderNav(){
       +'<span class="nav-icon">'+t.icons[i]+'</span>'
       +'<span class="nav-lbl" style="color:'+(on?'#FF6B2B':'#555')+'">'+t.tabs[i]+'</span></button>';
   }
-  var top='',mid='',bot='';
-  for(var i=0;i<3;i++) top+=btn(i);
-  for(var i=3;i<6;i++) mid+=btn(i);
-  for(var i=6;i<9;i++) bot+=btn(i);
+  var top='',bot='';
+  for(var i=0;i<4;i++) top+=btn(i);
+  for(var i=4;i<7;i++) bot+=btn(i);
   document.getElementById('nav-top').innerHTML=top;
-  document.getElementById('nav-mid').innerHTML=mid;
+  document.getElementById('nav-mid').innerHTML='';
   document.getElementById('nav-bot').innerHTML=bot;
 }
 
@@ -512,69 +509,243 @@ function renderTrades(){
 }
 function selectTrade(id){TRADE_SEL=id;renderTrades();}
 
-// ── Jobs State ────────────────────────────────────────────────
+// ── Jobs Hub State ────────────────────────────────────────────
 var JOBS=[
   {id:'j1',client:'Rodriguez Family',addr:'1425 Oak St, Austin TX',type:'Roof replacement',total:8500,deposit:3400,progress:65,status:'active',date:'Sep 10'},
   {id:'j2',client:'Martinez Properties',addr:'820 Elm Ave, Dallas TX',type:'Tear off & reroof',total:12200,deposit:6100,progress:100,status:'done',date:'Aug 28'},
   {id:'j3',client:'Lopez Construction',addr:'334 Pine Rd, Houston TX',type:'Flat roof repair',total:4800,deposit:1920,progress:20,status:'active',date:'Sep 15'},
 ];
 var jobsFilter='all';
-var jobView='list'; // list or detail
+var jobSection='jobs'; // jobs, quote, crew, measure
 var jobDetail=null;
+
+var QUOTE_ITEMS=[{id:1,desc:'',qty:1,price:0}];
+var QUOTE_CLIENT='';
+var QUOTE_ADDR='';
+var QUOTE_PCT=40;
+var QUOTE_SENT=false;
+var Q_UID=10;
+
+var CREW=[
+  {id:'c1',name:'Carlos Mendoza',role:'Lead Roofer',phone:'512-555-0101',pay:950,status:'active'},
+  {id:'c2',name:'Miguel Ruiz',role:'Roofer',phone:'512-555-0102',pay:850,status:'active'},
+  {id:'c3',name:'Roberto Sanchez',role:'Laborer',phone:'512-555-0103',pay:750,status:'off'},
+];
+
+var QUICK_ITEMS_EN=[
+  {d:'Tear off & haul away',p:850},{d:'Felt paper 30lb',p:180},{d:'Shingles per sq',p:420},
+  {d:'Ridge cap',p:120},{d:'Drip edge',p:95},{d:'Labor per sq',p:280},
+  {d:'Flashing',p:220},{d:'Gutters LF',p:18},{d:'Dumpster',p:450},{d:'Permits',p:350},
+];
+var QUICK_ITEMS_ES=[
+  {d:'Desmonte y acarreo',p:850},{d:'Papel fieltro',p:180},{d:'Tejas por cuadro',p:420},
+  {d:'Cumbrera',p:120},{d:'Goterón',p:95},{d:'Mano de obra',p:280},
+  {d:'Tapajuntas',p:220},{d:'Canalones LF',p:18},{d:'Contenedor',p:450},{d:'Permisos',p:350},
+];
 
 function renderJobs(){
   var es=L==='es';
   var c=document.getElementById('jobs-content');
   if(!c)return;
 
-  if(jobView==='detail'&&jobDetail){
+  // Sub-nav tabs inside Jobs
+  var subTabs=[
+    {id:'jobs',icon:'📋',label:es?'Trabajos':'Jobs'},
+    {id:'quote',icon:'💰',label:es?'Cotizar':'Quote'},
+    {id:'crew',icon:'👷',label:es?'Cuadrilla':'Crew'},
+    {id:'measure',icon:'📐',label:es?'Medidas':'Measure'},
+  ];
+
+  var subNav='<div style="background:#1a1d27;border-bottom:1px solid rgba(255,255,255,.06);display:flex">';
+  subTabs.forEach(function(st){
+    var on=jobSection===st.id;
+    subNav+='<button onclick="jobSection=\''+st.id+'\';jobDetail=null;renderJobs()" style="flex:1;background:none;border:none;border-bottom:2px solid '+(on?'#FF6B2B':'transparent')+';padding:10px 0 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px">'
+      +'<span style="font-size:16px">'+st.icon+'</span>'
+      +'<span style="font-size:9px;font-weight:700;color:'+(on?'#FF6B2B':'#555')+'">'+st.label+'</span></button>';
+  });
+  subNav+='</div>';
+
+  var body='';
+  if(jobSection==='jobs') body=renderJobsList(es);
+  else if(jobSection==='quote') body=renderQuoteSection(es);
+  else if(jobSection==='crew') body=renderCrewSection(es);
+  else if(jobSection==='measure') body=renderMeasureSection(es);
+
+  c.innerHTML=subNav+body;
+
+  // Re-init blueprint canvas if needed
+  if(jobSection==='measure' && bpView==='canvas') setTimeout(initBpCanvas,50);
+}
+
+function renderJobsList(es){
+  if(jobDetail){
     var j=jobDetail;
-    var pct=j.progress;
     var bal=j.total-j.deposit;
-    c.innerHTML='<div style="background:#1a1d27;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
-      +'<button onclick="jobView=\'list\';renderJobs()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
+    return '<div style="background:#1a1d27;padding:10px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)">'
+      +'<button onclick="jobDetail=null;renderJobs()" style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:0">←</button>'
       +'<span style="color:#E8E0D5;font-size:14px;font-weight:700">'+j.client+'</span></div>'
       +'<div style="padding:14px 18px 0">'
-      +'<div class="card"><p style="color:#E8E0D5;font-size:11px;color:#94A3B8;margin-bottom:4px">'+j.type+'</p>'
-      +'<p style="color:#E8E0D5;font-size:12px;margin-bottom:10px">📍 '+j.addr+'</p>'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:6px">'
-      +'<span style="color:#94A3B8;font-size:12px">'+(es?'Progreso':'Progress')+'</span><span style="color:#FF6B2B;font-weight:700">'+pct+'%</span></div>'
-      +'<div class="prog-wrap"><div class="prog-bar" style="width:'+pct+'%;background:'+(pct===100?'#22C55E':'#FF6B2B')+'"></div></div></div>'
-      +'<div class="card"><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">'
-      +'<span style="color:#94A3B8;font-size:13px">'+(es?'Total del trabajo':'Job total')+'</span><span style="color:#E8E0D5;font-weight:700">$'+j.total.toLocaleString()+'</span></div>'
-      +'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">'
-      +'<span style="color:#94A3B8;font-size:13px">'+(es?'Anticipo cobrado':'Deposit collected')+'</span><span style="color:#22C55E;font-weight:700">$'+j.deposit.toLocaleString()+'</span></div>'
-      +'<div style="display:flex;justify-content:space-between;padding:8px 0">'
-      +'<span style="color:#94A3B8;font-size:13px">'+(es?'Saldo pendiente':'Balance due')+'</span><span style="color:#FF6B2B;font-weight:700;font-size:16px">$'+bal.toLocaleString()+'</span></div></div>'
-      // Blueprint measure button
-      +'<button onclick="TAB=\'measure\';bpAddr=\''+j.addr+'\';bpObra=\''+j.client+'\';bpView=\'canvas\';renderAll()" class="btn-orange" style="margin-bottom:10px">📐 '+(es?'Medir con plano':'Measure with blueprint')+'</button>'
-      +'<button onclick="alert(\'Change order sent for signature\')" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-size:14px;color:#E8E0D5;cursor:pointer;margin-bottom:10px">✍️ '+(es?'Cambio de orden · Tap · Firma · Listo':'Change order · Tap · Sign · Done')+'</button>'
-      +'<button onclick="alert(\'Report sent\')" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px;font-size:14px;color:#E8E0D5;cursor:pointer">📋 '+(es?'Reporte de trabajo':'Job report')+'</button>'
+      +'<div class="card" style="background:#1a1d27;border-color:rgba(255,255,255,.06)">'
+      +'<p style="color:#555;font-size:11px;margin-bottom:4px">'+j.type+'</p>'
+      +'<p style="color:#94A3B8;font-size:12px;margin-bottom:10px">📍 '+j.addr+'</p>'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="color:#94A3B8;font-size:12px">'+(es?'Progreso':'Progress')+'</span><span style="color:#FF6B2B;font-weight:700">'+j.progress+'%</span></div>'
+      +'<div class="prog-wrap"><div class="prog-bar" style="width:'+j.progress+'%;background:'+(j.progress===100?'#22C55E':'#FF6B2B')+'"></div></div></div>'
+      +'<div class="card" style="background:#1a1d27;border-color:rgba(255,255,255,.06)">'
+      +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Total':'Total')+'</span><span style="color:#E8E0D5;font-weight:700">$'+j.total.toLocaleString()+'</span></div>'
+      +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:#94A3B8;font-size:13px">'+(es?'Anticipo':'Deposit')+'</span><span style="color:#22C55E;font-weight:700">$'+j.deposit.toLocaleString()+'</span></div>'
+      +'<div style="display:flex;justify-content:space-between;padding:7px 0"><span style="color:#94A3B8;font-size:13px">'+(es?'Saldo':'Balance')+'</span><span style="color:#FF6B2B;font-weight:700;font-size:16px">$'+bal.toLocaleString()+'</span></div></div>'
+      +'<button onclick="jobSection=\'measure\';bpAddr=\''+j.addr+'\';bpObra=\''+j.client+'\';bpView=\'canvas\';renderJobs()" class="btn-orange" style="margin-bottom:10px">📐 '+(es?'Medir con plano':'Measure blueprint')+'</button>'
+      +'<button onclick="jobSection=\'quote\';QUOTE_CLIENT=\''+j.client+'\';QUOTE_ADDR=\''+j.addr+'\';renderJobs()" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;margin-bottom:10px">💰 '+(es?'Crear cotización':'Create quote')+'</button>'
+      +'<button onclick="alert(\'Change order sent for signature\')" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer;margin-bottom:10px">✍️ '+(es?'Cambio de orden · Tap · Firma · Listo':'Change order · Tap · Sign · Done')+'</button>'
+      +'<button onclick="alert(\'Report generated\')" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;color:#E8E0D5;cursor:pointer">📋 '+(es?'Reporte de trabajo':'Job report')+'</button>'
       +'</div>';
-    return;
   }
 
   var shown=jobsFilter==='all'?JOBS:JOBS.filter(function(j){return j.status===jobsFilter;});
-  var html='<div style="background:#1a1d27;padding:14px 18px 12px">'
-    +'<div style="display:flex;gap:7px;margin-bottom:12px">';
+  var html='<div style="background:#1a1d27;padding:12px 18px">'
+    +'<div style="display:flex;gap:7px;margin-bottom:10px">';
   [['all',es?'Todos':'All'],['active',es?'Activos':'Active'],['done',es?'Terminados':'Done']].forEach(function(f){
     html+='<button onclick="jobsFilter=\''+f[0]+'\';renderJobs()" style="flex:1;background:'+(jobsFilter===f[0]?'#FF6B2B':'rgba(255,255,255,.08)')+';border:none;border-radius:20px;padding:7px 0;color:#fff;font-size:11px;font-weight:700;cursor:pointer">'+f[1]+'</button>';
   });
   html+='</div>'
-    +'<button onclick="addJob()" style="width:100%;background:rgba(255,107,43,.15);border:1px solid rgba(255,107,43,.3);border-radius:12px;padding:11px;font-size:13px;font-weight:700;color:#FF6B2B;cursor:pointer">+ '+(es?'Nuevo trabajo':'New job')+'</button>'
+    +'<button onclick="addJob()" style="width:100%;background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.3);border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#FF6B2B;cursor:pointer">+ '+(es?'Nuevo trabajo':'New job')+'</button>'
     +'</div><div style="padding:14px 18px 0">';
   shown.forEach(function(j){
-    html+='<div onclick="jobDetail=JOBS.find(function(x){return x.id===\''+j.id+'\'});jobView=\'detail\';renderJobs()" style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer">'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:6px">'
+    html+='<div onclick="jobDetail=JOBS.find(function(x){return x.id===\''+j.id+'\'});renderJobs()" style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:7px">'
       +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 2px">'+j.client+'</p>'
       +'<p style="font-size:11px;color:#555;margin:0">'+j.type+' · '+j.date+'</p></div>'
-      +'<div style="text-align:right"><p style="font-weight:700;font-size:14px;color:#FF6B2B;margin:0">$'+j.total.toLocaleString()+'</p>'
+      +'<div style="text-align:right"><p style="font-weight:700;font-size:14px;color:#FF6B2B;margin:0 0 3px">$'+j.total.toLocaleString()+'</p>'
       +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:'+(j.status==='active'?'rgba(255,107,43,.15)':'rgba(34,197,94,.15)')+';color:'+(j.status==='active'?'#FF6B2B':'#22C55E')+'">'+(j.status==='active'?(es?'Activo':'Active'):(es?'Terminado':'Done'))+'</span></div></div>'
-      +'<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:#555">'+j.progress+'%</span></div>'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:#555">'+j.progress+'%</span></div>'
       +'<div class="prog-wrap"><div class="prog-bar" style="width:'+j.progress+'%;background:'+(j.progress===100?'#22C55E':'#FF6B2B')+'"></div></div></div>';
   });
   html+='</div>';
-  c.innerHTML=html;
+  return html;
+}
+
+function addJob(){
+  var es=L==='es';
+  var client=prompt(es?'Nombre del cliente:':'Client name:');
+  if(!client)return;
+  var addr=prompt(es?'Dirección:':'Job address:');
+  var type=prompt(es?'Tipo de trabajo:':'Job type:');
+  var total=parseFloat(prompt(es?'Total ($):':'Total ($):'))||0;
+  JOBS.unshift({id:'j'+Date.now(),client:client,addr:addr||'',type:type||'',total:total,deposit:0,progress:0,status:'active',date:new Date().toLocaleDateString()});
+  renderJobs();
+}
+
+function renderQuoteSection(es){
+  if(QUOTE_SENT){
+    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;padding:32px;text-align:center">'
+      +'<div style="width:64px;height:64px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px">✓</div>'
+      +'<h2 style="color:#E8E0D5;margin:0 0 8px">'+(es?'¡Cotización enviada!':'Quote sent!')+'</h2>'
+      +'<p style="color:#94A3B8;margin:0 0 24px;font-size:14px">'+(es?'PDF + link de pago vía WhatsApp':'PDF + payment link via WhatsApp')+'</p>'
+      +'<button onclick="QUOTE_SENT=false;QUOTE_ITEMS=[{id:++Q_UID,desc:\'\',qty:1,price:0}];QUOTE_CLIENT=\'\';QUOTE_ADDR=\'\';renderJobs()" class="btn-orange" style="max-width:280px">'+(es?'Nueva cotización':'New quote')+'</button></div>';
+  }
+  var quick=es?QUICK_ITEMS_ES:QUICK_ITEMS_EN;
+  var sub=QUOTE_ITEMS.reduce(function(s,i){return s+i.qty*i.price;},0);
+  var ant=Math.round(sub*QUOTE_PCT/100);
+  var html='<div style="padding:14px 18px 100px">'
+    +'<span class="inp-label">'+(es?'CLIENTE':'CLIENT')+'</span>'
+    +'<input class="inp" placeholder="'+(es?'Nombre del cliente':'Client name')+'" value="'+QUOTE_CLIENT+'" oninput="QUOTE_CLIENT=this.value">'
+    +'<span class="inp-label">'+(es?'DIRECCIÓN':'ADDRESS')+'</span>'
+    +'<input class="inp" placeholder="'+(es?'Dirección del trabajo':'Job address')+'" value="'+QUOTE_ADDR+'" oninput="QUOTE_ADDR=this.value">'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'PARTIDAS RÁPIDAS':'QUICK ITEMS')+'</p>'
+    +'<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px">';
+  quick.forEach(function(q){
+    html+='<button onclick="addQuickItem(\''+q.d+'\','+q.p+')" style="flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;color:#E8E0D5;cursor:pointer;white-space:nowrap">'+q.d+'</button>';
+  });
+  html+='</div>'
+    +'<p style="font-size:10px;font-weight:700;color:#FF6B2B;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">'+(es?'CONCEPTOS':'LINE ITEMS')+'</p>';
+  QUOTE_ITEMS.forEach(function(item){
+    html+='<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;margin-bottom:8px">'
+      +'<input value="'+item.desc+'" placeholder="'+(es?'Descripción':'Description')+'" onchange="updQItem('+item.id+',\'desc\',this.value)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 10px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px">'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">'
+      +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">'+(es?'CANT':'QTY')+'</label>'
+      +'<input type="number" value="'+item.qty+'" onchange="updQItem('+item.id+',\'qty\',+this.value)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
+      +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">$</label>'
+      +'<input type="number" value="'+item.price+'" onchange="updQItem('+item.id+',\'price\',+this.value)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:6px 8px;font-size:13px;color:#fff;outline:none;font-family:inherit;box-sizing:border-box"></div>'
+      +'<div><label style="font-size:10px;color:#555;display:block;margin-bottom:3px">SUB</label>'
+      +'<p style="margin:0;padding:6px 0;font-size:13px;font-weight:700;color:#FF6B2B">$'+(item.qty*item.price).toLocaleString()+'</p></div></div></div>';
+  });
+  html+='<button onclick="QUOTE_ITEMS.push({id:++Q_UID,desc:\'\',qty:1,price:0});renderJobs()" style="width:100%;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.1);border-radius:12px;padding:11px;font-size:13px;color:#555;cursor:pointer;margin-bottom:14px">+ '+(es?'Agregar':'Add item')+'</button>'
+    +'<div style="background:#1a1d27;border-radius:14px;padding:16px 18px;margin-bottom:14px">'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:#94A3B8;font-size:13px">Total</span><span style="color:#E8E0D5;font-size:17px;font-weight:700">$'+sub.toLocaleString()+'</span></div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#94A3B8;font-size:12px;white-space:nowrap">'+(es?'Anticipo':'Deposit')+'</span>'
+    +'<input type="range" min="20" max="60" value="'+QUOTE_PCT+'" oninput="QUOTE_PCT=+this.value;document.getElementById(\'qpct\').textContent=this.value+\'%\';document.getElementById(\'qant\').textContent=\'$\'+Math.round('+sub+'*+this.value/100).toLocaleString()" style="flex:1;accent-color:#FF6B2B">'
+    +'<span id="qpct" style="color:#FF6B2B;font-weight:700;font-size:13px;min-width:34px">'+QUOTE_PCT+'%</span></div>'
+    +'<div style="border-top:1px solid rgba(255,255,255,.06);padding-top:10px;display:flex;justify-content:space-between"><span style="color:#94A3B8;font-size:12px">'+(es?'Anticipo a cobrar':'Deposit')+'</span><span id="qant" style="color:#FF6B2B;font-size:19px;font-weight:700">$'+ant.toLocaleString()+'</span></div></div>'
+    +'<button onclick="if(QUOTE_CLIENT){QUOTE_SENT=true;renderJobs();}" style="width:100%;background:#25D366;color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">💬 '+(es?'Enviar por WhatsApp':'Send via WhatsApp')+'</button>'
+    +'</div>';
+  return html;
+}
+
+function addQuickItem(desc,price){
+  var blank=QUOTE_ITEMS.find(function(i){return !i.desc;});
+  if(blank){blank.desc=desc;blank.price=price;}
+  else QUOTE_ITEMS.push({id:++Q_UID,desc:desc,qty:1,price:price});
+  renderJobs();
+}
+function updQItem(id,field,val){
+  var item=QUOTE_ITEMS.find(function(i){return i.id===id;});
+  if(item){item[field]=val;}
+  renderJobs();
+}
+
+function renderCrewSection(es){
+  var active=CREW.filter(function(w){return w.status==='active';});
+  var daily=active.reduce(function(s,w){return s+w.pay;},0);
+  var html='<div style="background:#1a1d27;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.06)">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    +'<p style="color:#94A3B8;font-size:12px;margin:0">'+CREW.length+' '+(es?'trabajadores':'workers')+' · $'+daily.toLocaleString()+'/day</p>'
+    +'<button onclick="addCrewMember()" style="background:#FF6B2B;border:none;border-radius:10px;width:32px;height:32px;color:#fff;cursor:pointer;font-size:18px;font-weight:700">+</button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
+  [5,6,7].forEach(function(d){
+    html+='<div style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;text-align:center">'
+      +'<p style="color:#FF6B2B;font-weight:700;font-size:13px;margin:0">$'+(daily*d).toLocaleString()+'</p>'
+      +'<p style="color:#555;font-size:10px;margin:2px 0 0">'+d+(es?' días':' days')+'</p></div>';
+  });
+  html+='</div></div><div style="padding:14px 18px 0">';
+  CREW.forEach(function(w){
+    html+='<div style="background:#1a1d27;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px 15px;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;gap:12px">'
+      +'<div style="width:42px;height:42px;border-radius:50%;background:#FF6B2B;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0">'+w.name.charAt(0)+'</div>'
+      +'<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:6px">'
+      +'<div><p style="font-weight:700;font-size:14px;color:#E8E0D5;margin:0 0 1px">'+w.name+'</p>'
+      +'<p style="font-size:11px;color:#555;margin:0">'+w.role+'</p></div>'
+      +'<div style="text-align:right"><p style="font-weight:700;font-size:13px;color:#FF6B2B;margin:0 0 3px">$'+w.pay+'/day</p>'
+      +'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:'+(w.status==='active'?'rgba(34,197,94,.15)':'rgba(255,255,255,.06)')+';color:'+(w.status==='active'?'#22C55E':'#555')+'">'+(w.status==='active'?(es?'Activo':'Active'):(es?'Disponible':'Off'))+'</span></div></div>'
+      +'<div style="display:flex;gap:6px">'
+      +'<a href="tel:'+w.phone+'" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 0;font-size:11px;color:#E8E0D5;text-align:center;text-decoration:none">📞 '+w.phone+'</a>'
+      +'<a href="https://wa.me/1'+w.phone.replace(/\D/g,'')+'" target="_blank" style="background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:8px;padding:7px 11px;color:#25D366;text-decoration:none">💬</a>'
+      +'<button onclick="toggleCrewStatus(\''+w.id+'\')" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 9px;cursor:pointer;color:#E8E0D5;font-size:11px">'+(w.status==='active'?(es?'Salida':'Out'):(es?'Entrada':'In'))+'</button>'
+      +'<button onclick="removeCrew(\''+w.id+'\')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:7px 9px;cursor:pointer;color:#EF4444">🗑</button>'
+      +'</div></div></div></div>';
+  });
+  html+='</div>';
+  return html;
+}
+
+function toggleCrewStatus(id){var w=CREW.find(function(x){return x.id===id;});if(w)w.status=w.status==='active'?'off':'active';renderJobs();}
+function removeCrew(id){CREW=CREW.filter(function(w){return w.id!==id;});renderJobs();}
+function addCrewMember(){
+  var es=L==='es';
+  var name=prompt(es?'Nombre:':'Name:');if(!name)return;
+  var role=prompt(es?'Oficio:':'Role:');
+  var phone=prompt(es?'Teléfono:':'Phone:');
+  var pay=parseFloat(prompt(es?'Pago diario ($):':'Daily pay ($):'))||0;
+  CREW.push({id:'c'+Date.now(),name:name,role:role||'',phone:phone||'',pay:pay,status:'active'});
+  renderJobs();
+}
+
+function renderMeasureSection(es){
+  // Reuse blueprint system but rendered inline
+  var mc=document.createElement('div');
+  mc.id='measure-content-inner';
+  if(bpView==='address') return rBpAddr();
+  else if(bpView==='saved') return rBpSaved();
+  else return rBpCanvas();
 }
 
 function addJob(){
